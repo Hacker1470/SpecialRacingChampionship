@@ -26,6 +26,7 @@ public class CatalogOfParts {
         allCatalog.put(EnginesList.sigma.getId(), EnginesList.sigma);
     }
 
+    //ВАЖНО!!! Надо проверить на адекватность. Пока что я просто это написал.
     public static HashMap<Integer, Part> getAvailableByReputation(PartType type, int rep){
         HashMap<Integer, Part> availableParts = new HashMap<>();
 

@@ -52,6 +52,8 @@ public class Engine extends Part {
         sb.append("\n");
         sb.append("Совместимость:\n");
 
+        //ЗАКОНЧИЛ ЗДЕСЬ 01 03 2026
+        //надо как-то приконнектить новые методы из CatalogOfParts для поиска совместимостей вот сюда
         for (Part i : ConnectivitySearcher.findAllConnectivities(chosenEngine)){
             ConsoleControl.printlnString("* " + i.getName());
 
