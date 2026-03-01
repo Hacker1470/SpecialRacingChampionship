@@ -1,4 +1,5 @@
 import data.GameSession;
+import data.partslists.CatalogOfParts;
 import data.partslists.EnginesList;
 import data.partslists.TransmissionList;
 import ui.MainMenu;
@@ -7,7 +8,7 @@ import vehicle.Wheels;
 
 void main() {
     GameSession gm = new GameSession();
-    EnginesList.initializeEngines();
+    CatalogOfParts.catalogInit();
     TransmissionList.initializeTransmission();
     gm.launch();
 }
