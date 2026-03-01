@@ -1,8 +1,6 @@
 package data.partslists;
 
 import vehicle.Engine;
-
-import java.util.HashMap;
 import java.util.List;
 
 /*
@@ -52,23 +50,4 @@ public class EnginesList {
             80,
             3000,
             9);
-
-    public static HashMap<String, Engine> listOfEngines = new HashMap<>();
-
-    public static void initializeEngines(){
-        listOfEngines.put(pedal.getId(), pedal);
-        listOfEngines.put(lada.getId(), lada);
-        listOfEngines.put(sigma.getId(), sigma);
-    }
-
-    public static HashMap<Integer, Engine> getAvailableEnginesByReputation(int rep){
-        HashMap<Integer, Engine> availableEngines = new HashMap<>();
-        int counter = 0;
-        for (Engine i : EnginesList.listOfEngines.values()){
-            if(i.getReputationLevel() <= rep){
-                availableEngines.put(++counter, i);
-            }
-        }
-        return availableEngines;
-    }
 }
