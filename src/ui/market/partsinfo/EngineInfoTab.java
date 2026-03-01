@@ -45,22 +45,7 @@ public class EngineInfoTab extends MenuTab{
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString("====== ПОДРОБНЕЕ О ДВИГАТЕЛЕ ======");
 
-        ConsoleControl.printlnString("Название: " + chosenEngine.getName());
-        ConsoleControl.printlnString("Качество: " + chosenEngine.getQuality());
-        ConsoleControl.printlnString("Масса: " + chosenEngine.getMass() + " кг");
-        ConsoleControl.printlnString("Износ: " + chosenEngine.getDamage() + " %");
-        ConsoleControl.printlnString("Мощность: " + chosenEngine.getPower() + " л/с");
-        ConsoleControl.printlnString("Максимальные обороты: " + chosenEngine.getMaxRpm() + " об/мин");
-        ConsoleControl.printlnString("Потребление топлива: " + chosenEngine.getFuelConsumption() + " литров/с");
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("Совместимость: ");
 
-        for (Part i : ConnectivitySearcher.findAllConnectivities(chosenEngine)){
-            ConsoleControl.printlnString("* " + i.getName());
-
-        }
-
-        ConsoleControl.printlnString("Стоимость: " + chosenEngine.getRealPrice());
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("[1] Купить");
         ConsoleControl.printlnString("[0] Вернуться в главное меню");
