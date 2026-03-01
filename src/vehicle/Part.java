@@ -1,5 +1,7 @@
 package vehicle;
 
+import data.partslists.PartType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +18,11 @@ public abstract class Part {
     protected Integer connectionReliability;
     protected Integer reputationLevel;
     List<String> connectivity;
+    protected PartType TYPE;
 
-    public Part(String id, String name, int stockPrice, int quality, int mass, int damage,
+    public Part(PartType type, String id, String name, int stockPrice, int quality, int mass, int damage,
                 int reputationLevel, List<String> connectivity){
+        TYPE = type;
         this.id = id;
         this.name = name;
         this.stockPrice = stockPrice;
@@ -30,6 +34,8 @@ public abstract class Part {
         this.connectivity = new ArrayList<>();
         this.connectivity.addAll(connectivity);
     }
+
+
 
     public String getName(){
         return name;
@@ -67,6 +73,10 @@ public abstract class Part {
         return id;
     }
 
+    public PartType getType(){
+        return TYPE;
+    };
+    public abstract String getStringOfCharacteristics();
     public abstract Part getCopy();
     public abstract int getRealPrice();
 }
