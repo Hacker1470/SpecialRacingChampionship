@@ -14,7 +14,7 @@ public class TransmissionList {
             10,
             50,
             30,
-            1,
+            0,
             List.of("engi_1_0"),
             15,
             1
@@ -28,7 +28,7 @@ public class TransmissionList {
             10,
             700,
             10,
-            List.of("engi_1_0", "engi_2_0"),
+            List.of("engi_2_0", "engi_3_0"),
             90,
             5);
 
@@ -38,28 +38,9 @@ public class TransmissionList {
             50,
             320,
             5,
-            1400,
+            14,
             27,
-            List.of("engi_2_0"),
+            List.of("engi_3_0"),
             125,
             8);
-
-    public static HashMap<String, Transmission> listOfTransmission = new HashMap<>();
-
-    public static void initializeTransmission(){
-        listOfTransmission.put(chain.getId(), chain);
-        listOfTransmission.put(ladabox.getId(), ladabox);
-        listOfTransmission.put(magnum.getId(), magnum);
-    }
-
-    public static HashMap<Integer, Transmission> getAvailableByReputation(int rep){
-        HashMap<Integer, Transmission> availableTransmission = new HashMap<>();
-        int counter = 0;
-        for (Transmission i : TransmissionList.listOfTransmission.values()){
-            if(i.getReputationLevel() <= rep){
-                availableTransmission.put(++counter, i);
-            }
-        }
-        return availableTransmission;
-    }
 }

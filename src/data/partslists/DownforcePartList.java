@@ -13,7 +13,7 @@ public class DownforcePartList {
             20,
             50,
             1,
-            null,
+            List.of(),
             15);
 
     public static DownforcePart spoiler = new DownforcePart(
@@ -24,6 +24,6 @@ public class DownforcePartList {
             2,
             250,
             10,
-            null,
+            List.of(),
             50);
 }

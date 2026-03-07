@@ -12,7 +12,7 @@ public class WheelsList {
             10,
             50,
             30,
-            1,
+            0,
             List.of(),
             15);
 

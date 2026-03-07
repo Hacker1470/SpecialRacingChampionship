@@ -26,27 +26,27 @@ public class EnginesList {
             0);
 
     public static Engine lada = new Engine(
-            "engi2_0",
+            "engi_2_0",
             "Двигатель ZovAuto",
             20,
             300,
             10,
-            500,
+            50,
             10,
-            List.of("tran_1_1", "tran_2_2"),
+            List.of("tran_2_0"),
             50,
             2000,
             12);
 
     public static Engine sigma = new Engine(
-            "engi3_0",
+            "engi_3_0",
             "Двигатель Sigma",
             50,
             400,
             5,
             1000,
             28,
-            List.of("tran_1_1", "tran_2_2", "chas2_2", "chas3_1"),
+            List.of("tran_2_0", "tran_3_0", "chas_2_0", "chas_3_0"),
             80,
             3000,
             9);

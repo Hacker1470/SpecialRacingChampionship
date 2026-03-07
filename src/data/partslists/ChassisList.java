@@ -13,7 +13,7 @@ public class ChassisList {
             100,
             25,
             100,
-            1,
+            0,
             List.of("engi_1_0", "tran_1_0"),
             2,
             300,
@@ -33,7 +33,7 @@ public class ChassisList {
             40);
 
     public static Chassis straus = new Chassis(
-            "tran_3_0",
+            "chas_3_0",
             "Базис Straus",
             50,
             100,
