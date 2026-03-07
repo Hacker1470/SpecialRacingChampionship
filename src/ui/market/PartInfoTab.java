@@ -1,21 +1,14 @@
-package ui.market.partsinfo;
+package ui.market;
 
 import data.GameSession;
-import data.partslists.ConnectivitySearcher;
-import data.partslists.EnginesList;
-import data.partslists.PartType;
 import ui.ConsoleControl;
 import ui.MenuTab;
 import ui.market.MarketTab;
-import ui.market.partslist.EngineListTab;
-import vehicle.Engine;
 import vehicle.Part;
-
-import java.util.ArrayList;
 
 public class PartInfoTab extends MenuTab{
 
-    private Part chosenPart;
+    private final Part chosenPart;
 
     public PartInfoTab(GameSession gm, Part part) {
         super(gm);
@@ -44,23 +37,15 @@ public class PartInfoTab extends MenuTab{
     private void printListOfMenus(){
         ConsoleControl.printlnString("ЗДЕСЬ МОГЛА БЫТЬ ВАША РЕКЛАМА");
         ConsoleControl.printlnString("");
-        ConsoleControl.printlnString(getTitle());
+        ConsoleControl.printlnString(chosenPart.getType().getMarketInfoTitle());
 
         ConsoleControl.printlnString(chosenPart.getStringOfCharacteristics());
 
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("[1] Купить");
-        ConsoleControl.printlnString("[0] Вернуться в главное меню");
+        ConsoleControl.printlnString("[0] Вернуться к списку");
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
-    }
-
-    private String getTitle(){
-        return switch (chosenPart.getType()){
-            case ENGINE -> "====== ПОДРОБНЕЕ О ДВИГАТЕЛЕ ======\n";
-            case TRANSMISSION -> "====== ПОДРОБНЕЕ О ТРАНСМИСИИ ======\n";
-            case ANY -> "====== ПОДРОБНЕЕ ======\n";
-        };
     }
 
     private MenuTab menuHandler(){
@@ -71,29 +56,12 @@ public class PartInfoTab extends MenuTab{
             request = ConsoleControl.getString();
 
             if(request.equals("0")){
-                response = gm.getMainMenu();
+                response = new PartsListTab(gm, chosenPart.getType());
                 break;
             }
 
 
             switch (request){
-                case "1":
-                    response = new EngineListTab(gm);
-                    break;
-                case "2":
-                    break;
-                case "3":
-                    break;
-                case "4":
-                    response = new MarketTab(gm);
-                    break;
-                case "5":
-                    break;
-                case "6":
-                    break;
-                case "0":
-
-                    break;
                 default:
                     printMenuWithWarn("Меню не имеет пункта: " + request);
             }
