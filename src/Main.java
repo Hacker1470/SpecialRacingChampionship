@@ -7,8 +7,8 @@ import vehicle.Part;
 import vehicle.Wheels;
 
 void main() {
-    GameSession gm = new GameSession();
+    GameSession gm = new GameSession(0, 1000);
     CatalogOfParts.catalogInit();
-    TransmissionList.initializeTransmission();
+    //TransmissionList.initializeTransmission();
     gm.launch();
 }
