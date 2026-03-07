@@ -1,8 +1,8 @@
 package ui.market;
 
 import data.GameSession;
+import data.partslists.PartType;
 import ui.ConsoleControl;
-import ui.market.partslist.EngineListTab;
 import ui.MenuTab;
 
 public class MarketTab extends MenuTab {
@@ -54,18 +54,22 @@ public class MarketTab extends MenuTab {
 
             switch (request){
                 case "1":
-                    response = new EngineListTab(gm);
+                    response = new PartsListTab(gm, PartType.ENGINE);
                     break;
                 case "2":
+                    response = new PartsListTab(gm, PartType.TRANSMISSION);
                     break;
                 case "3":
+                    response = new PartsListTab(gm, PartType.CHASSIS);
                     break;
                 case "4":
-                    response = new MarketTab(gm);
+                    response = new PartsListTab(gm, PartType.WHEELS);
                     break;
                 case "5":
+                    response = new PartsListTab(gm, PartType.SUSPENSION);
                     break;
                 case "6":
+                    response = new PartsListTab(gm, PartType.DOWNFORCE);
                     break;
                 case "0":
                     response = gm.getMainMenu();
