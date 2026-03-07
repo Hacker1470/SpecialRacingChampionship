@@ -22,7 +22,7 @@ public class GameSession {
         return mm;
     }
 
-    public  int getRep(){
+    public int getRep(){
         return rep;
     }
 
@@ -32,12 +32,10 @@ public class GameSession {
         dorm = new Dorm();
     }
 
-    public GameSession(int money, int rep, Racecar car)
-    {
+    public GameSession(int money, int rep){
         this();
-        this.rep = rep;
         this.money = money;
-        this.cars.add(car);
+        this.rep = rep;
     }
 
     public void launch(){
