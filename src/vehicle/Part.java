@@ -35,8 +35,6 @@ public abstract class Part {
         this.connectivity.addAll(connectivity);
     }
 
-
-
     public String getName(){
         return name;
     }

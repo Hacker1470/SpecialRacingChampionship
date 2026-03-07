@@ -1,11 +1,8 @@
 package vehicle;
 
 import data.partslists.CatalogOfParts;
-import data.partslists.ConnectivitySearcher;
 import data.partslists.PartType;
-import ui.ConsoleControl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Engine extends Part {
