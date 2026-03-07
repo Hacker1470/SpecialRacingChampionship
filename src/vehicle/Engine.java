@@ -1,5 +1,6 @@
 package vehicle;
 
+import data.partslists.CatalogOfParts;
 import data.partslists.ConnectivitySearcher;
 import data.partslists.PartType;
 import ui.ConsoleControl;
@@ -42,24 +43,23 @@ public class Engine extends Part {
     public String getStringOfCharacteristics(){
         StringBuilder sb = new StringBuilder(2000);
 
-        sb.append("Название: ").append(getName()).append("\n");
-        sb.append("Качество: ").append(getQuality()).append("\n");
-        sb.append("Масса: ").append(getMass()).append(" кг").append("\n");
-        sb.append("Износ: ").append(getName()).append(" %").append("\n");
-        sb.append("Мощность: ").append(getPower()).append(" л/с").append("\n");
-        sb.append("Максимальные обороты: ").append(getMaxRpm()).append(" об/мин").append("\n");
-        sb.append("Потребление топлива: ").append(getName()).append(" литров/с").append("\n");
+        sb.append("Название: ").append(name).append("\n");
+        sb.append("Качество: ").append(quality).append("\n");
+        sb.append("Масса: ").append(mass).append(" кг").append("\n");
+        sb.append("Износ: ").append(damage).append(" %").append("\n");
+        sb.append("Мощность: ").append(power).append(" л/с").append("\n");
+        sb.append("Максимальные обороты: ").append(maxRpm).append(" об/мин").append("\n");
+        sb.append("Потребление топлива: ").append(fuelConsumption).append(" литров/с").append("\n");
         sb.append("\n");
         sb.append("Совместимость:\n");
 
-        //ЗАКОНЧИЛ ЗДЕСЬ 01 03 2026
-        //надо как-то приконнектить новые методы из CatalogOfParts для поиска совместимостей вот сюда
-        for (Part i : ConnectivitySearcher.findAllConnectivities(chosenEngine)){
-            ConsoleControl.printlnString("* " + i.getName());
-
+        for (Part i : CatalogOfParts.getAvailableByConnectivity(connectivity)){
+            sb.append("* ").append(i.getName()).append("\n");;
         }
+        sb.append("\n");
 
-        ConsoleControl.printlnString("Стоимость: " + chosenEngine.getRealPrice());
+        sb.append("Стоимость: ").append(getRealPrice());
+
         return sb.toString();
     }
 
