@@ -1,10 +1,9 @@
 package ui.market;
 
-import data.GameSession;
-import ui.ConsoleControl;
-import ui.MenuTab;
-import ui.market.MarketTab;
-import vehicle.Part;
+import game.GameSession;
+import ui.service.ConsoleControl;
+import ui.base.MenuTab;
+import data.vehicle.Part;
 
 public class PartInfoTab extends MenuTab{
 
@@ -42,7 +41,7 @@ public class PartInfoTab extends MenuTab{
         ConsoleControl.printlnString(chosenPart.getStringOfCharacteristics());
 
         ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[1] Купить");
+        ConsoleControl.printlnString("[1] Купить (Баланс: " + gm.getMoney() + " грошей)");
         ConsoleControl.printlnString("[0] Вернуться к списку");
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
@@ -55,13 +54,18 @@ public class PartInfoTab extends MenuTab{
         while (response == null){
             request = ConsoleControl.getString();
 
-            if(request.equals("0")){
-                response = new PartsListTab(gm, chosenPart.getType());
-                break;
-            }
-
-
             switch (request){
+                case "0":
+                    response = new PartsListTab(gm, chosenPart.getType());
+                    break;
+                case "1":
+                    if(buyPart()){
+                        printMenuWithWarn("Деталь " + chosenPart.getName() + " куплена");
+                    }
+                    else {
+                        printMenuWithWarn("Недостаточно средств");
+                    }
+                    break;
                 default:
                     printMenuWithWarn("Меню не имеет пункта: " + request);
             }
@@ -70,5 +74,16 @@ public class PartInfoTab extends MenuTab{
 
 
         return response;
+    }
+
+    private boolean buyPart(){
+        if(gm.getMoney() - chosenPart.getRealPrice() >= 0) {
+            gm.takeMoney(chosenPart.getRealPrice());
+            gm.warehouse().put(chosenPart.getCopy());
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
