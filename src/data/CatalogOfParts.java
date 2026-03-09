@@ -1,23 +1,19 @@
-package data.partslists;
+package data;
 
-import vehicle.*;
+import data.partslists.*;
+import data.vehicle.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CatalogOfParts {
 
     public static HashMap<String, Part> allCatalog = new HashMap<>();
-    public static HashMap<String, Engine> engineCatalog = new HashMap<>();
 
     public static void catalogInit(){
-        initializeEngines();
+        initialize();
     }
 
-    private static void initializeEngines(){
-        engineCatalog.put(EnginesList.pedal.getId(), EnginesList.pedal);
-        engineCatalog.put(EnginesList.lada.getId(), EnginesList.lada);
-        engineCatalog.put(EnginesList.sigma.getId(), EnginesList.sigma);
+    private static void initialize(){
 
         allCatalog.put(EnginesList.pedal.getId(), EnginesList.pedal);
         allCatalog.put(EnginesList.lada.getId(), EnginesList.lada);
