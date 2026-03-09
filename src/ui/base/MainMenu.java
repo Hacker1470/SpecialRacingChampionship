@@ -1,6 +1,8 @@
-package ui;
+package ui.base;
 
-import data.GameSession;
+import game.GameSession;
+import ui.employment.EmployTab;
+import ui.service.ConsoleControl;
 import ui.market.MarketTab;
 
 public class MainMenu extends MenuTab{
@@ -31,6 +33,7 @@ public class MainMenu extends MenuTab{
     private void printListOfMenus(){
         ConsoleControl.printlnString("ЗДЕСЬ МОГЛА БЫТЬ ВАША РЕКЛАМА");
         ConsoleControl.printlnString("");
+        ConsoleControl.printlnString("Баланс: " + gm.getMoney() + " грошей");
         ConsoleControl.printlnString("[1] Чемпионаты");
         ConsoleControl.printlnString("[2] Статистика");
         ConsoleControl.printlnString("[3] Гараж");
@@ -59,6 +62,7 @@ public class MainMenu extends MenuTab{
                     response = new MarketTab(gm);
                     break;
                 case "5":
+                    response = new EmployTab(gm);
                     break;
                 case "6":
                     gm.exit();
