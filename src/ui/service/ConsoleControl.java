@@ -1,4 +1,4 @@
-package ui;
+package ui.service;
 
 public class ConsoleControl {
     public static void clear(){

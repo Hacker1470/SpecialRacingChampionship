@@ -1,4 +1,6 @@
-package ui;
+package ui.service;
+
+import ui.base.MenuTab;
 
 public class MenuHandler {
     private static MenuTab current;

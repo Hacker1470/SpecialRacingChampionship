@@ -1,7 +1,6 @@
-package vehicle;
+package data.vehicle;
 
-import data.partslists.CatalogOfParts;
-import data.partslists.PartType;
+import data.CatalogOfParts;
 
 import java.util.List;
 
@@ -19,23 +18,23 @@ public class Transmission extends Part {
 
     @Override
     public int getRealPrice(){
-        return stockPrice * (damage + quality) / 100;
+        return getStockPrice() * (getDamage() + getQuality()) / 100;
     }
 
     @Override
     public String getStringOfCharacteristics(){
         StringBuilder sb = new StringBuilder(2000);
 
-        sb.append("Название: ").append(name).append("\n");
-        sb.append("Качество: ").append(quality).append("\n");
-        sb.append("Масса: ").append(mass).append(" кг").append("\n");
-        sb.append("Износ: ").append(damage).append(" %").append("\n");
+        sb.append("Название: ").append(getName()).append("\n");
+        sb.append("Качество: ").append(getQuality()).append("\n");
+        sb.append("Масса: ").append(getMass()).append(" кг").append("\n");
+        sb.append("Износ: ").append(getDamage()).append(" %").append("\n");
         sb.append("Передаточное число: ").append(gears).append("\n");
         sb.append("Максимальная скорость: ").append(maxSpeed).append(" км/ч").append("\n");
         sb.append("\n");
         sb.append("Совместимость:\n");
 
-        for (Part i : CatalogOfParts.getAvailableByConnectivity(connectivity)){
+        for (Part i : CatalogOfParts.getAvailableByConnectivity(getConnectivity())){
             sb.append("* ").append(i.getName()).append("\n");;
         }
         sb.append("\n");
@@ -48,14 +47,14 @@ public class Transmission extends Part {
     @Override
     public Part getCopy() {
         return new Transmission(
-                id,
-                name,
-                reputationLevel,
-                mass,
-                damage,
-                stockPrice,
-                quality,
-                List.copyOf(connectivity),
+                getId(),
+                getName(),
+                getReputationLevel(),
+                getMass(),
+                getDamage(),
+                getStockPrice(),
+                getQuality(),
+                List.copyOf(getConnectivity()),
                 maxSpeed,
                 gears);
     }

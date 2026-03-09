@@ -1,4 +1,4 @@
-package data.partslists;
+package data.vehicle;
 
 public enum PartType {
     UNDEF(

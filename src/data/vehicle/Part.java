@@ -1,6 +1,4 @@
-package vehicle;
-
-import data.partslists.PartType;
+package data.vehicle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,20 +7,20 @@ public abstract class Part {
     /*
     Я бы заменил damage, connectionReliability и quality на тип byte, а mass на тип short
     */
-    protected String id;
-    protected String name;
-    protected Integer stockPrice;
-    protected Integer quality;
-    protected Integer mass;
-    protected Integer damage;
-    protected Integer connectionReliability;
-    protected Integer reputationLevel;
-    List<String> connectivity;
-    protected PartType TYPE;
+    private PartType type;
+    private String id;
+    private String name;
+    private int stockPrice;
+    private int quality;
+    private int mass;
+    private int damage;
+    private int connectionReliability;
+    private int reputationLevel;
+    private List<String> connectivity;
 
     public Part(PartType type, String id, String name, int stockPrice, int quality, int mass, int damage,
                 int reputationLevel, List<String> connectivity){
-        TYPE = type;
+        this.type = type;
         this.id = id;
         this.name = name;
         this.stockPrice = stockPrice;
@@ -35,45 +33,38 @@ public abstract class Part {
         this.connectivity.addAll(connectivity);
     }
 
+    public PartType getType(){
+        return type;
+    }
+    public String getId() {
+        return id;
+    }
     public String getName(){
         return name;
     }
-
     public int getStockPrice(){
         return stockPrice;
     }
-
     public int getQuality(){
         return quality;
     }
-
     public int getMass(){
         return mass;
     }
-
     public int getDamage(){
         return damage;
     }
-
     public int getConnectionReliability(){
         return connectionReliability;
     }
-
     public int getReputationLevel(){
         return reputationLevel;
     }
-
     public List<String> getConnectivity(){
         return connectivity;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public PartType getType(){
-        return TYPE;
-    };
     public abstract String getStringOfCharacteristics();
     public abstract Part getCopy();
     public abstract int getRealPrice();

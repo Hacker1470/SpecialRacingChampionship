@@ -1,6 +1,4 @@
-package vehicle;
-
-import data.partslists.PartType;
+package data.vehicle;
 
 import java.util.List;
 

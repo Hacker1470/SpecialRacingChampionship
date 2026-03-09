@@ -1,6 +1,6 @@
-package ui;
+package ui.base;
 
-import data.GameSession;
+import game.GameSession;
 
 public abstract class MenuTab {
     protected GameSession gm;

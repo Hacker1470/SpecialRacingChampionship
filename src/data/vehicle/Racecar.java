@@ -1,4 +1,4 @@
-package vehicle;
+package data.vehicle;
 
 public class Racecar {
     private Chassis chassis;
@@ -9,6 +9,7 @@ public class Racecar {
     private Wheels wheels;
 
     public Integer getWeight(){
-        return chassis.mass + engine.mass + downforcePart.mass + transmission.mass + suspension.mass + wheels.mass;
+        return chassis.getMass() + engine.getMass() + downforcePart.getMass() + transmission.getMass() +
+                suspension.getMass() + wheels.getMass();
     }
 }
