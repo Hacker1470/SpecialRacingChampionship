@@ -1,11 +1,11 @@
 package ui.market;
 
-import data.GameSession;
-import data.partslists.CatalogOfParts;
-import data.partslists.PartType;
-import ui.ConsoleControl;
-import ui.MenuTab;
-import vehicle.Part;
+import game.GameSession;
+import data.CatalogOfParts;
+import data.vehicle.PartType;
+import ui.service.ConsoleControl;
+import ui.base.MenuTab;
+import data.vehicle.Part;
 
 import java.util.HashMap;
 

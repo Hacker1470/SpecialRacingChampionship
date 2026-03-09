@@ -1,6 +1,6 @@
 package data.partslists;
 
-import vehicle.DownforcePart;
+import data.vehicle.DownforcePart;
 
 import java.util.List;
 

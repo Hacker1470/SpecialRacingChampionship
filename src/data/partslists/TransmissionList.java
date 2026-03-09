@@ -1,9 +1,7 @@
 package data.partslists;
 
-import vehicle.Engine;
-import vehicle.Transmission;
+import data.vehicle.Transmission;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class TransmissionList {

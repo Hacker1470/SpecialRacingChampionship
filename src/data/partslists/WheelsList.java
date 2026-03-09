@@ -1,6 +1,6 @@
 package data.partslists;
 
-import vehicle.Wheels;
+import data.vehicle.Wheels;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package data.partslists;
 
-import vehicle.Chassis;
+import data.vehicle.Chassis;
 
 import java.util.List;
 

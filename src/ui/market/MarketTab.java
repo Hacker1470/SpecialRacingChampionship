@@ -1,9 +1,9 @@
 package ui.market;
 
-import data.GameSession;
-import data.partslists.PartType;
-import ui.ConsoleControl;
-import ui.MenuTab;
+import game.GameSession;
+import data.vehicle.PartType;
+import ui.service.ConsoleControl;
+import ui.base.MenuTab;
 
 public class MarketTab extends MenuTab {
 
