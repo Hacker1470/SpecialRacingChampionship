@@ -7,6 +7,7 @@ import java.util.List;
 
 public class EngineerList {
     public static Engineer maslyonok = new Engineer(
+        Long.MIN_VALUE,
         "engineer_1_0",
         "Чел с путяги",
         10,
@@ -18,6 +19,7 @@ public class EngineerList {
     );
 
     public static Engineer pazhiloypauk = new Engineer(
+        Long.MIN_VALUE,
         "engineer_2_0",
         "Пожилой дедок",
         40,

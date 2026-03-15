@@ -4,7 +4,7 @@ import java.util.List;
 
 public class UndefinedPart extends Part{
     public UndefinedPart() {
-        super(PartType.UNDEF, "????", "???", 0, 0, 0, 0, 0, List.of(""));
+        super(Long.MIN_VALUE, PartType.UNDEF, "????", "???", 0, 0, 0, 0, 0, List.of(""));
     }
 
     @Override
@@ -13,7 +13,7 @@ public class UndefinedPart extends Part{
     }
 
     @Override
-    public Part getCopy() {
+    public Part getCopy(Long idNew) {
         return null;
     }
 

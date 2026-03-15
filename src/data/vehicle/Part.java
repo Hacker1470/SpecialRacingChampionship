@@ -7,8 +7,9 @@ public abstract class Part {
     /*
     Я бы заменил damage, connectionReliability и quality на тип byte, а mass на тип short
     */
+    private Long id;
     private PartType type;
-    private String id;
+    private String article;
     private String name;
     private int stockPrice;
     private int quality;
@@ -18,10 +19,11 @@ public abstract class Part {
     private int reputationLevel;
     private List<String> connectivity;
 
-    public Part(PartType type, String id, String name, int stockPrice, int quality, int mass, int damage,
+    public Part(Long id, PartType type, String article, String name, int stockPrice, int quality, int mass, int damage,
                 int reputationLevel, List<String> connectivity){
-        this.type = type;
         this.id = id;
+        this.type = type;
+        this.article = article;
         this.name = name;
         this.stockPrice = stockPrice;
         this.quality = quality;
@@ -33,11 +35,14 @@ public abstract class Part {
         this.connectivity.addAll(connectivity);
     }
 
+    public Long getId() {
+        return id;
+    }
     public PartType getType(){
         return type;
     }
-    public String getId() {
-        return id;
+    public String getArticle(){
+        return article;
     }
     public String getName(){
         return name;
@@ -66,6 +71,11 @@ public abstract class Part {
 
 
     public abstract String getStringOfCharacteristics();
-    public abstract Part getCopy();
+    /**
+     * только для маркет
+     * @param idNew
+     * @return Copy of part with new ID
+     */
+    public abstract Part getCopy(Long idNew);
     public abstract int getRealPrice();
 }

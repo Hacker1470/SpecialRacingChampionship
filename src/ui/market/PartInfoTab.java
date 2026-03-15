@@ -7,6 +7,7 @@ import data.vehicle.Part;
 
 public class PartInfoTab extends MenuTab{
 
+    private static long idCounter = Long.MIN_VALUE + 1;
     private final Part chosenPart;
 
     public PartInfoTab(GameSession gm, Part part) {
@@ -79,7 +80,7 @@ public class PartInfoTab extends MenuTab{
     private boolean buyPart(){
         if(gm.getMoney() - chosenPart.getRealPrice() >= 0) {
             gm.takeMoney(chosenPart.getRealPrice());
-            gm.warehouse().put(chosenPart.getCopy());
+            gm.warehouse().put(chosenPart.getCopy(idCounter++));
             return true;
         }
         else {

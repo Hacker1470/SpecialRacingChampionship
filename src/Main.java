@@ -1,6 +1,6 @@
-import data.CatalogOfEmployees;
+import data.catalogs.CatalogOfEmployees;
 import game.GameSession;
-import data.CatalogOfParts;
+import data.catalogs.CatalogOfParts;
 
 void main() {
     GameSession gm = new GameSession(10000, 1000);

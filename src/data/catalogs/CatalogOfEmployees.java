@@ -1,8 +1,7 @@
-package data;
+package data.catalogs;
 
 import data.crew.Employee;
 import data.crew.JobType;
-import data.crew.Pilot;
 import data.employeeslists.EngineerList;
 import data.employeeslists.PilotList;
 
@@ -18,20 +17,19 @@ public class CatalogOfEmployees {
 
     private static void initialize(){
 
-        allCatalog.put(EngineerList.maslyonok.getId(), EngineerList.maslyonok);
-        allCatalog.put(EngineerList.pazhiloypauk.getId(), EngineerList.pazhiloypauk);
+        allCatalog.put(EngineerList.maslyonok.getArticle(), EngineerList.maslyonok);
+        allCatalog.put(EngineerList.pazhiloypauk.getArticle(), EngineerList.pazhiloypauk);
 
-        allCatalog.put(PilotList.cheboks.getId(), PilotList.cheboks);
-        allCatalog.put(PilotList.schumacher.getId(), PilotList.schumacher);
+        allCatalog.put(PilotList.cheboks.getArticle(), PilotList.cheboks);
+        allCatalog.put(PilotList.schumacher.getArticle(), PilotList.schumacher);
     }
 
     public static HashMap<Integer, Employee> getAvailableByReputation(JobType type, int rep){
         HashMap<Integer, Employee> availableEmployees = new HashMap<>();
 
         int counter = 0;
-        for (Employee i : allCatalog.entrySet().stream()
-                .filter(entry -> entry.getKey().startsWith(type.getId()))
-                .map(Map.Entry::getValue)
+        for (Employee i : allCatalog.values().stream()
+                .filter(entry -> entry.getType() == type)
                 .sorted(Comparator.comparingInt(Employee::getReputationLevel))
                 .toList())
         {

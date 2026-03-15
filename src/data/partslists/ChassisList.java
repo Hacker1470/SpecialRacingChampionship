@@ -7,6 +7,7 @@ import java.util.List;
 public class ChassisList {
 
     public static Chassis woodenBox = new Chassis(
+            Long.MIN_VALUE,
             "chas_1_0",
             "Деревянный ящик",
             0,
@@ -20,6 +21,7 @@ public class ChassisList {
             0);
 
     public static Chassis ladaTazik = new Chassis(
+            Long.MIN_VALUE,
             "chas_2_0",
             "База ZovAuto",
             15,
@@ -33,6 +35,7 @@ public class ChassisList {
             40);
 
     public static Chassis straus = new Chassis(
+            Long.MIN_VALUE,
             "chas_3_0",
             "Базис Straus",
             50,

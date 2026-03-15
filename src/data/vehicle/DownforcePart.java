@@ -1,15 +1,15 @@
 package data.vehicle;
 
-import data.CatalogOfParts;
+import data.catalogs.CatalogOfParts;
 
 import java.util.List;
 
 public class DownforcePart extends Part {
     private int downforce; //Прижимная сила. Улучшает управляемость и сцепление с дорогой
 
-    public DownforcePart(String id, String name, int stockPrice, int quality, int mass, int damage,
+    public DownforcePart(long id, String article, String name, int stockPrice, int quality, int mass, int damage,
                          int reputationLevel, List<String> connectivity, int downforce){
-        super(PartType.DOWNFORCE, id, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
+        super(id, PartType.DOWNFORCE, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
         this.downforce = downforce;
     }
@@ -46,15 +46,16 @@ public class DownforcePart extends Part {
     }
 
     @Override
-    public Part getCopy() {
+    public Part getCopy(Long idNew) {
         return new DownforcePart(
-                getId(),
+                idNew,
+                getArticle(),
                 getName(),
-                getReputationLevel(),
-                getMass(),
-                getDamage(),
                 getStockPrice(),
                 getQuality(),
+                getMass(),
+                getDamage(),
+                getReputationLevel(),
                 List.copyOf(getConnectivity()),
                 downforce);
     }

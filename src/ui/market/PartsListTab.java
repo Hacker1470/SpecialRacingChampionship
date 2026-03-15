@@ -1,7 +1,7 @@
 package ui.market;
 
 import game.GameSession;
-import data.CatalogOfParts;
+import data.catalogs.CatalogOfParts;
 import data.vehicle.PartType;
 import ui.service.ConsoleControl;
 import ui.base.MenuTab;

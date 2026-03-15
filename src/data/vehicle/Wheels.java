@@ -1,15 +1,15 @@
 package data.vehicle;
 
-import data.CatalogOfParts;
+import data.catalogs.CatalogOfParts;
 
 import java.util.List;
 
 public class Wheels extends Part{
     private Integer adhesion; //Адгезия. Чем больше, тем лучше сцепление с дорогой при влажном или рыхлом покрытии
 
-    public Wheels(String id, String name, int stockPrice, int quality, int mass, int damage,
+    public Wheels(long id, String article, String name, int stockPrice, int quality, int mass, int damage,
                   int reputationLevel, List<String> connectivity, int adhesion){
-        super(PartType.WHEELS, id, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
+        super(id, PartType.WHEELS, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
         this.adhesion = adhesion;
     }
@@ -42,15 +42,16 @@ public class Wheels extends Part{
     }
 
     @Override
-    public Part getCopy() {
+    public Part getCopy(Long idNew) {
         return new Wheels(
-                getId(),
+                idNew,
+                getArticle(),
                 getName(),
-                getReputationLevel(),
-                getMass(),
-                getDamage(),
                 getStockPrice(),
                 getQuality(),
+                getMass(),
+                getDamage(),
+                getReputationLevel(),
                 List.copyOf(getConnectivity()),
                 adhesion);
     }

@@ -7,6 +7,7 @@ import data.crew.Employee;
 
 public class EmployeeInfoTab extends MenuTab{
 
+    private static long idCounter = Long.MIN_VALUE + 1;
     private final Employee chosenEmployee;
 
     public EmployeeInfoTab(GameSession gm, Employee employee) {
@@ -59,7 +60,7 @@ public class EmployeeInfoTab extends MenuTab{
                     response = new EmployeesListTab(gm, chosenEmployee.getType());
                     break;
                 case "1":
-                    if(buyPart()){
+                    if(hireEmployee()){
                         printMenuWithWarn("Специалист " + chosenEmployee.getName() + " нанят на работу");
                     }
                     else {
@@ -76,10 +77,10 @@ public class EmployeeInfoTab extends MenuTab{
         return response;
     }
 
-    private boolean buyPart(){
+    private boolean hireEmployee(){
         if(gm.getMoney() - chosenEmployee.getHiringCost() >= 0) {
             gm.takeMoney(chosenEmployee.getHiringCost());
-            gm.dorm().put(chosenEmployee.getCopy());
+            gm.dorm().put(chosenEmployee.getCopy(idCounter++));
             return true;
         }
         else {

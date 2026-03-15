@@ -7,9 +7,9 @@ public class Pilot extends Employee{
     private Integer steering;
 
 
-    public Pilot(String id, String name, int fee, int experience, int reputationLevel, int accuracy,
+    public Pilot(long id, String article, String name, int fee, int experience, int reputationLevel, int accuracy,
                  int offroadDriving, int pedaling, int steering) {
-        super(JobType.PILOT, id, name, fee, experience, reputationLevel);
+        super(id, JobType.PILOT, article, name, fee, experience, reputationLevel);
 
         this.accuracy = accuracy;
         this.offroadDriving = offroadDriving;
@@ -34,9 +34,10 @@ public class Pilot extends Employee{
     }
 
     @Override
-    public Employee getCopy() {
+    public Employee getCopy(Long idNew) {
         return new Pilot(
-                getId(),
+                idNew,
+                getArticle(),
                 getName(),
                 getStockFee(),
                 getExperience(),

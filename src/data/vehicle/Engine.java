@@ -1,6 +1,6 @@
 package data.vehicle;
 
-import data.CatalogOfParts;
+import data.catalogs.CatalogOfParts;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ public class Engine extends Part {
     private int maxRpm;
     private int fuelConsumption;
 
-    public Engine(String id, String name, int stockPrice, int quality, int mass, int damage,
+    public Engine(long id, String article, String name, int stockPrice, int quality, int mass, int damage,
                   int reputationLevel, List<String> connectivity, int power, int maxRpm, int fuelConsumption){
-        super(PartType.ENGINE, id, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
+        super(id, PartType.ENGINE, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
         this.power = power;
         this.maxRpm = maxRpm;
@@ -58,15 +58,16 @@ public class Engine extends Part {
     }
 
     @Override
-    public Part getCopy() {
+    public Part getCopy(Long idNew) {
         return new Engine(
-                getId(),
+                idNew,
+                getArticle(),
                 getName(),
-                getReputationLevel(),
-                getMass(),
-                getDamage(),
                 getStockPrice(),
                 getQuality(),
+                getMass(),
+                getDamage(),
+                getReputationLevel(),
                 List.copyOf(getConnectivity()),
                 power,
                 maxRpm,

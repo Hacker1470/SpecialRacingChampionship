@@ -6,6 +6,7 @@ import java.util.List;
 
 public class SuspensionList {
     public static Suspension baseSpring = new Suspension(
+            Long.MIN_VALUE,
             "susp_1",
             "Базовый набор подвески",
             0,
@@ -19,6 +20,7 @@ public class SuspensionList {
     );
 
     public static Suspension niceSpring = new Suspension(
+            Long.MIN_VALUE,
             "susp_2",
             "Продвинутый набор подвески",
             40,

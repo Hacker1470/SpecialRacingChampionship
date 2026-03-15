@@ -13,6 +13,7 @@ import java.util.List;
 public class EnginesList {
 
     public static Engine pedal = new Engine(
+            Long.MIN_VALUE,
             "engi_1_0",
             "Велосипедные педали",
             0,
@@ -26,6 +27,7 @@ public class EnginesList {
             0);
 
     public static Engine lada = new Engine(
+            Long.MIN_VALUE,
             "engi_2_0",
             "Двигатель ZovAuto",
             20,
@@ -39,6 +41,7 @@ public class EnginesList {
             12);
 
     public static Engine sigma = new Engine(
+            Long.MIN_VALUE,
             "engi_3_0",
             "Двигатель Sigma",
             50,

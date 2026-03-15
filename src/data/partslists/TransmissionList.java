@@ -6,6 +6,7 @@ import java.util.List;
 
 public class TransmissionList {
     public static Transmission chain = new Transmission(
+            Long.MIN_VALUE,
             "tran_1_0",
             "Цепная передача",
             0,
@@ -19,6 +20,7 @@ public class TransmissionList {
             );
 
     public static Transmission ladabox = new Transmission(
+            Long.MIN_VALUE,
             "tran_2_0",
             "КПП ZovAuto",
             20,
@@ -31,6 +33,7 @@ public class TransmissionList {
             5);
 
     public static Transmission magnum = new Transmission(
+            Long.MIN_VALUE,
             "tran_3_0",
             "КПП Magnum",
             50,

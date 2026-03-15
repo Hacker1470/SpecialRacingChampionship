@@ -1,6 +1,6 @@
 package ui.employment;
 
-import data.CatalogOfEmployees;
+import data.catalogs.CatalogOfEmployees;
 import game.GameSession;
 import ui.service.ConsoleControl;
 import ui.base.MenuTab;

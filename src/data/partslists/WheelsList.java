@@ -6,6 +6,7 @@ import java.util.List;
 
 public class WheelsList {
     public static Wheels bicycleWheels = new Wheels(
+            Long.MIN_VALUE,
             "whel_1_0",
             "Колёса от велосипеда",
             0,
@@ -17,6 +18,7 @@ public class WheelsList {
             15);
 
     public static Wheels normWheels = new Wheels(
+            Long.MIN_VALUE,
             "whel_2_0",
             "Колёса базовые КАМА",
             5,
@@ -28,6 +30,7 @@ public class WheelsList {
             36);
 
     public static Wheels niceWheels = new Wheels(
+            Long.MIN_VALUE,
             "whel_3_0",
             "Цилиндрические колёса в каучуке",
             15,

@@ -5,9 +5,9 @@ public class Engineer extends Employee{
     private Integer screwing;
     private Integer maintance;
 
-    public Engineer(String id, String name, int fee, int experience, int reputationLevel, int wawyHands,
+    public Engineer(long id, String article, String name, int fee, int experience, int reputationLevel, int wawyHands,
                     int screwing, int maintance) {
-        super(JobType.ENGINEER, id, name, fee, experience, reputationLevel);
+        super(id, JobType.ENGINEER, article, name, fee, experience, reputationLevel);
 
         this.wawyHands = wawyHands;
         this.screwing = screwing;
@@ -31,9 +31,10 @@ public class Engineer extends Employee{
     }
 
     @Override
-    public Employee getCopy() {
+    public Employee getCopy(Long idNew) {
         return new Engineer(
-                getId(),
+                idNew,
+                getArticle(),
                 getName(),
                 getStockFee(),
                 getExperience(),

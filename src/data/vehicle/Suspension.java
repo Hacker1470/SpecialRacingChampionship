@@ -1,6 +1,6 @@
 package data.vehicle;
 
-import data.CatalogOfParts;
+import data.catalogs.CatalogOfParts;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ public class Suspension extends Part {
     // и твёрдым покрытием
     public Integer stability; //Стабильность. Чем больше, тем лучше преодолеваются повороты
 
-    public Suspension(String id, String name, int stockPrice, int quality, int mass, int damage,
+    public Suspension(long id, String article, String name, int stockPrice, int quality, int mass, int damage,
                       int reputationLevel, List<String> connectivity, int hardness, int stability){
-        super(PartType.SUSPENSION, id, name, stockPrice, quality, mass, damage,reputationLevel, connectivity);
+        super(id, PartType.SUSPENSION, article, name, stockPrice, quality, mass, damage,reputationLevel, connectivity);
 
         this.hardness = hardness;
         this.stability = stability;
@@ -46,15 +46,16 @@ public class Suspension extends Part {
     }
 
     @Override
-    public Part getCopy() {
+    public Part getCopy(Long idNew) {
         return new Suspension(
-                getId(),
+                idNew,
+                getArticle(),
                 getName(),
-                getReputationLevel(),
-                getMass(),
-                getDamage(),
                 getStockPrice(),
                 getQuality(),
+                getMass(),
+                getDamage(),
+                getReputationLevel(),
                 List.copyOf(getConnectivity()),
                 hardness,
                 stability);

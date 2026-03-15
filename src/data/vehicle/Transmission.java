@@ -1,6 +1,6 @@
 package data.vehicle;
 
-import data.CatalogOfParts;
+import data.catalogs.CatalogOfParts;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ public class Transmission extends Part {
     private Integer maxSpeed; //Максимальная скорость болида
     private Integer gears; //Количество передач. Чем больше передач, тем быстрее разгон
                             // и тем более опытный должен быть пилот
-    public Transmission(String id, String name, int stockPrice, int quality, int mass, int damage,
+    public Transmission(long id, String article, String name, int stockPrice, int quality, int mass, int damage,
                         int reputationLevel, List<String> connectivity, int maxSpeed, int gears){
-        super(PartType.TRANSMISSION, id, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
+        super(id, PartType.TRANSMISSION, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
         this.maxSpeed = maxSpeed;
         this.gears = gears;
@@ -45,15 +45,16 @@ public class Transmission extends Part {
     }
 
     @Override
-    public Part getCopy() {
+    public Part getCopy(Long idNew) {
         return new Transmission(
-                getId(),
+                idNew,
+                getArticle(),
                 getName(),
-                getReputationLevel(),
-                getMass(),
-                getDamage(),
                 getStockPrice(),
                 getQuality(),
+                getMass(),
+                getDamage(),
+                getReputationLevel(),
                 List.copyOf(getConnectivity()),
                 maxSpeed,
                 gears);

@@ -57,6 +57,7 @@ public class MainMenu extends MenuTab{
                 case "2":
                     break;
                 case "3":
+
                     break;
                 case "4":
                     response = new MarketTab(gm);
@@ -64,7 +65,7 @@ public class MainMenu extends MenuTab{
                 case "5":
                     response = new EmployTab(gm);
                     break;
-                case "6":
+                case "0":
                     gm.exit();
                     break;
                 default:

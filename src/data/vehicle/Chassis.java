@@ -1,6 +1,6 @@
 package data.vehicle;
 
-import data.CatalogOfParts;
+import data.catalogs.CatalogOfParts;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ public class Chassis extends Part {
     private int maxWeight;
     private int fuel;
 
-    public Chassis(String id, String name, int stockPrice, int quality, int mass, int damage,
+    public Chassis(long id, String article, String name, int stockPrice, int quality, int mass, int damage,
                    int reputationLevel, List<String> connectivity, int aerodynamics, int maxWeight, int fuel){
-        super(PartType.CHASSIS, id, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
+        super(id, PartType.CHASSIS, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
         this.aerodynamics = aerodynamics;
         this.maxWeight = maxWeight;
@@ -58,15 +58,16 @@ public class Chassis extends Part {
     }
 
     @Override
-    public Part getCopy(){
+    public Part getCopy(Long idNew){
         return new Chassis(
-                getId(),
+                idNew,
+                getArticle(),
                 getName(),
-                getReputationLevel(),
-                getMass(),
-                getDamage(),
                 getStockPrice(),
                 getQuality(),
+                getMass(),
+                getDamage(),
+                getReputationLevel(),
                 List.copyOf(getConnectivity()),
                 aerodynamics,
                 maxWeight,
