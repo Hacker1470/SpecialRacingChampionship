@@ -1,16 +1,14 @@
-package ui.employment;
+package ui.base;
 
 import game.GameSession;
-import ui.base.MainTab;
+import ui.employment.EmployTab;
 import ui.garage.GarageTab;
 import ui.handling.ConsoleControl;
-import ui.base.Tab;
-import data.crew.JobType;
 import ui.market.MarketTab;
 
-public class EmployTab extends Tab {
+public class MainTab extends Tab {
 
-    public EmployTab(GameSession gm) {
+    public MainTab(GameSession gm){
         super(gm);
     }
 
@@ -24,10 +22,15 @@ public class EmployTab extends Tab {
     protected void printListOfMenus(){
         ConsoleControl.printlnString(gm.getSponsor());
         ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("====== БИРЖА ТРУДА ======");
-        ConsoleControl.printlnString("[1] Пилоты");
-        ConsoleControl.printlnString("[2] Инженеры");
-        ConsoleControl.printlnString("[0] Вернуться в главное меню");
+        ConsoleControl.printlnString("Баланс: " + gm.getMoney() + " грошей");
+        ConsoleControl.printlnString("[1] Чемпионаты");
+        ConsoleControl.printlnString("[2] Статистика");
+        ConsoleControl.printlnString("[3] Гараж");
+        ConsoleControl.printlnString("[4] Склад");
+        ConsoleControl.printlnString("[5] Мир запчастей");
+        ConsoleControl.printlnString("[6] Общежитие");
+        ConsoleControl.printlnString("[7] Биржа труда");
+        ConsoleControl.printlnString("[0] Выход из игры");
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
     }
@@ -38,6 +41,9 @@ public class EmployTab extends Tab {
 
         while (response == null){
             request = ConsoleControl.getString();
+            if(request.equals("0")){
+                gm.exit();
+            }
 
             response = selectResponse(request);
             if (response == null){
@@ -50,9 +56,13 @@ public class EmployTab extends Tab {
 
     private Tab selectResponse(String req){
         return switch (req) {
-            case "1" -> new EmployeesByJobTab(gm, JobType.PILOT);
-            case "2" -> new EmployeesByJobTab(gm, JobType.ENGINEER);
-            case "0" -> new MainTab((gm));
+            case "1" -> null;
+            case "2" -> null;
+            case "3" -> new GarageTab(gm);
+            case "4" -> null;
+            case "5" -> new MarketTab(gm);
+            case "6" -> null;
+            case "7" -> new EmployTab(gm);
             default -> null;
         };
     }

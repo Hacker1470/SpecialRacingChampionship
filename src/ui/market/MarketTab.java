@@ -2,41 +2,32 @@ package ui.market;
 
 import game.GameSession;
 import data.vehicle.PartType;
-import ui.service.ConsoleControl;
-import ui.base.MenuTab;
+import ui.base.MainTab;
+import ui.employment.EmployTab;
+import ui.garage.GarageTab;
+import ui.handling.ConsoleControl;
+import ui.base.Tab;
 
-public class MarketTab extends MenuTab {
+public class MarketTab extends Tab {
 
     public MarketTab(GameSession gm) {
         super(gm);
     }
 
     @Override
-    public MenuTab show() {
-        printMenu();
+    public Tab show() {
+        outputMain();
         return menuHandler();
     }
 
-    private void printMenu(){
-        ConsoleControl.clear();
-        printListOfMenus();
-    }
-
-    private void printMenuWithWarn(String warn){
-        ConsoleControl.clear();
-        ConsoleControl.printlnString("СООБЩЕНИЕ:");
-        ConsoleControl.printlnString(warn);
-        ConsoleControl.printlnString("=============================================");
-        printListOfMenus();
-    }
-
-    private void printListOfMenus(){
-        ConsoleControl.printlnString("ЗДЕСЬ МОГЛА БЫТЬ ВАША РЕКЛАМА");
+    @Override
+    protected void printListOfMenus(){
+        ConsoleControl.printlnString(gm.getSponsor());
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString("====== РЫНОК ======");
-        ConsoleControl.printlnString("[1] Двигатели");
-        ConsoleControl.printlnString("[2] Коробки");
-        ConsoleControl.printlnString("[3] Шасси");
+        ConsoleControl.printlnString("[1] Шасси");
+        ConsoleControl.printlnString("[2] Двигатели");
+        ConsoleControl.printlnString("[3] Коробки");
         ConsoleControl.printlnString("[4] Колёса");
         ConsoleControl.printlnString("[5] Подвеска");
         ConsoleControl.printlnString("[6] Обвесы для прижимной силы");
@@ -45,40 +36,32 @@ public class MarketTab extends MenuTab {
         ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private MenuTab menuHandler(){
+    private Tab menuHandler(){
         String request;
-        MenuTab response = null;
+        Tab response = null;
 
         while (response == null){
             request = ConsoleControl.getString();
 
-            switch (request){
-                case "1":
-                    response = new PartsListTab(gm, PartType.ENGINE);
-                    break;
-                case "2":
-                    response = new PartsListTab(gm, PartType.TRANSMISSION);
-                    break;
-                case "3":
-                    response = new PartsListTab(gm, PartType.CHASSIS);
-                    break;
-                case "4":
-                    response = new PartsListTab(gm, PartType.WHEELS);
-                    break;
-                case "5":
-                    response = new PartsListTab(gm, PartType.SUSPENSION);
-                    break;
-                case "6":
-                    response = new PartsListTab(gm, PartType.DOWNFORCE);
-                    break;
-                case "0":
-                    response = gm.getMainMenu();
-                    break;
-                default:
-                    printMenuWithWarn("Меню не имеет пункта: " + request);
+            response = selectResponse(request);
+            if (response == null){
+                outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
 
         return response;
+    }
+
+    private Tab selectResponse(String req){
+        return switch (req) {
+            case "1" -> new PartsByTypeTab(gm, PartType.CHASSIS);
+            case "2" -> new PartsByTypeTab(gm, PartType.ENGINE);
+            case "3" -> new PartsByTypeTab(gm, PartType.TRANSMISSION);
+            case "4" -> new PartsByTypeTab(gm, PartType.WHEELS);
+            case "5" -> new PartsByTypeTab(gm, PartType.SUSPENSION);
+            case "6" -> new PartsByTypeTab(gm, PartType.DOWNFORCE);
+            case "0" -> new MainTab(gm);
+            default -> null;
+        };
     }
 }

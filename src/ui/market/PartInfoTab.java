@@ -1,11 +1,11 @@
 package ui.market;
 
 import game.GameSession;
-import ui.service.ConsoleControl;
-import ui.base.MenuTab;
+import ui.handling.ConsoleControl;
+import ui.base.Tab;
 import data.vehicle.Part;
 
-public class PartInfoTab extends MenuTab{
+public class PartInfoTab extends Tab {
 
     private static long idCounter = Long.MIN_VALUE + 1;
     private final Part chosenPart;
@@ -16,26 +16,14 @@ public class PartInfoTab extends MenuTab{
     }
 
     @Override
-    public MenuTab show() {
-        printMenu();
+    public Tab show() {
+        outputMain();
         return menuHandler();
     }
 
-    private void printMenu(){
-        ConsoleControl.clear();
-        printListOfMenus();
-    }
-
-    private void printMenuWithWarn(String warn){
-        ConsoleControl.clear();
-        ConsoleControl.printlnString("СООБЩЕНИЕ:");
-        ConsoleControl.printlnString(warn);
-        ConsoleControl.printlnString("=============================================");
-        printListOfMenus();
-    }
-
-    private void printListOfMenus(){
-        ConsoleControl.printlnString("ЗДЕСЬ МОГЛА БЫТЬ ВАША РЕКЛАМА");
+    @Override
+    protected void printListOfMenus(){
+        ConsoleControl.printlnString(gm.getSponsor());
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString(chosenPart.getType().getMarketInfoTitle());
 
@@ -48,27 +36,27 @@ public class PartInfoTab extends MenuTab{
         ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private MenuTab menuHandler(){
+    private Tab menuHandler(){
         String request;
-        MenuTab response = null;
+        Tab response = null;
 
         while (response == null){
             request = ConsoleControl.getString();
 
             switch (request){
                 case "0":
-                    response = new PartsListTab(gm, chosenPart.getType());
+                    response = new PartsByTypeTab(gm, chosenPart.getType());
                     break;
                 case "1":
                     if(buyPart()){
-                        printMenuWithWarn("Деталь " + chosenPart.getName() + " куплена");
+                        outputWithWarn("Деталь " + chosenPart.getName() + " куплена");
                     }
                     else {
-                        printMenuWithWarn("Недостаточно средств");
+                        outputWithWarn("Недостаточно средств");
                     }
                     break;
                 default:
-                    printMenuWithWarn("Меню не имеет пункта: " + request);
+                    outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
 

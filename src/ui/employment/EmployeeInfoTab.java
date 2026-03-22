@@ -1,11 +1,11 @@
 package ui.employment;
 
 import game.GameSession;
-import ui.service.ConsoleControl;
-import ui.base.MenuTab;
+import ui.handling.ConsoleControl;
+import ui.base.Tab;
 import data.crew.Employee;
 
-public class EmployeeInfoTab extends MenuTab{
+public class EmployeeInfoTab extends Tab {
 
     private static long idCounter = Long.MIN_VALUE + 1;
     private final Employee chosenEmployee;
@@ -16,26 +16,14 @@ public class EmployeeInfoTab extends MenuTab{
     }
 
     @Override
-    public MenuTab show() {
-        printMenu();
+    public Tab show() {
+        outputMain();
         return menuHandler();
     }
 
-    private void printMenu(){
-        ConsoleControl.clear();
-        printListOfMenus();
-    }
-
-    private void printMenuWithWarn(String warn){
-        ConsoleControl.clear();
-        ConsoleControl.printlnString("СООБЩЕНИЕ:");
-        ConsoleControl.printlnString(warn);
-        ConsoleControl.printlnString("=============================================");
-        printListOfMenus();
-    }
-
-    private void printListOfMenus(){
-        ConsoleControl.printlnString("ЗДЕСЬ МОГЛА БЫТЬ ВАША РЕКЛАМА");
+    @Override
+    protected void printListOfMenus(){
+        ConsoleControl.printlnString(gm.getSponsor());
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString(chosenEmployee.getType().getEmployInfoTitle());
 
@@ -48,31 +36,29 @@ public class EmployeeInfoTab extends MenuTab{
         ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private MenuTab menuHandler(){
+    private Tab menuHandler(){
         String request;
-        MenuTab response = null;
+        Tab response = null;
 
         while (response == null){
             request = ConsoleControl.getString();
 
             switch (request){
                 case "0":
-                    response = new EmployeesListTab(gm, chosenEmployee.getType());
+                    response = new EmployeesByJobTab(gm, chosenEmployee.getType());
                     break;
                 case "1":
                     if(hireEmployee()){
-                        printMenuWithWarn("Специалист " + chosenEmployee.getName() + " нанят на работу");
+                        outputWithWarn("Специалист " + chosenEmployee.getName() + " нанят на работу");
                     }
                     else {
-                        printMenuWithWarn("Недостаточно средств");
+                        outputWithWarn("Недостаточно средств");
                     }
                     break;
                 default:
-                    printMenuWithWarn("Меню не имеет пункта: " + request);
+                    outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
-
-
 
         return response;
     }
