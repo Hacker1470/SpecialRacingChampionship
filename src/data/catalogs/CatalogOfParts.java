@@ -40,17 +40,16 @@ public class CatalogOfParts {
 
     //ВАЖНО!!! Надо проверить на адекватность. Пока что я просто это написал.
     //07 03 2026 - похоже на правду
-    public static HashMap<Integer, Part> getAvailableByReputation(PartType type, int rep){
-        HashMap<Integer, Part> availableParts = new HashMap<>();
+    public static ArrayList<Part> getAvailableByReputation(PartType type, int rep){
+        ArrayList<Part> availableParts = new ArrayList<>();
 
-        int counter = 0;
         for (Part i : allCatalog.values().stream()
                 .filter(part -> part.getType() == type)
                 .sorted(Comparator.comparingInt(Part::getReputationLevel))
                 .toList())
         {
             if(i.getReputationLevel() <= rep){
-                availableParts.put(++counter, i);
+                availableParts.add(i);
             }
         }
 
@@ -65,7 +64,7 @@ public class CatalogOfParts {
                 availableParts.add(allCatalog.get(part));
             }
             else{
-                availableParts.add(new UndefinedPart());
+                availableParts.add(new EmptyPart());
             }
         }
 

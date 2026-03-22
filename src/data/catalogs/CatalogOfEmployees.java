@@ -24,17 +24,16 @@ public class CatalogOfEmployees {
         allCatalog.put(PilotList.schumacher.getArticle(), PilotList.schumacher);
     }
 
-    public static HashMap<Integer, Employee> getAvailableByReputation(JobType type, int rep){
-        HashMap<Integer, Employee> availableEmployees = new HashMap<>();
+    public static ArrayList<Employee> getAvailableByReputation(JobType type, int rep){
+        ArrayList<Employee> availableEmployees = new ArrayList<>();
 
-        int counter = 0;
         for (Employee i : allCatalog.values().stream()
                 .filter(entry -> entry.getType() == type)
                 .sorted(Comparator.comparingInt(Employee::getReputationLevel))
                 .toList())
         {
             if(i.getReputationLevel() <= rep){
-                availableEmployees.put(++counter, i);
+                availableEmployees.add(i);
             }
         }
 
