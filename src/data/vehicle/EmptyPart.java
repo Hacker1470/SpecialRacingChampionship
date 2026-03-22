@@ -2,8 +2,8 @@ package data.vehicle;
 
 import java.util.List;
 
-public class UndefinedPart extends Part{
-    public UndefinedPart() {
+public class EmptyPart extends Part{
+    public EmptyPart() {
         super(Long.MIN_VALUE, PartType.UNDEF, "????", "???", 0, 0, 0, 0, 0, List.of(""));
     }
 
