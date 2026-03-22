@@ -1,4 +1,4 @@
-package ui.service;
+package ui.handling;
 
 public class ConsoleControl {
     public static void clear(){
@@ -11,11 +11,15 @@ public class ConsoleControl {
         return IO.readln();
     }
 
-    public static int getInteger(){
-        return Integer.parseInt(IO.readln());
+    public static void printString(String s){
+        IO.print(s);
     }
-
     public static void printlnString(String s){
         IO.println(s);
     }
+
+    //на удаление 22 03 2026
+    //public static int getInteger(){
+    //    return Integer.parseInt(IO.readln());
+    //}
 }
