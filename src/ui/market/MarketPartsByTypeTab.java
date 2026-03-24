@@ -3,20 +3,18 @@ package ui.market;
 import game.GameSession;
 import data.catalogs.CatalogOfParts;
 import data.vehicle.PartType;
-import ui.employment.EmployTab;
-import ui.garage.GarageTab;
 import ui.handling.ConsoleControl;
 import ui.base.Tab;
 import data.vehicle.Part;
 
 import java.util.ArrayList;
 
-public class PartsByTypeTab extends Tab {
+public class MarketPartsByTypeTab extends Tab {
 
     ArrayList<Part> availablePartsByRep;
     PartType type;
 
-    public PartsByTypeTab(GameSession gm, PartType type) {
+    public MarketPartsByTypeTab(GameSession gm, PartType type) {
         super(gm);
         this.type = type;
     }
@@ -74,7 +72,7 @@ public class PartsByTypeTab extends Tab {
         }
 
         if(index <= availablePartsByRep.size() && index >= 1) {
-            return new PartInfoTab(gm, availablePartsByRep.get(index - 1));
+            return new MarketPartInfoTab(gm, availablePartsByRep.get(index - 1));
         }
         else {
             return null;
