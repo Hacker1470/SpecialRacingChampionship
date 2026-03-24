@@ -34,8 +34,20 @@ public class GameSession {
     public void addMoney(int cash){
         money += cash;
     }
-    public void takeMoney(int cash){
-        money -= cash;
+
+    /**
+     * Попытка взять деньги
+     * @param cash запрос денег
+     * @return true, если денег хватило. Соотв сумма изымается
+     */
+    public boolean takeMoney(int cash){
+        if(money - cash >= 0){
+            money -= cash;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public GameSession(){
