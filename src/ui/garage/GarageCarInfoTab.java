@@ -5,11 +5,11 @@ import game.GameSession;
 import ui.base.Tab;
 import ui.handling.ConsoleControl;
 
-public class CarInfoTab extends Tab {
+public class GarageCarInfoTab extends Tab {
 
     private Racecar chosenCar;
 
-    public CarInfoTab(GameSession gm, Racecar car) {
+    public GarageCarInfoTab(GameSession gm, Racecar car) {
         super(gm);
         chosenCar = car;
     }
