@@ -3,8 +3,6 @@ package ui.market;
 import game.GameSession;
 import data.vehicle.PartType;
 import ui.base.MainTab;
-import ui.employment.EmployTab;
-import ui.garage.GarageTab;
 import ui.handling.ConsoleControl;
 import ui.base.Tab;
 
@@ -54,12 +52,12 @@ public class MarketTab extends Tab {
 
     private Tab selectResponse(String req){
         return switch (req) {
-            case "1" -> new PartsByTypeTab(gm, PartType.CHASSIS);
-            case "2" -> new PartsByTypeTab(gm, PartType.ENGINE);
-            case "3" -> new PartsByTypeTab(gm, PartType.TRANSMISSION);
-            case "4" -> new PartsByTypeTab(gm, PartType.WHEELS);
-            case "5" -> new PartsByTypeTab(gm, PartType.SUSPENSION);
-            case "6" -> new PartsByTypeTab(gm, PartType.DOWNFORCE);
+            case "1" -> new MarketPartsByTypeTab(gm, PartType.CHASSIS);
+            case "2" -> new MarketPartsByTypeTab(gm, PartType.ENGINE);
+            case "3" -> new MarketPartsByTypeTab(gm, PartType.TRANSMISSION);
+            case "4" -> new MarketPartsByTypeTab(gm, PartType.WHEELS);
+            case "5" -> new MarketPartsByTypeTab(gm, PartType.SUSPENSION);
+            case "6" -> new MarketPartsByTypeTab(gm, PartType.DOWNFORCE);
             case "0" -> new MainTab(gm);
             default -> null;
         };
