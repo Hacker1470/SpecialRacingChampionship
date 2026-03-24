@@ -5,12 +5,12 @@ import ui.handling.ConsoleControl;
 import ui.base.Tab;
 import data.vehicle.Part;
 
-public class PartInfoTab extends Tab {
+public class MarketPartInfoTab extends Tab {
 
     private static long idCounter = Long.MIN_VALUE + 1;
     private final Part chosenPart;
 
-    public PartInfoTab(GameSession gm, Part part) {
+    public MarketPartInfoTab(GameSession gm, Part part) {
         super(gm);
         chosenPart = part;
     }
@@ -45,11 +45,11 @@ public class PartInfoTab extends Tab {
 
             switch (request){
                 case "0":
-                    response = new PartsByTypeTab(gm, chosenPart.getType());
+                    response = new MarketPartsByTypeTab(gm, chosenPart.getType());
                     break;
                 case "1":
                     if(buyPart()){
-                        outputWithWarn("Деталь " + chosenPart.getName() + " куплена");
+                        response = new MarketPartNamingTab(gm, gm.warehouse().getPartById(idCounter - 1));
                     }
                     else {
                         outputWithWarn("Недостаточно средств");
@@ -60,14 +60,11 @@ public class PartInfoTab extends Tab {
             }
         }
 
-
-
         return response;
     }
 
     private boolean buyPart(){
-        if(gm.getMoney() - chosenPart.getRealPrice() >= 0) {
-            gm.takeMoney(chosenPart.getRealPrice());
+        if(gm.takeMoney(chosenPart.getRealPrice())) {
             gm.warehouse().put(chosenPart.getCopy(idCounter++));
             return true;
         }
