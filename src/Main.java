@@ -3,11 +3,11 @@ import game.GameSession;
 import data.catalogs.CatalogOfParts;
 
 void main() {
-    GameSession gm = new GameSession(10000, 1000);
+    GameSession gm = new GameSession(10000000, 1000);
     CatalogOfParts.catalogInit();
     CatalogOfEmployees.catalogInit();
-    gm.launch();
 
+    gm.launch();
     //Заметки на будущее
     /*
     * Что делать дальше:
