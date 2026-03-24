@@ -23,8 +23,7 @@ public class EnginesList {
             0,
             List.of("tran_1_0"),
             1,
-            60,
-            0);
+            60);
 
     public static Engine lada = new Engine(
             Long.MIN_VALUE,
@@ -37,8 +36,7 @@ public class EnginesList {
             10,
             List.of("tran_2_0"),
             50,
-            2000,
-            12);
+            2000);
 
     public static Engine sigma = new Engine(
             Long.MIN_VALUE,
@@ -51,6 +49,5 @@ public class EnginesList {
             28,
             List.of("tran_2_0", "tran_3_0", "chas_2_0", "chas_3_0"),
             80,
-            3000,
-            9);
+            3000);
 }

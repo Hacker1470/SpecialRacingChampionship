@@ -17,8 +17,7 @@ public class ChassisList {
             0,
             List.of("engi_1_0", "tran_1_0"),
             2,
-            300,
-            0);
+            300);
 
     public static Chassis ladaTazik = new Chassis(
             Long.MIN_VALUE,
@@ -31,8 +30,7 @@ public class ChassisList {
             7,
             List.of("engi_1_0", "engi_2_0", "tran_1_0", "tran_2_0"),
             15,
-            1200,
-            40);
+            1200);
 
     public static Chassis straus = new Chassis(
             Long.MIN_VALUE,
@@ -45,6 +43,5 @@ public class ChassisList {
             50,
             List.of("engi_3_0", "tran_3_0"),
             42,
-            2300,
-            105);
+            2300);
 }

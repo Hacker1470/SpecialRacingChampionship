@@ -7,15 +7,13 @@ import java.util.List;
 public class Chassis extends Part {
     private int aerodynamics;
     private int maxWeight;
-    private int fuel;
 
     public Chassis(long id, String article, String name, int stockPrice, int quality, int mass, int damage,
-                   int reputationLevel, List<String> connectivity, int aerodynamics, int maxWeight, int fuel){
+                   int reputationLevel, List<String> connectivity, int aerodynamics, int maxWeight){
         super(id, PartType.CHASSIS, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
         this.aerodynamics = aerodynamics;
         this.maxWeight = maxWeight;
-        this.fuel = fuel;
     }
 
     public int getAerodynamics(){
@@ -23,9 +21,6 @@ public class Chassis extends Part {
     }
     public int getMaxWeight(){
         return maxWeight;
-    }
-    public int getFuel(){
-        return fuel;
     }
 
     @Override
@@ -37,13 +32,12 @@ public class Chassis extends Part {
     public String getStringOfCharacteristics(){
         StringBuilder sb = new StringBuilder(2000);
 
-        sb.append("Название: ").append(getName()).append("\n");
+        sb.append("Название: ").append(getName()).append(" ").append(getPostfix()).append("\n");
         sb.append("Качество: ").append(getQuality()).append("\n");
         sb.append("Масса: ").append(getMass()).append(" кг").append("\n");
         sb.append("Износ: ").append(getDamage()).append(" %").append("\n");
         sb.append("Обтекаемость: ").append(aerodynamics).append("\n");
         sb.append("Макс. суммарная масса оборудования: ").append(maxWeight).append(" кг").append("\n");
-        sb.append("Количество топлива: ").append(fuel).append(" литров").append("\n");
         sb.append("\n");
         sb.append("Совместимость:\n");
 
@@ -70,7 +64,6 @@ public class Chassis extends Part {
                 getReputationLevel(),
                 List.copyOf(getConnectivity()),
                 aerodynamics,
-                maxWeight,
-                fuel);
+                maxWeight);
     }
 }
