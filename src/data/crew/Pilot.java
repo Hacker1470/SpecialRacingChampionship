@@ -21,7 +21,7 @@ public class Pilot extends Employee{
     public String getStringOfCharacteristics() {
         StringBuilder sb = new StringBuilder(2000);
 
-        sb.append("Имя: ").append(getName()).append("\n");
+        sb.append("Имя: ").append(getName()).append(" ").append(getPostfix()).append("\n");
         sb.append("Опыт работы: ").append(getExperience()).append("\n");
         sb.append("Аккуратность: ").append(accuracy).append(" %").append("\n");
         sb.append("Руление: ").append(steering).append(" %").append("\n");

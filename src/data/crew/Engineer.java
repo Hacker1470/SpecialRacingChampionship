@@ -18,7 +18,7 @@ public class Engineer extends Employee{
     public String getStringOfCharacteristics() {
         StringBuilder sb = new StringBuilder(1000);
 
-        sb.append("Имя: ").append(getName()).append("\n");
+        sb.append("Имя: ").append(getName()).append(" ").append(getPostfix()).append("\n");
         sb.append("Опыт работы: ").append(getExperience()).append("\n");
         sb.append("Криворукость: ").append(wawyHands).append(" %").append("\n");
         sb.append("БОЛТология: ").append(screwing).append(" %").append("\n");

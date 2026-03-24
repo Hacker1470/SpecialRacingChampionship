@@ -25,7 +25,7 @@ public class Transmission extends Part {
     public String getStringOfCharacteristics(){
         StringBuilder sb = new StringBuilder(2000);
 
-        sb.append("Название: ").append(getName()).append("\n");
+        sb.append("Название: ").append(getName()).append(" ").append(getPostfix()).append("\n");
         sb.append("Качество: ").append(getQuality()).append("\n");
         sb.append("Масса: ").append(getMass()).append(" кг").append("\n");
         sb.append("Износ: ").append(getDamage()).append(" %").append("\n");
