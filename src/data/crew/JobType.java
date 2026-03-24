@@ -1,35 +1,33 @@
 package data.crew;
 
 public enum JobType {
-    UNDEF(
-            "????",
+    EMPTY(
             "====== ??? ======\nВам доступно:",
             "====== ИНФОРМАЦИЯ ======"
     ),
     ENGINEER(
-            "engineer",
             "====== ИНЖЕНЕРЫ ======\nДля найма доступны следующие инженеры:",
             "====== ИНФОРМАЦИЯ ОБ ИНЖЕНЕРЕ ======"
     ),
     PILOT(
-            "pilot",
             "====== ПИЛОТЫ ======\nДля найма доступны следующие пилоты:",
             "====== ИНФОРМАЦИЯ О ПИЛОТЕ ======"
     );
 
-    JobType(String id, String employGroupTitle, String employInfoTitle){
-        this.id = id;
+    JobType(String employGroupTitle, String employInfoTitle){
         this.employGroupTitle = employGroupTitle;
         this.employInfoTitle = employInfoTitle;
     }
 
-    private final String id;
+    /**
+     * Надпись формата "=== РАБОТНИКИ === \n Вам доступны следующие работники"
+     */
     private final String employGroupTitle;
+    /**
+     * Надпись формата "=== ПОДРОБНЕЕ О РАБОТНИКЕ ==="
+     */
     private final String employInfoTitle;
 
-    public String getId(){
-        return id;
-    }
     public String getEmployGroupTitle(){
         return employGroupTitle;
     }
