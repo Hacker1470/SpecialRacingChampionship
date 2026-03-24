@@ -6,8 +6,6 @@ import ui.handling.ConsoleControl;
 import ui.base.Tab;
 import data.crew.Employee;
 import data.crew.JobType;
-import ui.market.MarketTab;
-import ui.market.PartInfoTab;
 
 import java.util.ArrayList;
 
