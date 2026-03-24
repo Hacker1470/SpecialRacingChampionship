@@ -35,7 +35,13 @@ public enum PartType {
         this.marketInfoTitle = marketInfoTitle;
     }
 
+    /**
+     * Вывод формата "==== ДЕТАЛЬ ==== \n Вам доступны следующие детали"
+     */
     private final String marketGroupTitle;
+    /**
+     * Вывод формата "==== ПОДРОБНЕЕ О ДЕТАЛИ ===="
+     */
     private final String marketInfoTitle;
 
     public String getMarketGroupTitle(){
