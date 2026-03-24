@@ -14,7 +14,7 @@ public class EmptyPart extends Part{
 
     @Override
     public Part getCopy(Long idNew) {
-        return null;
+        return new EmptyPart();
     }
 
     @Override
