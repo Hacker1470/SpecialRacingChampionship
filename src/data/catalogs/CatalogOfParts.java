@@ -2,12 +2,13 @@ package data.catalogs;
 
 import data.partslists.*;
 import data.vehicle.*;
+import data.vehicle.enums.PartType;
 
 import java.util.*;
 
 public class CatalogOfParts {
 
-    public static HashMap<String, Part> allCatalog = new HashMap<>();
+    private static HashMap<String, Part> allCatalog = new HashMap<>();
 
     public static void catalogInit(){
         initialize();
@@ -36,6 +37,10 @@ public class CatalogOfParts {
         allCatalog.put(WheelsList.bicycleWheels.getArticle(), WheelsList.bicycleWheels);
         allCatalog.put(WheelsList.normWheels.getArticle(), WheelsList.normWheels);
         allCatalog.put(WheelsList.niceWheels.getArticle(), WheelsList.niceWheels);
+    }
+
+    public static Part getPartWithArticle(String article){
+        return allCatalog.get(article);
     }
 
     //ВАЖНО!!! Надо проверить на адекватность. Пока что я просто это написал.

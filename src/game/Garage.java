@@ -1,24 +1,25 @@
 package game;
 
-import data.catalogs.CatalogOfParts;
+import data.crew.Employee;
 import data.vehicle.Part;
-import data.vehicle.PartType;
 import data.vehicle.Racecar;
 
 import java.util.*;
 
 public class Garage {
-    LinkedList<Racecar> cars;
+    HashMap<Long, Racecar> cars;
 
     public Garage(){
-        cars = new LinkedList<>();
+        cars = new HashMap<>();
     }
 
-    public String getListOfCars(){
+    public String generateStringCatalog(){
         StringBuilder sb = new StringBuilder(cars.size() * 40);
 
+        ArrayList<Long> keys = getKeys();
+
         for (int i = 1; i <= cars.size(); i++){
-            sb.append(i).append(") ").append(cars.get(i).getName()).append("\n");
+            sb.append(i).append(") ").append(cars.get(keys.get(i - 1)).getName()).append("\n");
         }
 
         sb.append("\n");
@@ -26,14 +27,22 @@ public class Garage {
         return sb.toString();
     }
 
-    public Racecar getCarByIndex(int index){
-        return cars.get(index);
+    public ArrayList<Long> getKeys(){
+        return new ArrayList<>(cars.keySet());
+    }
+
+    public void put(Racecar newRacecar){
+        cars.put(newRacecar.getId(), newRacecar);
+    }
+
+    public Racecar getCarById(long id){
+        return cars.get(id);
     }
 
     public int getCarsNumber(){
         return cars.size();
     }
-    public void deleteCar(Racecar car){
-        cars.remove(car);
+    public void deleteCar(long carId){
+        cars.remove(carId);
     }
 }

@@ -1,6 +1,7 @@
 package data.vehicle;
 
 import data.catalogs.CatalogOfParts;
+import data.vehicle.enums.PartType;
 
 import java.util.List;
 
@@ -42,6 +43,13 @@ public class Transmission extends Part {
         sb.append("Стоимость: ").append(getRealPrice());
 
         return sb.toString();
+    }
+
+    public int getGears(){
+        return gears;
+    }
+    public int getMaxSpeed(){
+        return maxSpeed;
     }
 
     @Override

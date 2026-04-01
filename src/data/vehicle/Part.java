@@ -1,5 +1,7 @@
 package data.vehicle;
 
+import data.vehicle.enums.PartType;
+
 import java.util.ArrayList;
 import java.util.List;
 

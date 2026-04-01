@@ -1,6 +1,7 @@
 package data.vehicle;
 
 import data.catalogs.CatalogOfParts;
+import data.vehicle.enums.PartType;
 
 import java.util.List;
 
@@ -17,6 +18,10 @@ public class Wheels extends Part{
     @Override
     public int getRealPrice(){
         return getStockPrice() * (getDamage() + getQuality()) / 100;
+    }
+
+    public int getAdhesion(){
+        return adhesion;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package ui.market;
 
 import game.GameSession;
-import data.vehicle.PartType;
+import data.vehicle.enums.PartType;
 import ui.base.MainTab;
 import ui.handling.ConsoleControl;
 import ui.base.Tab;

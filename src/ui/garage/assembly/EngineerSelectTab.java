@@ -1,19 +1,25 @@
-package ui.garage;
+package ui.garage.assembly;
 
+import data.crew.Engineer;
+import data.crew.JobType;
 import game.GameSession;
-import ui.base.MainTab;
 import ui.base.Tab;
-import ui.garage.assembly.CarAssemblyTab;
 import ui.handling.ConsoleControl;
 
-public class GarageTab extends Tab {
+import java.util.List;
 
-    public GarageTab(GameSession gm) {
+public class EngineerSelectTab extends Tab{
+    List<Engineer> availableEngineers;
+    RacecarSample sample;
+
+    public EngineerSelectTab(GameSession gm, RacecarSample sample) {
         super(gm);
+        this.sample = sample;
     }
 
     @Override
     public Tab show() {
+        availableEngineers = gm.dorm().getEmployeesByJob(JobType.ENGINEER).stream().map(x -> (Engineer)x).toList();
         outputMain();
         return menuHandler();
     }
@@ -22,41 +28,40 @@ public class GarageTab extends Tab {
     protected void printListOfMenus(){
         ConsoleControl.printlnString(gm.getSponsor());
         ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("ВАШ ГАРАЖ");
+        ConsoleControl.printlnString(JobType.ENGINEER.getEmployGroupTitle());
 
-        if(gm.garage().getCarsNumber() > 0){
-            printCarsCatalog();
+        if(availableEngineers.isEmpty()){
+            printListOfMenusNoParts();
         }
         else{
-            printEmptyGarage();
+            printListOfMenusMain();
         }
 
-        ConsoleControl.printlnString("[+] Собрать новый автомобиль");
-        ConsoleControl.printlnString("[0] Выход в меню");
+        ConsoleControl.printlnString("[0] Вернуться к сборке");
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private void printCarsCatalog(){
-        ConsoleControl.printlnString("В гараже стоят следующие авто");
-
-        ConsoleControl.printlnString(gm.garage().generateStringCatalog());
-
+    private void printListOfMenusNoParts(){
+        ConsoleControl.printlnString("В общежитии нет инженеров");
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[N] Открыть карточку машины N");
     }
 
-    private void printEmptyGarage(){
-        ConsoleControl.printlnString("Гараж пустует");
+    private void printListOfMenusMain(){
+        int counter = 1;
+        for(Engineer engi : availableEngineers){
+            ConsoleControl.printlnString("[" + counter++ + "] " + engi.getName() + " " + engi.getPostfix());
+        }
+
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString("=============================================");
+        ConsoleControl.printlnString("[N] Выбрать инженера под номером N");
     }
 
     private Tab menuHandler(){
         String request;
         Tab response = null;
-
 
         while (response == null){
             request = ConsoleControl.getString();
@@ -72,10 +77,7 @@ public class GarageTab extends Tab {
 
     private Tab selectResponse(String req){
         if(req.equals("0")){
-            return new MainTab(gm);
-        }
-        if(req.equals("+")){
-            return new CarAssemblyTab(gm);
+            return new CarAssemblyTab(gm, sample);
         }
 
         int index;
@@ -86,8 +88,9 @@ public class GarageTab extends Tab {
             return null;
         }
 
-        if(gm.garage().getCarsNumber() > 0 && index >= 1  && index <= gm.garage().getCarsNumber()){
-            return new GarageCarInfoTab(gm, gm.garage().getCarById(gm.garage().getKeys().get(index - 1)));
+        if(index >= 1 && index <= availableEngineers.size()){
+            sample.setEngineer(availableEngineers.get(index - 1));
+            return new CarAssemblyTab(gm, sample);
         }
         else {
             return null;

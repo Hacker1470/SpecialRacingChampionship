@@ -1,6 +1,7 @@
 package data.vehicle;
 
 import data.catalogs.CatalogOfParts;
+import data.vehicle.enums.PartType;
 
 import java.util.List;
 

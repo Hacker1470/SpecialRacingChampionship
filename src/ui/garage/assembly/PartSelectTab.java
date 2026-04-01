@@ -1,18 +1,19 @@
-package ui.garage;
+package ui.garage.assembly;
 
 import data.vehicle.*;
+import data.vehicle.enums.PartType;
 import game.GameSession;
 import ui.base.Tab;
 import ui.handling.ConsoleControl;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class CarAssemblyPartSelectTab extends Tab {
-    ArrayList<Part> availableParts;
+public class PartSelectTab extends Tab {
+    List<Part> availableParts;
     RacecarSample sample;
     PartType type;
 
-    public CarAssemblyPartSelectTab(GameSession gm, RacecarSample sample, PartType type) {
+    public PartSelectTab(GameSession gm, RacecarSample sample, PartType type) {
         super(gm);
         this.sample = sample;
         this.type = type;
@@ -20,7 +21,7 @@ public class CarAssemblyPartSelectTab extends Tab {
 
     @Override
     public Tab show() {
-        availableParts = gm.warehouse().getParts(type);
+        availableParts = gm.warehouse().getPartsByType(type);
         outputMain();
         return menuHandler();
     }
@@ -50,35 +51,27 @@ public class CarAssemblyPartSelectTab extends Tab {
     }
 
     private void printListOfMenusMain(){
-        for(int i = 1; i <= availableParts.size(); i++){
-            ConsoleControl.printlnString("[" + i + "] " + availableParts.get(i - 1).getName());
-            ConsoleControl.printlnString("");
-            ConsoleControl.printlnString("=============================================");
-            ConsoleControl.printlnString("[N] Выбрать деталь под номером N");
+        int counter = 1;
+        for(Part part : availableParts){
+            ConsoleControl.printlnString("[" + counter++ + "] " + part.getName() + " " + part.getPostfix());
         }
+
+        ConsoleControl.printlnString("");
+        ConsoleControl.printlnString("=============================================");
+        ConsoleControl.printlnString("[N] Выбрать деталь под номером N");
     }
 
     private Tab menuHandler(){
         String request;
         Tab response = null;
 
-
         while (response == null){
             request = ConsoleControl.getString();
 
-            if(request.equals("0")){
-                response = new CarAssemblyTab(gm, sample);
-            }
-            else if(Integer.parseInt(request) > 0 && Integer.parseInt(request) <= availableParts.size()){
-                setPartToSample(Integer.parseInt(request) - 1);
-                response = new CarAssemblyTab(gm, sample);
-            }
-            else{
+            response = selectResponse(request);
+            if (response == null){
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
-
-            //если пользователь ввёл неправильное значение
-            outputWithWarn("Меню не имеет пункта: " + request);
         }
 
         return response;

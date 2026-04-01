@@ -1,14 +1,16 @@
-package ui.garage;
+package ui.dorm;
 
 import game.GameSession;
 import ui.base.MainTab;
 import ui.base.Tab;
-import ui.garage.assembly.CarAssemblyTab;
 import ui.handling.ConsoleControl;
+import ui.warehouse.WarehousePartInfoTab;
 
-public class GarageTab extends Tab {
+import java.util.List;
 
-    public GarageTab(GameSession gm) {
+public class DormTab extends Tab{
+
+    public DormTab(GameSession gm) {
         super(gm);
     }
 
@@ -22,33 +24,32 @@ public class GarageTab extends Tab {
     protected void printListOfMenus(){
         ConsoleControl.printlnString(gm.getSponsor());
         ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("ВАШ ГАРАЖ");
+        ConsoleControl.printlnString("========== ОБЩАГА ========");
 
-        if(gm.garage().getCarsNumber() > 0){
-            printCarsCatalog();
+        if(gm.dorm().getQuantityOfEmployees() > 0){
+            printEmployeesCatalog();
         }
         else{
-            printEmptyGarage();
+            printEmptyDorm();
         }
 
-        ConsoleControl.printlnString("[+] Собрать новый автомобиль");
-        ConsoleControl.printlnString("[0] Выход в меню");
+        ConsoleControl.printlnString("[0] Вернуться в меню");
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private void printCarsCatalog(){
-        ConsoleControl.printlnString("В гараже стоят следующие авто");
+    private void printEmployeesCatalog(){
+        ConsoleControl.printlnString("В общежитии находятся следующие люди");
 
-        ConsoleControl.printlnString(gm.garage().generateStringCatalog());
+        ConsoleControl.printlnString(gm.dorm().generateStringCatalog());
 
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[N] Открыть карточку машины N");
+        ConsoleControl.printlnString("[N] Подробнее о работнике N");
     }
 
-    private void printEmptyGarage(){
-        ConsoleControl.printlnString("Гараж пустует");
+    private void printEmptyDorm(){
+        ConsoleControl.printlnString("В общежитии никого нет");
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString("=============================================");
     }
@@ -56,7 +57,6 @@ public class GarageTab extends Tab {
     private Tab menuHandler(){
         String request;
         Tab response = null;
-
 
         while (response == null){
             request = ConsoleControl.getString();
@@ -74,9 +74,6 @@ public class GarageTab extends Tab {
         if(req.equals("0")){
             return new MainTab(gm);
         }
-        if(req.equals("+")){
-            return new CarAssemblyTab(gm);
-        }
 
         int index;
         try {
@@ -86,8 +83,10 @@ public class GarageTab extends Tab {
             return null;
         }
 
-        if(gm.garage().getCarsNumber() > 0 && index >= 1  && index <= gm.garage().getCarsNumber()){
-            return new GarageCarInfoTab(gm, gm.garage().getCarById(gm.garage().getKeys().get(index - 1)));
+        List<Long> keys = gm.dorm().getKeysAscending();
+
+        if(index <= keys.size() && index >= 1) {
+            return new DormEmployeeInfoTab(gm, gm.dorm().getEmployeeById(keys.get(index - 1)));
         }
         else {
             return null;

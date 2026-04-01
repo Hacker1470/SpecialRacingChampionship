@@ -1,10 +1,22 @@
-package data.vehicle;
+package ui.garage.assembly;
+
+import data.crew.Engineer;
+import data.vehicle.*;
+import ui.garage.assembly.assemblyexceptions.NoEngineerAssemblyException;
+import ui.garage.assembly.assemblyexceptions.NoPartAssemblyException;
+import ui.garage.assembly.assemblyexceptions.UnmatchingPartsAssemblyException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RacecarSample extends Racecar {
+
+    private Engineer engineer;
 
     public RacecarSample() {
         super(Long.MIN_VALUE, "none", null, null, null,
                 null, null, null);
+        engineer = null;
     }
 
     public void setChassis(Chassis chassis){
@@ -26,6 +38,10 @@ public class RacecarSample extends Racecar {
         this.wheels = wheels;
     }
 
-
-
+    public Engineer getEngineer(){
+        return engineer;
+    }
+    public void setEngineer(Engineer engineer){
+        this.engineer = engineer;
+    }
 }

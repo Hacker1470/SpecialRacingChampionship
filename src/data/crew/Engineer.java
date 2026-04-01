@@ -30,6 +30,16 @@ public class Engineer extends Employee{
         return sb.toString();
     }
 
+    public int getWawyHands(){
+        return wawyHands;
+    }
+    public int getScrewing(){
+        return screwing;
+    }
+    public int getMaintance(){
+        return maintance;
+    }
+
     @Override
     public Employee getCopy(Long idNew) {
         return new Engineer(

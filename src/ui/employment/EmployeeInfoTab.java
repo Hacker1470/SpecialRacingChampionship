@@ -49,7 +49,7 @@ public class EmployeeInfoTab extends Tab {
                     break;
                 case "1":
                     if(hireEmployee()){
-                        outputWithWarn("Специалист " + chosenEmployee.getName() + " нанят на работу");
+                        response = new EmployeeNamingTab(gm, gm.dorm().getEmployeeById(idCounter - 1));
                     }
                     else {
                         outputWithWarn("Недостаточно средств");
@@ -64,8 +64,7 @@ public class EmployeeInfoTab extends Tab {
     }
 
     private boolean hireEmployee(){
-        if(gm.getMoney() - chosenEmployee.getHiringCost() >= 0) {
-            gm.takeMoney(chosenEmployee.getHiringCost());
+        if(gm.takeMoney(chosenEmployee.getHiringCost())) {
             gm.dorm().put(chosenEmployee.getCopy(idCounter++));
             return true;
         }

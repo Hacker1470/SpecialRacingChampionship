@@ -1,13 +1,14 @@
 package data.vehicle;
 
 import data.catalogs.CatalogOfParts;
+import data.vehicle.enums.PartType;
 
 import java.util.List;
 
 public class Suspension extends Part {
-    public Integer hardness; //Твёрдость подвески. Чем больше твёрдость, тем лучше характеристики на трассах с ровным
+    private final Integer hardness; //Твёрдость подвески. Чем больше твёрдость, тем лучше характеристики на трассах с ровным
     // и твёрдым покрытием
-    public Integer stability; //Стабильность. Чем больше, тем лучше преодолеваются повороты
+    private final Integer stability; //Стабильность. Чем больше, тем лучше преодолеваются повороты
 
     public Suspension(long id, String article, String name, int stockPrice, int quality, int mass, int damage,
                       int reputationLevel, List<String> connectivity, int hardness, int stability){
@@ -20,6 +21,10 @@ public class Suspension extends Part {
     @Override
     public int getRealPrice(){
         return getStockPrice() * (getDamage() + getQuality()) / 100;
+    }
+
+    public int getStability(){
+        return stability;
     }
 
     @Override

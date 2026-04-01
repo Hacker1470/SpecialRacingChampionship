@@ -1,5 +1,6 @@
 package ui.garage;
 
+import data.vehicle.enums.PartType;
 import data.vehicle.Racecar;
 import game.GameSession;
 import ui.base.Tab;
@@ -24,6 +25,8 @@ public class GarageCarInfoTab extends Tab {
     protected void printListOfMenus(){
         ConsoleControl.printlnString("ЗДЕСЬ МОГЛА БЫТЬ ВАША РЕКЛАМА");
         ConsoleControl.printlnString("");
+
+        printCharacteristics();
 
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("[1] Разобрать");
@@ -61,11 +64,15 @@ public class GarageCarInfoTab extends Tab {
         gm.warehouse().put(chosenCar.getEngine());
         gm.warehouse().put(chosenCar.getTransmission());
         gm.warehouse().put(chosenCar.getChassis());
-        gm.warehouse().put(chosenCar.getSuspension());
         gm.warehouse().put(chosenCar.getWheels());
-        gm.warehouse().put(chosenCar.getDownforcePart());
+        if(chosenCar.getSuspension() != null){
+            gm.warehouse().put(chosenCar.getSuspension());
+        }
+        if(chosenCar.getDownforcePart() != null){
+            gm.warehouse().put(chosenCar.getDownforcePart());
+        }
 
-        gm.garage().deleteCar(chosenCar);
+        gm.garage().deleteCar(chosenCar.getId());
         chosenCar = null;
         /*
         * 20 03 2026 закончил здесь
@@ -74,5 +81,25 @@ public class GarageCarInfoTab extends Tab {
         *
         * Далее продолжить делать сборку машины и тд
         * */
+    }
+
+    private void printCharacteristics(){
+        ConsoleControl.printlnString("Болид: " + chosenCar.getName());
+        ConsoleControl.printlnString(PartType.CHASSIS.getMarketInfoTitle());
+        ConsoleControl.printlnString(chosenCar.getChassis().getStringOfCharacteristics());
+        ConsoleControl.printlnString(PartType.ENGINE.getMarketInfoTitle());
+        ConsoleControl.printlnString(chosenCar.getEngine().getStringOfCharacteristics());
+        ConsoleControl.printlnString(PartType.TRANSMISSION.getMarketInfoTitle());
+        ConsoleControl.printlnString(chosenCar.getTransmission().getStringOfCharacteristics());
+        ConsoleControl.printlnString(PartType.WHEELS.getMarketInfoTitle());
+        ConsoleControl.printlnString(chosenCar.getWheels().getStringOfCharacteristics());
+        if(chosenCar.getSuspension() != null){
+            ConsoleControl.printlnString(PartType.SUSPENSION.getMarketInfoTitle());
+            ConsoleControl.printlnString(chosenCar.getSuspension().getStringOfCharacteristics());
+        }
+        if(chosenCar.getSuspension() != null){
+            ConsoleControl.printlnString(PartType.DOWNFORCE.getMarketInfoTitle());
+            ConsoleControl.printlnString(chosenCar.getDownforcePart().getStringOfCharacteristics());
+        }
     }
 }

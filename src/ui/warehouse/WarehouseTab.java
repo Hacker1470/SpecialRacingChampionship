@@ -1,14 +1,17 @@
-package ui.garage;
+package ui.warehouse;
 
 import game.GameSession;
 import ui.base.MainTab;
 import ui.base.Tab;
-import ui.garage.assembly.CarAssemblyTab;
 import ui.handling.ConsoleControl;
+import ui.market.MarketPartInfoTab;
 
-public class GarageTab extends Tab {
+import java.util.ArrayList;
+import java.util.List;
 
-    public GarageTab(GameSession gm) {
+public class WarehouseTab extends Tab {
+
+    public WarehouseTab(GameSession gm) {
         super(gm);
     }
 
@@ -22,33 +25,32 @@ public class GarageTab extends Tab {
     protected void printListOfMenus(){
         ConsoleControl.printlnString(gm.getSponsor());
         ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("ВАШ ГАРАЖ");
+        ConsoleControl.printlnString("========== СКЛАДБИЩЕ ========");
 
-        if(gm.garage().getCarsNumber() > 0){
-            printCarsCatalog();
+        if(gm.warehouse().getQuantityOfParts() > 0){
+            printPartsCatalog();
         }
         else{
-            printEmptyGarage();
+            printEmptyWarehouse();
         }
 
-        ConsoleControl.printlnString("[+] Собрать новый автомобиль");
-        ConsoleControl.printlnString("[0] Выход в меню");
+        ConsoleControl.printlnString("[0] Вернуться в меню");
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private void printCarsCatalog(){
-        ConsoleControl.printlnString("В гараже стоят следующие авто");
+    private void printPartsCatalog(){
+        ConsoleControl.printlnString("На складе лежат следующие детали");
 
-        ConsoleControl.printlnString(gm.garage().generateStringCatalog());
+        ConsoleControl.printlnString(gm.warehouse().generateStringCatalog());
 
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[N] Открыть карточку машины N");
+        ConsoleControl.printlnString("[N] Подробнее о детали N");
     }
 
-    private void printEmptyGarage(){
-        ConsoleControl.printlnString("Гараж пустует");
+    private void printEmptyWarehouse(){
+        ConsoleControl.printlnString("Склад пустует");
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString("=============================================");
     }
@@ -56,7 +58,6 @@ public class GarageTab extends Tab {
     private Tab menuHandler(){
         String request;
         Tab response = null;
-
 
         while (response == null){
             request = ConsoleControl.getString();
@@ -74,9 +75,6 @@ public class GarageTab extends Tab {
         if(req.equals("0")){
             return new MainTab(gm);
         }
-        if(req.equals("+")){
-            return new CarAssemblyTab(gm);
-        }
 
         int index;
         try {
@@ -86,8 +84,10 @@ public class GarageTab extends Tab {
             return null;
         }
 
-        if(gm.garage().getCarsNumber() > 0 && index >= 1  && index <= gm.garage().getCarsNumber()){
-            return new GarageCarInfoTab(gm, gm.garage().getCarById(gm.garage().getKeys().get(index - 1)));
+        List<Long> keys = gm.warehouse().getKeysAscending();
+
+        if(index <= keys.size() && index >= 1) {
+            return new WarehousePartInfoTab(gm, gm.warehouse().getPartById(keys.get(index - 1)));
         }
         else {
             return null;

@@ -1,10 +1,12 @@
 package ui.base;
 
 import game.GameSession;
+import ui.dorm.DormTab;
 import ui.employment.EmployTab;
 import ui.garage.GarageTab;
 import ui.handling.ConsoleControl;
 import ui.market.MarketTab;
+import ui.warehouse.WarehouseTab;
 
 public class MainTab extends Tab {
 
@@ -59,9 +61,9 @@ public class MainTab extends Tab {
             case "1" -> null;
             case "2" -> null;
             case "3" -> new GarageTab(gm);
-            case "4" -> null;
+            case "4" -> new WarehouseTab(gm);
             case "5" -> new MarketTab(gm);
-            case "6" -> null;
+            case "6" -> new DormTab(gm);
             case "7" -> new EmployTab(gm);
             default -> null;
         };
