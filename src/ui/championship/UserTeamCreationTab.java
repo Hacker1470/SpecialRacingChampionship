@@ -1,43 +1,36 @@
-package ui.garage.assembly;
+package ui.championship;
 
 import data.crew.Engineer;
+import data.crew.Pilot;
+import data.race.Team;
 import data.vehicle.*;
 import data.vehicle.enums.PartType;
 import game.GameSession;
 import ui.base.Tab;
 import ui.garage.GarageTab;
+import ui.garage.assembly.CarNamingTab;
+import ui.garage.assembly.EngineerSelectTab;
+import ui.garage.assembly.PartSelectTab;
 import ui.garage.assembly.assemblyexceptions.*;
 import ui.handling.ConsoleControl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarAssemblyTab extends Tab {
-    private RacecarSample sample;
-    private String warn = null;
+public class UserTeamCreationTab extends Tab {
+    private Team team;
 
-    public CarAssemblyTab(GameSession gm) {
+    public UserTeamCreationTab(GameSession gm) {
+        this(gm, new Team());
+    }
+    public UserTeamCreationTab(GameSession gm, Team team) {
         super(gm);
-        sample = new RacecarSample();
-    }
-    public CarAssemblyTab(GameSession gm, RacecarSample sample) {
-        this(gm);
-        this.sample = sample;
-    }
-    public CarAssemblyTab(GameSession gm, RacecarSample sample, String warn) {
-        this(gm);
-        this.sample = sample;
-        this.warn = warn;
+        this.team = team;
     }
 
     @Override
     public Tab show() {
-        if(warn == null){
-            outputMain();
-        }
-        else {
-            outputWithWarn(warn);
-        }
+        outputMain();
         return menuHandler();
     }
 
@@ -45,39 +38,33 @@ public class CarAssemblyTab extends Tab {
     protected void printListOfMenus(){
         ConsoleControl.printlnString(gm.getSponsor());
         ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("Выберите детали для сборки авто");
-        ConsoleControl.printlnString("[1] Шасси\t\t\t\t" + getLinePart(sample.getChassis()));
-        ConsoleControl.printlnString("[2] Двигатель\t\t\t" + getLinePart(sample.getEngine()));
-        ConsoleControl.printlnString("[3] Трансмиссия\t\t\t" + getLinePart(sample.getTransmission()));
-        ConsoleControl.printlnString("[4] Прижимная деталь\t" + getLinePart(sample.getDownforcePart()));
-        ConsoleControl.printlnString("[5] Подвеска\t\t\t" + getLinePart(sample.getSuspension()));
-        ConsoleControl.printlnString("[6] Колёса\t\t\t\t" + getLinePart(sample.getWheels()));
+        ConsoleControl.printlnString("Соберите команду");
+        ConsoleControl.printlnString("[1] Болид\t\t\t\t" + getLine(team.getCar()));
+        ConsoleControl.printlnString("[2] Пилот\t\t\t" + getLine(team.getPilot()));
         ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Назначьте инженера, который будет собирать болид");
-        ConsoleControl.printlnString("[*] Инженер\t\t\t\t" + getLineEngineer(sample.getEngineer()));
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[N] Выбрать деталь N со склада");
-        ConsoleControl.printlnString("[*] Выбрать инженера из общаги");
-        ConsoleControl.printlnString("[+] Собрать болид");
+        ConsoleControl.printlnString("[1] Выбрать деталь N со склада");
+        ConsoleControl.printlnString("[2] Выбрать инженера из общаги");
+        ConsoleControl.printlnString("[+] Начать гонку");
         ConsoleControl.printlnString("[0] Вернуться к списку авто");
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private String getLinePart(Part part) {
-        if(part != null) {
-            return "(выбрано: " + part.getName() + " " + part.getPostfix() + ")";
+    private String getLine(Racecar car) {
+        if(car != null) {
+            return "(выбрано: " + car.getName() + ")";
         }
         else {
             return "(не выбрано)";
         }
     }
-    private String getLineEngineer(Engineer engineer) {
-        if(engineer != null) {
-            return "(выбран: " + engineer.getName() + " " + engineer.getPostfix() + ")";
+
+    private String getLine(Pilot pilot) {
+        if(pilot != null) {
+            return "(выбрано: " + pilot.getName() + " " + pilot.getPostfix() + ")";
         }
         else {
-            return "(не выбран)";
+            return "(не выбрано)";
         }
     }
 
@@ -99,15 +86,10 @@ public class CarAssemblyTab extends Tab {
 
     private Tab selectResponse(String req){
         return switch (req) {
-            case "1" -> new PartSelectTab(gm, sample, PartType.CHASSIS);
-            case "2" -> new PartSelectTab(gm, sample, PartType.ENGINE);
-            case "3" -> new PartSelectTab(gm, sample, PartType.TRANSMISSION);
-            case "4" -> new PartSelectTab(gm, sample, PartType.DOWNFORCE);
-            case "5" -> new PartSelectTab(gm, sample, PartType.SUSPENSION);
-            case "6" -> new PartSelectTab(gm, sample, PartType.WHEELS);
-            case "*" -> new EngineerSelectTab(gm, sample);
-            case "+" -> assembleRacecar();
-            case "0" -> new GarageTab(gm);
+            case "1" -> new PilotSelectTab(gm, team);
+            case "2" -> new CarSelectTab(gm, team);
+            case "+" -> new Race(gm, team);
+            case "0" -> new ChampionshipTab(gm);
             default -> null;
         };
     }
@@ -122,7 +104,7 @@ public class CarAssemblyTab extends Tab {
                 EngineerWantsMoneyException |
                 NoPartAssemblyException |
                 UnmatchingPartsAssemblyException e){
-            return new CarAssemblyTab(gm, sample,
+            return new UserTeamCreationTab(gm, sample,
                     "Авто не может быть собрано.\n" + e.getMessage());
         }
     }

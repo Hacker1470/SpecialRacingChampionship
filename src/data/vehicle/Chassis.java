@@ -1,15 +1,18 @@
 package data.vehicle;
 
+import data.special.PilotCoefMng;
 import data.catalogs.CatalogOfParts;
+import data.crew.Pilot;
+import data.race.map.MapTerrain;
 import data.vehicle.enums.PartType;
 
 import java.util.List;
 
-public class Chassis extends Part {
-    private int aerodynamics;
-    private int maxWeight;
+public class Chassis extends Part{
+    private final int aerodynamics;
+    private final int maxWeight;
 
-    public Chassis(long id, String article, String name, int stockPrice, int quality, int mass, int damage,
+    public Chassis(long id, String article, String name, int stockPrice, int quality, int mass, double damage,
                    int reputationLevel, List<String> connectivity, int aerodynamics, int maxWeight){
         super(id, PartType.CHASSIS, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
@@ -26,7 +29,7 @@ public class Chassis extends Part {
 
     @Override
     public int getRealPrice(){
-        return getStockPrice() * (getDamage() + getQuality()) / 100;
+        return getStockPrice() * ((int)getDamage() + getQuality()) / 100;
     }
 
     @Override
@@ -66,5 +69,18 @@ public class Chassis extends Part {
                 List.copyOf(getConnectivity()),
                 aerodynamics,
                 maxWeight);
+    }
+
+    /**
+     * Δ_шасси_база = (K_нагрузка × K_агрессия × K_участок_шасси) / 100
+     * @param terrain
+     * @param racecar
+     * @param pilot
+     * @return
+     */
+    @Override
+    public double getBaseDamage(double coefficient, MapTerrain terrain, Racecar racecar, Pilot pilot) {
+        return 100 * coefficient * PilotCoefMng.getAggressionCoef(pilot)
+                * terrain.getAverageSpeed(racecar, pilot) / racecar.getMaxPotentialSpeed();
     }
 }

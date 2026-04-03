@@ -1,14 +1,16 @@
 package data.vehicle;
 
 import data.catalogs.CatalogOfParts;
+import data.crew.Pilot;
+import data.race.map.MapTerrain;
 import data.vehicle.enums.PartType;
 
 import java.util.List;
 
-public class DownforcePart extends Part {
-    private int downforce; //Прижимная сила. Улучшает управляемость и сцепление с дорогой
+public class DownforcePart extends Part{
+    private final int downforce; //Прижимная сила. Улучшает управляемость и сцепление с дорогой
 
-    public DownforcePart(long id, String article, String name, int stockPrice, int quality, int mass, int damage,
+    public DownforcePart(long id, String article, String name, int stockPrice, int quality, int mass, double damage,
                          int reputationLevel, List<String> connectivity, int downforce){
         super(id, PartType.DOWNFORCE, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
@@ -21,7 +23,7 @@ public class DownforcePart extends Part {
 
     @Override
     public int getRealPrice(){
-        return getStockPrice() * (getDamage() + getQuality()) / 100;
+        return getStockPrice() * ((int)getDamage() + getQuality()) / 100;
     }
 
     @Override
@@ -59,5 +61,17 @@ public class DownforcePart extends Part {
                 getReputationLevel(),
                 List.copyOf(getConnectivity()),
                 downforce);
+    }
+
+    /**
+     * Δ_спойлер_база = (V_участка / V_max_потенциал) × K_участок_спойлер
+     * @param terrain
+     * @param racecar
+     * @param pilot
+     * @return
+     */
+    @Override
+    public double getBaseDamage(double coefficient, MapTerrain terrain, Racecar racecar, Pilot pilot) {
+        return terrain.getAverageSpeed(racecar, pilot) * coefficient / racecar.getMaxPotentialSpeed();
     }
 }

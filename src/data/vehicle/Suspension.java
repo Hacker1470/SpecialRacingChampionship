@@ -1,6 +1,8 @@
 package data.vehicle;
 
 import data.catalogs.CatalogOfParts;
+import data.crew.Pilot;
+import data.race.map.MapTerrain;
 import data.vehicle.enums.PartType;
 
 import java.util.List;
@@ -10,7 +12,7 @@ public class Suspension extends Part {
     // и твёрдым покрытием
     private final Integer stability; //Стабильность. Чем больше, тем лучше преодолеваются повороты
 
-    public Suspension(long id, String article, String name, int stockPrice, int quality, int mass, int damage,
+    public Suspension(long id, String article, String name, int stockPrice, int quality, int mass, double damage,
                       int reputationLevel, List<String> connectivity, int hardness, int stability){
         super(id, PartType.SUSPENSION, article, name, stockPrice, quality, mass, damage,reputationLevel, connectivity);
 
@@ -20,7 +22,7 @@ public class Suspension extends Part {
 
     @Override
     public int getRealPrice(){
-        return getStockPrice() * (getDamage() + getQuality()) / 100;
+        return getStockPrice() * ((int)getDamage() + getQuality()) / 100;
     }
 
     public int getStability(){
@@ -64,5 +66,18 @@ public class Suspension extends Part {
                 List.copyOf(getConnectivity()),
                 hardness,
                 stability);
+    }
+
+    /**
+     * Δ_подвеска_база = (Градус / 180) × (V_участка / 100) × K_поверхность
+     * @param coefficient
+     * @param terrain
+     * @param racecar
+     * @param pilot
+     * @return
+     */
+    @Override
+    public double getBaseDamage(double coefficient, MapTerrain terrain, Racecar racecar, Pilot pilot) {
+        return racecar.getEngine().getPower() * racecar.getEngine().getMaxRpm() * coefficient / 2500000;
     }
 }

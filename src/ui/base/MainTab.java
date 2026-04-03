@@ -1,6 +1,7 @@
 package ui.base;
 
 import game.GameSession;
+import ui.championship.ChampionshipTab;
 import ui.dorm.DormTab;
 import ui.employment.EmployTab;
 import ui.garage.GarageTab;
@@ -58,7 +59,7 @@ public class MainTab extends Tab {
 
     private Tab selectResponse(String req){
         return switch (req) {
-            case "1" -> null;
+            case "1" -> new ChampionshipTab(gm);
             case "2" -> null;
             case "3" -> new GarageTab(gm);
             case "4" -> new WarehouseTab(gm);

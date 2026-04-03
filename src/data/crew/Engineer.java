@@ -59,4 +59,8 @@ public class Engineer extends Employee{
     public int getHiringCost() {
         return getStockFee() * (1 + getExperience()/10 + wawyHands * screwing * maintance / 1000);
     }
+
+    public int getAssembleFee() {
+        return getStockFee();
+    }
 }

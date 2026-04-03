@@ -10,12 +10,12 @@ public class TransmissionList {
             "tran_1_0",
             "Цепная передача",
             0,
-            10,
+            30,
             50,
             30,
             0,
             List.of("engi_1_0"),
-            15,
+            30,
             1
             );
 
@@ -24,12 +24,12 @@ public class TransmissionList {
             "tran_2_0",
             "КПП ZovAuto",
             20,
-            200,
+            90,
             10,
             700,
             10,
             List.of("engi_2_0", "engi_3_0"),
-            90,
+            200,
             5);
 
     public static Transmission magnum = new Transmission(
@@ -37,11 +37,11 @@ public class TransmissionList {
             "tran_3_0",
             "КПП Magnum",
             50,
-            320,
+            27,
             5,
             14,
             27,
             List.of("engi_3_0"),
-            125,
+            260,
             8);
 }

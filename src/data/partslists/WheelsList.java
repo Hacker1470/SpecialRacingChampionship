@@ -10,12 +10,12 @@ public class WheelsList {
             "whel_1_0",
             "Колёса от велосипеда",
             0,
-            10,
+            50,
             50,
             30,
             0,
             List.of(),
-            15);
+            20);
 
     public static Wheels normWheels = new Wheels(
             Long.MIN_VALUE,
@@ -24,20 +24,20 @@ public class WheelsList {
             5,
             30,
             20,
-            90,
+            60,
             2,
             List.of(),
-            36);
+            40);
 
     public static Wheels niceWheels = new Wheels(
             Long.MIN_VALUE,
             "whel_3_0",
             "Цилиндрические колёса в каучуке",
             15,
-            50,
+            70,
             1,
-            150,
+            20,
             9,
             List.of(),
-            72);
+            65);
 }

@@ -12,7 +12,7 @@ public class FirstTest {
     @Test
     public void test(){
         Engine e = new Engine(
-                228,
+                42,
                 "a",
                 "b",
                 3,
@@ -24,7 +24,7 @@ public class FirstTest {
                 9,
                 10
         );
-        assertEquals(228, e.getId());
+        assertEquals(42, e.getId());
         assertEquals("a", e.getArticle());
         assertEquals("b", e.getName());
         assertEquals(3, e.getStockPrice());

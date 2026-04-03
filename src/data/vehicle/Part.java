@@ -5,7 +5,7 @@ import data.vehicle.enums.PartType;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Part {
+public abstract class Part implements IDamageble{
     /*
     Я бы заменил damage, connectionReliability и quality на тип byte, а mass на тип short
     */
@@ -43,7 +43,7 @@ public abstract class Part {
 
     private final int quality;
     private final int mass;
-    private int damage;
+    private double damage;
 
     /**
      * Качество соединения. Зависит от мастерства инженера
@@ -60,7 +60,8 @@ public abstract class Part {
      */
     private final List<String> connectivity;
 
-    public Part(Long id, PartType type, String article, String name, int stockPrice, int quality, int mass, int damage,
+    public Part(Long id, PartType type, String article, String name, int stockPrice,
+                int quality, int mass, double damage,
                 int reputationLevel, List<String> connectivity){
         this.id = id;
         this.type = type;
@@ -77,7 +78,8 @@ public abstract class Part {
         this.connectivity.addAll(connectivity);
     }
 
-    public Part(Long id, PartType type, String article, String name, String postfix, int stockPrice, int quality, int mass, int damage,
+    public Part(Long id, PartType type, String article, String name, String postfix, int stockPrice,
+                int quality, int mass, double damage,
                 int reputationLevel, List<String> connectivity){
         this(id, type, article, name, stockPrice, quality, mass, damage, reputationLevel,connectivity);
         this.postfix = postfix;
@@ -107,7 +109,7 @@ public abstract class Part {
     public int getMass(){
         return mass;
     }
-    public int getDamage(){
+    public double getDamage(){
         return damage;
     }
     public int getConnectionReliability(){
@@ -123,11 +125,23 @@ public abstract class Part {
     public void setPostfix(String newValue){
         postfix = newValue;
     }
-    public void setDamage(int newValue){
+    public void setDamage(double newValue) throws PartBrokeException {
         damage = newValue;
+        if(damage >= 100){
+            damage = 100;
+            throw new PartBrokeException("Сломалос", this);
+        }
     }
     public void setConnectionReliability(int newValue){
-        connectionReliability = newValue;
+        if(newValue < 0){
+            connectionReliability = 0;
+        }
+        else if (newValue <= 100){
+            connectionReliability = newValue;
+        }
+        else {
+            connectionReliability = 100;
+        }
     }
 
     public abstract String getStringOfCharacteristics();

@@ -10,22 +10,22 @@ public class DownforcePartList {
             "dwfr_1",
             "Три кирпича",
             0,
-            15,
+            20,
             20,
             50,
             1,
             List.of(),
-            15);
+            20);
 
     public static DownforcePart spoiler = new DownforcePart(
             Long.MIN_VALUE,
             "dwfr_2",
             "Спойлер",
             8,
-            5,
+            50,
             2,
             250,
             10,
             List.of(),
-            50);
+            40);
 }

@@ -17,25 +17,25 @@ public class EnginesList {
             "engi_1_0",
             "Велосипедные педали",
             0,
-            5,
-            50,
+            10,
+            1,
             10,
             0,
             List.of("tran_1_0"),
-            1,
-            60);
+            5,
+            500);
 
     public static Engine lada = new Engine(
             Long.MIN_VALUE,
             "engi_2_0",
             "Двигатель ZovAuto",
             20,
-            300,
-            10,
+            50,
+            50,
             50,
             10,
             List.of("tran_2_0"),
-            50,
+            300,
             2000);
 
     public static Engine sigma = new Engine(
@@ -43,11 +43,11 @@ public class EnginesList {
             "engi_3_0",
             "Двигатель Sigma",
             50,
-            400,
-            5,
+            80,
+            80,
             1000,
             28,
             List.of("tran_2_0", "tran_3_0", "chas_2_0", "chas_3_0"),
-            80,
-            3000);
+            400,
+            5000);
 }

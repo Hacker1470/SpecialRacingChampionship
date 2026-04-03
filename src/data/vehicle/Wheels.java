@@ -1,14 +1,16 @@
 package data.vehicle;
 
 import data.catalogs.CatalogOfParts;
+import data.crew.Pilot;
+import data.race.map.MapTerrain;
 import data.vehicle.enums.PartType;
 
 import java.util.List;
 
 public class Wheels extends Part{
-    private Integer adhesion; //Адгезия. Чем больше, тем лучше сцепление с дорогой при влажном или рыхлом покрытии
+    private final Integer adhesion; //Адгезия. Чем больше, тем лучше сцепление с дорогой при влажном или рыхлом покрытии
 
-    public Wheels(long id, String article, String name, int stockPrice, int quality, int mass, int damage,
+    public Wheels(long id, String article, String name, int stockPrice, int quality, int mass, double damage,
                   int reputationLevel, List<String> connectivity, int adhesion){
         super(id, PartType.WHEELS, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
@@ -17,7 +19,7 @@ public class Wheels extends Part{
 
     @Override
     public int getRealPrice(){
-        return getStockPrice() * (getDamage() + getQuality()) / 100;
+        return getStockPrice() * ((int)getDamage() + getQuality()) / 100;
     }
 
     public int getAdhesion(){
@@ -59,5 +61,18 @@ public class Wheels extends Part{
                 getReputationLevel(),
                 List.copyOf(getConnectivity()),
                 adhesion);
+    }
+
+    /**
+     * Δ_колёса_база = (1 + (100 - Сцепление) / 100) × K_поверхность × K_участок_колеса
+     * @param coefficient
+     * @param terrain
+     * @param racecar
+     * @param pilot
+     * @return
+     */
+    @Override
+    public double getBaseDamage(double coefficient, MapTerrain terrain, Racecar racecar, Pilot pilot) {
+        return 1 + terrain.getSurface().getCoefficient() * coefficient * (100 - adhesion) / 100;
     }
 }

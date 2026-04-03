@@ -1,29 +1,19 @@
 package data.race.map;
 
 import data.crew.Pilot;
-import data.race.map.enums.Surface;
-import data.race.map.enums.Weather;
+import data.race.map.enums.SurfaceType;
+import data.race.map.enums.TerrainType;
+import data.race.map.enums.WeatherType;
+import data.special.RacecarCoefMng;
 import data.vehicle.Racecar;
 
 public class TurnRoad extends MapTerrain{
     private final int degree;
     private final int radius;
-    public TurnRoad(int length, int radius, int steering, int driving, Surface surface, int degree) {
-        super(steering, driving, surface);
+    public TurnRoad(int radius, int degree, SurfaceType surface, WeatherType weather) {
+        super(TerrainType.TURN, surface, weather);
         this.degree = degree;
         this.radius = radius;
-    }
-
-    /**
-     * T_поворот
-     * @param pilot
-     * @param racecar
-     * @param weather
-     * @return
-     */
-    @Override
-    public double getTime(Pilot pilot, Racecar racecar, Weather weather) {
-        return getEffectiveCurve() / getSpeed(racecar, weather,getSurface());
     }
 
     /**
@@ -36,14 +26,12 @@ public class TurnRoad extends MapTerrain{
 
     /**
      * V_участка_поворот
-     * @param rc
-     * @param wt
-     * @param sf
      * @return
      */
-    private double getSpeed(Racecar rc, Weather wt, Surface sf){
-        return rc.getMaxPotentialSpeed() * rc.getSummaryMovementCoef()
-                * getDegreeCoef() * wt.getKoef() * sf.getKoef();
+    @Override
+    public double getAverageSpeed(Racecar racecar, Pilot pilot){
+        return racecar.getMaxPotentialSpeed() * RacecarCoefMng.getSummaryMovementCoef(racecar)
+                * getDegreeCoef() * weather.getCoefficient() * surface.getCoefficient();
     }
 
     /**
@@ -58,7 +46,18 @@ public class TurnRoad extends MapTerrain{
      * L_поворота_эффективная
      * @return
      */
-    private double getEffectiveCurve(){
+    @Override
+    public double getLength(){
         return getCurveLength() * (1 + degree/180d);
+    }
+
+    @Override
+    public String getCharacteristics() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Поворот на ").append(degree).append(" градусов\n");
+        sb.append("\tРадиус поворота: ").append(radius).append(" м\n");
+        sb.append("\tПокрытие: ").append(surface.getName()).append("\n");
+        sb.append("\tПогода на участке: ").append(weather.getName());
+        return sb.toString();
     }
 }

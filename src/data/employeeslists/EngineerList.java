@@ -13,8 +13,8 @@ public class EngineerList {
         10,
         0,
         0,
-        90,
-        30,
+        70,
+        40,
         30
     );
 
@@ -25,7 +25,7 @@ public class EngineerList {
         40,
         10,
         10,
-        30,
+        20,
         80,
         50
     );

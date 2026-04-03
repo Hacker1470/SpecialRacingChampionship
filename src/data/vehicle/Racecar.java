@@ -1,5 +1,7 @@
 package data.vehicle;
 
+import data.special.RacecarCoefMng;
+
 public class Racecar {
     protected long id;
     protected String name;
@@ -73,114 +75,20 @@ public class Racecar {
     }
 
     /**
-     * V_база
+     * V_база = min(Коробка.макс_скорость, (Двигатель.мощность × Двигатель.обороты) / (масса × 100))
      */
     public int getBaseSpeed(){
         return Math.min(transmission.getMaxSpeed(),
                 (engine.getPower() * engine.getMaxRpm())/(getWeight() * 100));
-
     }
 
     /**
-     * К_аэро
-     * @return
-     */
-    public double getAeroCoef(){
-        return 1 + (chassis.getAerodynamics() / 200d);
-    }
-
-    /**
-     * К_прижим = К_прижим_поворот
-     * @return
-     */
-    public double getDownFCoef(){
-        if(downforcePart == null){
-            return 1;
-        }
-        else{
-            return 1 + (downforcePart.getDownforce() / 200d);
-        }
-    }
-
-    /**
-     * V_max_потенциал
+     * V_max_потенциал = V_база × K_аэро × K_прижим
      * @return
      */
     public double getMaxPotentialSpeed(){
-        return getBaseSpeed() * getAeroCoef() * getDownFCoef();
-    }
-
-    /**
-     * K_передачи
-     * @return
-     */
-    public double getTransmissionCoef(){
-        return 0.8d + 0.4d * (transmission.getGears() / 10d);
-    }
-
-    /**
-     * K_управление_база
-     * @return
-     */
-    public double getWheelCoef(){
-        return wheels.getAdhesion() / 100d;
-    }
-
-    /**
-     * К_стабильность
-     * @return
-     */
-    public double getStabilityCoef(){
-        if(suspension != null){
-            return 1 + (suspension.getStability() / 200d);
-        }
-        else {
-            return 1;
-        }
-    }
-
-    /**
-     * K_управление
-     */
-    public double getSummaryMovementCoef(){
-        return getWheelCoef() * getStabilityCoef() * getDownFCoef();
-    }
-
-    public double getAveragePartQuality(){
-        double sum = chassis.getQuality() + engine.getQuality()
-                + transmission.getQuality() + wheels.getQuality();
-        int num = 4;
-        if(suspension != null){
-            sum += suspension.getQuality();
-            num++;
-        }
-        if(downforcePart != null){
-            sum += downforcePart.getQuality();
-            num++;
-        }
-        return sum/num;
-    }
-
-    public double getAveragePartConnectionReliability(){
-        double sum = chassis.getConnectionReliability() + engine.getConnectionReliability()
-                + transmission.getConnectionReliability() + wheels.getConnectionReliability();
-        int num = 4;
-        if(suspension != null){
-            sum += suspension.getConnectionReliability();
-            num++;
-        }
-        if(downforcePart != null){
-            sum += downforcePart.getConnectionReliability();
-            num++;
-        }
-        return sum/num;
-    }
-
-    /**
-     * К_качество
-     * @return
-     */
-    public double getQualityCoef(){
-        return 2 - ((getAveragePartQuality() + getAveragePartConnectionReliability()) / 200d);
+        return getBaseSpeed()
+                * RacecarCoefMng.getAeroCoef(this)
+                * RacecarCoefMng.getDownforceCoef(this);
     }
 }
