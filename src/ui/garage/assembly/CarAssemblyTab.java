@@ -1,6 +1,7 @@
 package ui.garage.assembly;
 
 import data.crew.Engineer;
+import data.special.AssemblingHelpers;
 import data.vehicle.*;
 import data.vehicle.enums.PartType;
 import game.GameSession;
@@ -8,9 +9,6 @@ import ui.base.Tab;
 import ui.garage.GarageTab;
 import ui.garage.assembly.assemblyexceptions.*;
 import ui.handling.ConsoleControl;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CarAssemblyTab extends Tab {
     private RacecarSample sample;
@@ -137,15 +135,18 @@ public class CarAssemblyTab extends Tab {
             throw new NoEngineerAssemblyException();
         }
 
-        if(!gm.takeMoney(sample.getEngineer().getAssembleFee())){
-            throw new EngineerWantsMoneyException(sample.getEngineer().getAssembleFee());
+        if(gm.getMoney() - sample.getEngineer().getSalary(1) < 0){
+            throw new EngineerWantsMoneyException(sample.getEngineer().getSalary(1));
         }
 
         checkNecessaryParts();
         checkWeight();
-        checkPartsMatching();
+        AssemblingHelpers.checkPartsMatching(sample);
 
-        addPerks();
+        gm.takeMoney(sample.getEngineer().getSalary(1));
+        AssemblingHelpers.addEngineerPerks(sample);
+        sample.getEngineer().setExperience(sample.getEngineer().getExperience() + 1);
+
         deletePartsFromWarehouse();
 
         return new Racecar(idCounter++, "Болид", sample.getChassis(), sample.getEngine(),
@@ -172,69 +173,6 @@ public class CarAssemblyTab extends Tab {
         if(sample.getWeight() > sample.getChassis().getMaxWeight()){
             throw new OverweightAssemblyException(sample.getChassis(),
                     sample.getChassis().getMaxWeight());
-        }
-    }
-
-    private void checkPartsMatching() throws UnmatchingPartsAssemblyException{
-        List<Part> parts = new ArrayList<>(List.of(
-                sample.getChassis(), sample.getEngine(),
-                sample.getTransmission(), sample.getWheels()));
-        List<String> articles = new ArrayList<>(List.of(
-                sample.getChassis().getArticle(), sample.getEngine().getArticle(),
-                sample.getTransmission().getArticle(), sample.getWheels().getArticle()));
-
-        if(sample.getSuspension() != null){
-            parts.add(sample.getSuspension());
-            articles.add(sample.getSuspension().getArticle());
-        }
-        if(sample.getDownforcePart() != null){
-            parts.add(sample.getDownforcePart());
-            articles.add(sample.getDownforcePart().getArticle());
-        }
-
-        List<String> connectivities;
-        boolean estProbitie;
-        for(Part part : parts){
-            connectivities = new ArrayList<>(part.getConnectivity());
-            while(!connectivities.isEmpty()){
-                String currentType = connectivities.getFirst().substring(0,3);
-                estProbitie = false;
-                for(String str : connectivities.stream()
-                        .filter(n -> n.startsWith(currentType))
-                        .toList()){
-                    if(articles.contains(str)){
-                        estProbitie = true;
-                        break;
-                    }
-                }
-                if(estProbitie){
-                    connectivities = connectivities.stream().filter(n -> !n.startsWith(currentType)).toList();
-                }
-                else {
-                    throw new UnmatchingPartsAssemblyException(part);
-                }
-            }
-        }
-    }
-
-    private void addPerks(){
-        Engineer engineer = sample.getEngineer();
-        Chassis chassis = sample.getChassis();
-        Engine engine = sample.getEngine();
-        Transmission transmission = sample.getTransmission();
-        Wheels wheels = sample.getWheels();
-        Suspension suspension = sample.getSuspension();
-        DownforcePart downforcePart = sample.getDownforcePart();
-
-        chassis.setConnectionReliability(50 - engineer.getWawyHands()/2 + engineer.getScrewing());
-        engine.setConnectionReliability(50 - engineer.getWawyHands()/2 + engineer.getScrewing());
-        transmission.setConnectionReliability(50 - engineer.getWawyHands()/2 + engineer.getScrewing());
-        wheels.setConnectionReliability(50 - engineer.getWawyHands()/2 + engineer.getScrewing());
-        if(suspension != null){
-            suspension.setConnectionReliability(50 - engineer.getWawyHands()/2 + engineer.getScrewing());
-        }
-        if(downforcePart != null){
-            downforcePart.setConnectionReliability(50 - engineer.getWawyHands()/2 + engineer.getScrewing());
         }
     }
 

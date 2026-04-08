@@ -1,7 +1,9 @@
 package ui.employment;
 
+import game.GameMode;
 import game.GameSession;
 import ui.base.MainTab;
+import ui.employment.modes.AngryNorrisTab;
 import ui.garage.GarageTab;
 import ui.handling.ConsoleControl;
 import ui.base.Tab;
@@ -49,6 +51,15 @@ public class EmployTab extends Tab {
     }
 
     private Tab selectResponse(String req){
+        if(gm.getGameMode() == GameMode.CHUCK_NORRIS_APPEARANCE && req.equals("0")){
+            if(gm.dorm().getEmployeesByJob(JobType.PILOT).isEmpty()){
+                gm.setGameMode(GameMode.NORMAL);
+                return new MainTab(gm);
+            }
+            else{
+                return new AngryNorrisTab(gm);
+            }
+        }
         return switch (req) {
             case "1" -> new EmployeesByJobTab(gm, JobType.PILOT);
             case "2" -> new EmployeesByJobTab(gm, JobType.ENGINEER);

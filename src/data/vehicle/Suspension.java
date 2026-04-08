@@ -2,7 +2,9 @@ package data.vehicle;
 
 import data.catalogs.CatalogOfParts;
 import data.crew.Pilot;
-import data.race.map.MapTerrain;
+import data.race.Race;
+import data.race.map.RaceTrack;
+import data.race.map.terrains.MapTerrain;
 import data.vehicle.enums.PartType;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class Suspension extends Part {
 
     @Override
     public int getRealPrice(){
-        return getStockPrice() * ((int)getDamage() + getQuality()) / 100;
+        return (int)(getStockPrice() * ((100 - getDamage()) + getQuality()) / 100d);
     }
 
     public int getStability(){
@@ -30,7 +32,7 @@ public class Suspension extends Part {
     }
 
     @Override
-    public String getStringOfCharacteristics(){
+    public String getBaseCharacteristics(){
         StringBuilder sb = new StringBuilder(2000);
 
         sb.append("Название: ").append(getName()).append(" ").append(getPostfix()).append("\n");
@@ -45,10 +47,6 @@ public class Suspension extends Part {
         for (Part i : CatalogOfParts.getAvailableByConnectivity(getConnectivity())){
             sb.append("* ").append(i.getName()).append("\n");;
         }
-        sb.append("\n");
-
-        sb.append("Стоимость: ").append(getRealPrice());
-
         return sb.toString();
     }
 
@@ -77,7 +75,7 @@ public class Suspension extends Part {
      * @return
      */
     @Override
-    public double getBaseDamage(double coefficient, MapTerrain terrain, Racecar racecar, Pilot pilot) {
+    public double getBaseDamage(double coefficient, RaceTrack rt, MapTerrain terrain, Racecar racecar, Pilot pilot) {
         return racecar.getEngine().getPower() * racecar.getEngine().getMaxRpm() * coefficient / 2500000;
     }
 }

@@ -2,20 +2,20 @@ package data.race.map.enums;
 
 public enum TerrainType {
     STRAIGHT(
+            0.01d,
             0.5d,
-            1.0d,
             0.6d,
-            0.8d,
-            0.4d,
-            1.0d
+            0.5d,
+            0.2d,
+            0.3d
     ),
     TURN(
-            1.5d,
-            1.2d,
+            0.03d,
             1.0d,
-            1.5d,
+            1.0d,
             1.2d,
-            2.0d
+            0.7d,
+            0.9d
     );
 
     TerrainType(double chassisCoef, double engineCoef, double transmissionCoef,

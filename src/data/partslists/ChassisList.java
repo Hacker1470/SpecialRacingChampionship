@@ -13,7 +13,7 @@ public class ChassisList {
             0,
             25,
             25,
-            100,
+            40,
             0,
             List.of("engi_1_0", "tran_1_0"),
             1,
@@ -24,12 +24,12 @@ public class ChassisList {
             "chas_2_0",
             "База ZovAuto",
             15,
-            20,
+            40,
             300,
             30,
             7,
             List.of("engi_1_0", "engi_2_0", "tran_1_0", "tran_2_0"),
-            15,
+            20,
             1200);
 
     public static Chassis straus = new Chassis(
@@ -37,7 +37,7 @@ public class ChassisList {
             "chas_3_0",
             "Базис Straus",
             50,
-            20,
+            60,
             250,
             2,
             50,

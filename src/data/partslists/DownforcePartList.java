@@ -7,7 +7,7 @@ import java.util.List;
 public class DownforcePartList {
     public static DownforcePart bricks = new DownforcePart(
             Long.MIN_VALUE,
-            "dwfr_1",
+            "dwfr_1_0",
             "Три кирпича",
             0,
             20,
@@ -19,12 +19,12 @@ public class DownforcePartList {
 
     public static DownforcePart spoiler = new DownforcePart(
             Long.MIN_VALUE,
-            "dwfr_2",
+            "dwfr_2_0",
             "Спойлер",
             8,
             50,
             2,
-            250,
+            25,
             10,
             List.of(),
             40);

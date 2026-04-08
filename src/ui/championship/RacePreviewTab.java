@@ -1,21 +1,30 @@
 package ui.championship;
 
-import data.crew.JobType;
-import data.race.map.RaceTrack;
+import data.race.Race;
+import data.race.map.enums.WeatherType;
+import data.special.RandomGenerator;
 import game.GameSession;
-import ui.base.MainTab;
 import ui.base.Tab;
-import ui.employment.EmployeesByJobTab;
+import ui.championship.initializing.UserTeamCreationTab;
 import ui.handling.ConsoleControl;
-
-import java.util.Collection;
 
 public class RacePreviewTab extends Tab{
 
-    RaceTrack track;
-    public RacePreviewTab(GameSession gm, RaceTrack raceTrack) {
+    private Race race;
+    public RacePreviewTab(GameSession gm, Race race) {
         super(gm);
-        track = raceTrack;
+        this.race = race;
+
+        int weather = RandomGenerator.getInteger(1,100);
+        if(weather < 50){
+            race.getMap().setWeather(WeatherType.SUNNY);
+        }
+        else if (weather < 85){
+            race.getMap().setWeather(WeatherType.CLOUDY);
+        }
+        else {
+            race.getMap().setWeather(WeatherType.RAINING);
+        }
     }
 
     @Override
@@ -28,12 +37,16 @@ public class RacePreviewTab extends Tab{
     protected void printListOfMenus(){
         ConsoleControl.printlnString(gm.getSponsor());
         ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("====== ПОДГОТОВКА К ВЫЕЗДУ ======");
-        ConsoleControl.printlnString("Выбранная карта: " + track.getName());
+        ConsoleControl.printlnString("====== ПОДГОТОВКА К ГОНКЕ ======");
+        ConsoleControl.printlnString("Выбранная карта: " + race.getMap().getName());
+        ConsoleControl.printlnString("Погода: " + race.getMap().getWeather().getName());
         ConsoleControl.printlnString("Карта трассы:");
-        for (int i = 0; i < track.getNumberOfTerrains(); i++){
-            ConsoleControl.printlnString(track.getTerrainByNumber(i).getCharacteristics());
+        for (int i = 0; i < race.getMap().getNumberOfTerrains(); i++){
+            ConsoleControl.printlnString(race.getMap().getTerrainByNumber(i).getCharacteristics());
         }
+        ConsoleControl.printlnString("Число команд: " + race.getTeamsNumber());
+        ConsoleControl.printlnString("Сумма для участия: " + race.getDeposit());
+        ConsoleControl.printlnString("Награда за первое место: " + race.getPrize() * 0.6);
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("[1] Продолжить");
         ConsoleControl.printlnString("[0] Назад");
@@ -59,7 +72,7 @@ public class RacePreviewTab extends Tab{
 
     private Tab selectResponse(String req){
         return switch (req) {
-            case "1" -> new EmployeesByJobTab(gm, JobType.PILOT);
+            case "1" -> new UserTeamCreationTab(gm, race);
             case "0" -> new ChampionshipTab((gm));
             default -> null;
         };

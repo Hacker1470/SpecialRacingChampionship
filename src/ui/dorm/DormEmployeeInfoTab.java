@@ -28,7 +28,7 @@ public class DormEmployeeInfoTab extends Tab{
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString(chosenEmp.getType().getEmployInfoTitle());
 
-        ConsoleControl.printlnString(chosenEmp.getStringOfCharacteristics());
+        ConsoleControl.printlnString(chosenEmp.getDormCharacteristics());
 
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("[0] Вернуться к списку");

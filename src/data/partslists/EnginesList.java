@@ -45,7 +45,7 @@ public class EnginesList {
             50,
             80,
             80,
-            1000,
+            10,
             28,
             List.of("tran_2_0", "tran_3_0", "chas_2_0", "chas_3_0"),
             400,

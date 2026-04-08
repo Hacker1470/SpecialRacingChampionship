@@ -1,13 +1,6 @@
-package ui.garage.assembly;
+package data.vehicle;
 
 import data.crew.Engineer;
-import data.vehicle.*;
-import ui.garage.assembly.assemblyexceptions.NoEngineerAssemblyException;
-import ui.garage.assembly.assemblyexceptions.NoPartAssemblyException;
-import ui.garage.assembly.assemblyexceptions.UnmatchingPartsAssemblyException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RacecarSample extends Racecar {
 

@@ -1,7 +1,11 @@
 package ui.employment;
 
 import data.catalogs.CatalogOfEmployees;
+import data.crew.Pilot;
+import data.special.RandomGenerator;
+import game.GameMode;
 import game.GameSession;
+import ui.employment.modes.AngryNorrisTab;
 import ui.handling.ConsoleControl;
 import ui.base.Tab;
 import data.crew.Employee;
@@ -17,6 +21,12 @@ public class EmployeesByJobTab extends Tab {
     public EmployeesByJobTab(GameSession gm, JobType type) {
         super(gm);
         this.type = type;
+
+        if(gm.getGameMode() == GameMode.NORMAL
+                && type == JobType.PILOT
+                && RandomGenerator.getInteger(1,100) > 30){
+            gm.setGameMode(GameMode.CHUCK_NORRIS_APPEARANCE);
+        }
     }
 
     @Override
@@ -32,9 +42,19 @@ public class EmployeesByJobTab extends Tab {
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString(type.getEmployGroupTitle());
 
-        for(int i = 1; i <= availableEmployeesByRep.size(); i++){
-            ConsoleControl.printlnString("[" + i + "] " + availableEmployeesByRep.get(i - 1).getName());
+        if(type == JobType.PILOT && gm.getGameMode() == GameMode.CHUCK_NORRIS_APPEARANCE){
+            ConsoleControl.printlnString("[1] Chuck Norris");
+            for(int i = 2; i <= availableEmployeesByRep.size() + 1; i++){
+                ConsoleControl.printlnString("[" + i + "] " + availableEmployeesByRep.get(i - 2).getName());
+            }
         }
+        else{
+            for(int i = 1; i <= availableEmployeesByRep.size(); i++){
+                ConsoleControl.printlnString("[" + i + "] " + availableEmployeesByRep.get(i - 1).getName());
+            }
+        }
+
+
 
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString("[0] Вернуться на биржу");
@@ -49,13 +69,45 @@ public class EmployeesByJobTab extends Tab {
         while (response == null){
             request = ConsoleControl.getString();
 
-            response = selectResponse(request);
+            if(type == JobType.PILOT && gm.getGameMode() == GameMode.CHUCK_NORRIS_APPEARANCE){
+                response = norrisSelectResponse(request);
+            }
+            else{
+                response = selectResponse(request);
+            }
             if (response == null){
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
 
         return response;
+    }
+
+    private Tab norrisSelectResponse(String req){
+        if(req.equals("0")){
+            return new EmployTab(gm);
+        }
+        if(req.equals("1")){
+            return new EmployeeInfoTab(gm, new Pilot(
+                    Long.MAX_VALUE, "chuck_norris", "Chuck Norris", 1,
+                    0, 0, 10, 90, 1)
+            );
+        }
+
+        int index;
+        try {
+            index = Integer.parseInt(req);
+        }
+        catch (NumberFormatException e){
+            return null;
+        }
+
+        if(index <= availableEmployeesByRep.size() + 1 && index >= 2) {
+            return new EmployeeInfoTab(gm, availableEmployeesByRep.get(index - 2));
+        }
+        else {
+            return null;
+        }
     }
 
     private Tab selectResponse(String req){

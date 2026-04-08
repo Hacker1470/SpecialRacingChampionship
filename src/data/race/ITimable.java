@@ -1,0 +1,10 @@
+package data.race;
+
+import data.crew.Pilot;
+import data.race.map.enums.WeatherType;
+import data.vehicle.Racecar;
+
+public interface ITimable {
+    public double getAverageSpeed(Racecar racecar, Pilot pilot, WeatherType weather);
+    public double getLength();
+}

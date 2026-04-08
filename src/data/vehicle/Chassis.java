@@ -1,9 +1,10 @@
 package data.vehicle;
 
+import data.race.map.RaceTrack;
 import data.special.PilotCoefMng;
 import data.catalogs.CatalogOfParts;
 import data.crew.Pilot;
-import data.race.map.MapTerrain;
+import data.race.map.terrains.MapTerrain;
 import data.vehicle.enums.PartType;
 
 import java.util.List;
@@ -14,7 +15,13 @@ public class Chassis extends Part{
 
     public Chassis(long id, String article, String name, int stockPrice, int quality, int mass, double damage,
                    int reputationLevel, List<String> connectivity, int aerodynamics, int maxWeight){
-        super(id, PartType.CHASSIS, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
+        this(id, article, name, "", stockPrice, quality, mass, damage, reputationLevel, connectivity,
+                aerodynamics, maxWeight);
+    }
+
+    public Chassis(long id, String article, String name, String postfix, int stockPrice, int quality, int mass, double damage,
+                   int reputationLevel, List<String> connectivity, int aerodynamics, int maxWeight){
+        super(id, PartType.CHASSIS, article, name, postfix, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
         this.aerodynamics = aerodynamics;
         this.maxWeight = maxWeight;
@@ -29,11 +36,11 @@ public class Chassis extends Part{
 
     @Override
     public int getRealPrice(){
-        return getStockPrice() * ((int)getDamage() + getQuality()) / 100;
+        return (int)(getStockPrice() * ((100 - getDamage()) + getQuality()) / 100d);
     }
 
     @Override
-    public String getStringOfCharacteristics(){
+    protected String getBaseCharacteristics() {
         StringBuilder sb = new StringBuilder(2000);
 
         sb.append("Название: ").append(getName()).append(" ").append(getPostfix()).append("\n");
@@ -45,13 +52,9 @@ public class Chassis extends Part{
         sb.append("\n");
         sb.append("Совместимость:\n");
 
-        for (Part i : CatalogOfParts.getAvailableByConnectivity(getConnectivity())){
-            sb.append("* ").append(i.getName()).append("\n");;
+        for (Part i : CatalogOfParts.getAvailableByConnectivity(getConnectivity())) {
+            sb.append("* ").append(i.getName()).append("\n");
         }
-        sb.append("\n");
-
-        sb.append("Стоимость: ").append(getRealPrice());
-
         return sb.toString();
     }
 
@@ -61,6 +64,7 @@ public class Chassis extends Part{
                 idNew,
                 getArticle(),
                 getName(),
+                getPostfix(),
                 getStockPrice(),
                 getQuality(),
                 getMass(),
@@ -79,8 +83,8 @@ public class Chassis extends Part{
      * @return
      */
     @Override
-    public double getBaseDamage(double coefficient, MapTerrain terrain, Racecar racecar, Pilot pilot) {
+    public double getBaseDamage(double coefficient, RaceTrack rt, MapTerrain terrain, Racecar racecar, Pilot pilot) {
         return 100 * coefficient * PilotCoefMng.getAggressionCoef(pilot)
-                * terrain.getAverageSpeed(racecar, pilot) / racecar.getMaxPotentialSpeed();
+                * terrain.getAverageSpeed(racecar, pilot, rt.getWeather()) / racecar.getMaxPotentialSpeed();
     }
 }

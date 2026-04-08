@@ -123,15 +123,34 @@ public abstract class Part implements IDamageble{
     }
 
     public void setPostfix(String newValue){
-        postfix = newValue;
-    }
-    public void setDamage(double newValue) throws PartBrokeException {
-        damage = newValue;
-        if(damage >= 100){
-            damage = 100;
-            throw new PartBrokeException("Сломалос", this);
+        if(newValue != null){
+            postfix = newValue;
+        }
+        else{
+            postfix = "";
         }
     }
+    public void setDamage_75(){
+        damage = 75;
+    }
+    public void setDamage(double newValue) throws PartBrokeException {
+        if(newValue < 0){
+            newValue = 0;
+        }
+        if(newValue >= 100){
+            PartBrokeException e = new PartBrokeException(this, damage, newValue);
+            damage = 100;
+            throw e;
+        }
+
+        damage = newValue;
+    }
+
+    /**
+     * Если подаётся отр число, то присваивает 0.
+     * Если подаётся число больше 100, то присваивает 100
+     * @param newValue
+     */
     public void setConnectionReliability(int newValue){
         if(newValue < 0){
             connectionReliability = 0;
@@ -144,7 +163,17 @@ public abstract class Part implements IDamageble{
         }
     }
 
-    public abstract String getStringOfCharacteristics();
+    protected abstract String getBaseCharacteristics();
+
+    public String getMarketCharacteristics(){
+        return getBaseCharacteristics() + "\nСтоимость: " + getRealPrice();
+    }
+    public String getGarageCharacteristics(){
+        return getBaseCharacteristics() + "\nКачество соединения: " + getConnectionReliability();
+    }
+    public String getWarehouseCharacteristics(){
+        return getBaseCharacteristics();
+    }
     /**
      * Применяется для копирования детали из каталога на склад игрока
      * @param idNew

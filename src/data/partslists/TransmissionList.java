@@ -26,7 +26,7 @@ public class TransmissionList {
             20,
             90,
             10,
-            700,
+            60,
             10,
             List.of("engi_2_0", "engi_3_0"),
             200,

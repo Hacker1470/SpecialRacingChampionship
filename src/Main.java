@@ -1,5 +1,5 @@
 import data.catalogs.CatalogOfEmployees;
-import data.catalogs.CatalogOfTracks;
+import data.catalogs.CatalogOfRaces;
 import game.GameSession;
 import data.catalogs.CatalogOfParts;
 
@@ -7,7 +7,7 @@ void main() {
     GameSession gm = new GameSession(10000000, 1000);
     CatalogOfParts.catalogInit();
     CatalogOfEmployees.catalogInit();
-    CatalogOfTracks.catalogInit();
+    CatalogOfRaces.catalogInit();
 
     gm.launch();
     //Заметки на будущее

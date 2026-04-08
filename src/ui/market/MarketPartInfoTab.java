@@ -27,7 +27,7 @@ public class MarketPartInfoTab extends Tab {
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString(chosenPart.getType().getMarketInfoTitle());
 
-        ConsoleControl.printlnString(chosenPart.getStringOfCharacteristics());
+        ConsoleControl.printlnString(chosenPart.getMarketCharacteristics());
 
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("[1] Купить (Баланс: " + gm.getMoney() + " грошей)");

@@ -1,25 +1,31 @@
-package ui.championship;
+package ui.championship.initializing;
 
+import data.crew.Employee;
 import data.crew.JobType;
 import data.crew.Pilot;
-import data.race.Team;
+import data.race.Race;
+import data.race.TeamSample;
 import game.GameSession;
 import ui.base.Tab;
 import ui.handling.ConsoleControl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PilotSelectTab extends Tab{
-    List<Pilot> availablePilots;
-    Team team;
-    public PilotSelectTab(GameSession gm, Team team) {
+    private List<Pilot> availablePilots;
+    private TeamSample team;
+    private Race race;
+    public PilotSelectTab(GameSession gm, TeamSample team, Race race) {
         super(gm);
         this.team = team;
+        this.race = race;
     }
 
     @Override
     public Tab show() {
-        availablePilots = gm.dorm().getEmployeesByJob(JobType.PILOT).stream().map(x -> (Pilot)x).toList();
+        availablePilots = gm.dorm().getEmployeesByJob(JobType.PILOT)
+                .stream().map(x -> (Pilot)x).toList();
         outputMain();
         return menuHandler();
     }
@@ -77,7 +83,7 @@ public class PilotSelectTab extends Tab{
 
     private Tab selectResponse(String req){
         if(req.equals("0")){
-            return new UserTeamCreationTab(gm, team);
+            return new UserTeamCreationTab(gm, team, race);
         }
 
         int index;
@@ -90,7 +96,7 @@ public class PilotSelectTab extends Tab{
 
         if(index >= 1 && index <= availablePilots.size()){
             team.setPilot(availablePilots.get(index - 1));
-            return new UserTeamCreationTab(gm, team);
+            return new UserTeamCreationTab(gm, team, race);
         }
         else {
             return null;

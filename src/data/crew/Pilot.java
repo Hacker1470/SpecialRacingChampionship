@@ -1,7 +1,6 @@
 package data.crew;
 
 public class Pilot extends Employee{
-    private final Integer accuracy;
     private final Integer offroadDriving;
     private final Integer pedaling;
     private final Integer steering;
@@ -18,28 +17,33 @@ public class Pilot extends Employee{
         return offroadDriving;
     }
 
-    public Pilot(long id, String article, String name, int fee, int experience, int reputationLevel, int accuracy,
-                 int offroadDriving, int pedaling, int steering) {
-        super(id, JobType.PILOT, article, name, fee, experience, reputationLevel);
+    public Pilot(long id, String article, String name,
+                    int stockFee, int experience, int reputationLevel,
+                    int offroadDriving, int pedaling, int steering) {
+        this(id, article, name, "", stockFee, experience,
+                reputationLevel, offroadDriving, pedaling, steering);
+    }
 
-        this.accuracy = accuracy;
+    public Pilot(long id, String article, String name, String postfix,
+                    int stockFee, int experience, int reputationLevel,
+                    int offroadDriving, int pedaling, int steering) {
+        super(id, JobType.PILOT, article, name, postfix,
+                stockFee, experience, reputationLevel);
+
         this.offroadDriving = offroadDriving;
         this.pedaling = pedaling;
         this.steering = steering;
     }
 
     @Override
-    public String getStringOfCharacteristics() {
-        StringBuilder sb = new StringBuilder(2000);
+    public String getBaseCharacteristics() {
+        StringBuilder sb = new StringBuilder(1000);
 
         sb.append("Имя: ").append(getName()).append(" ").append(getPostfix()).append("\n");
         sb.append("Опыт работы: ").append(getExperience()).append("\n");
-        sb.append("Аккуратность: ").append(accuracy).append(" %").append("\n");
         sb.append("Руление: ").append(steering).append(" %").append("\n");
         sb.append("Педалирование: ").append(pedaling).append(" %").append("\n");
-        sb.append("Мин ЗПшка: ").append(getStockFee()).append(" грошей").append("\n");
-        sb.append("\n");
-        sb.append("Стоимость найма: ").append(getHiringCost());
+        sb.append("Мин ЗПшка: ").append(getStockFee()).append(" грошей\n");
 
         return sb.toString();
     }
@@ -53,7 +57,6 @@ public class Pilot extends Employee{
                 getStockFee(),
                 getExperience(),
                 getReputationLevel(),
-                accuracy,
                 offroadDriving,
                 pedaling,
                 steering
@@ -62,6 +65,11 @@ public class Pilot extends Employee{
 
     @Override
     public int getHiringCost() {
-        return getStockFee() * (1 + getExperience()/10 + accuracy * offroadDriving * pedaling * steering / 1000);
+        return (int)(getStockFee() * (1 + getExperience()/10d + offroadDriving * pedaling * steering / 1000000d));
+    }
+
+    @Override
+    public int getSalary(int awardTotal){
+        return (int)(awardTotal * 0.25d);
     }
 }

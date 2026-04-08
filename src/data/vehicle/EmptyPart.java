@@ -1,7 +1,8 @@
 package data.vehicle;
 
 import data.crew.Pilot;
-import data.race.map.MapTerrain;
+import data.race.map.RaceTrack;
+import data.race.map.terrains.MapTerrain;
 import data.vehicle.enums.PartType;
 
 import java.util.List;
@@ -12,8 +13,8 @@ public class EmptyPart extends Part{
     }
 
     @Override
-    public String getStringOfCharacteristics() {
-        return "???";
+    public String getBaseCharacteristics() {
+        return "???\n";
     }
 
     @Override
@@ -27,7 +28,7 @@ public class EmptyPart extends Part{
     }
 
     @Override
-    public double getBaseDamage(double coefficient, MapTerrain terrain, Racecar racecar, Pilot pilot) {
+    public double getBaseDamage(double coefficient, RaceTrack rt, MapTerrain terrain, Racecar racecar, Pilot pilot) {
         return 0;
     }
 }

@@ -1,7 +1,9 @@
-package data.race.map;
+package data.race.calculators;
 
+import data.race.map.RaceTrack;
+import data.race.map.terrains.MapTerrain;
 import data.special.PilotCoefMng;
-import data.special.RandomDoubleGenerator;
+import data.special.RandomGenerator;
 import data.crew.Pilot;
 import data.vehicle.Part;
 import data.vehicle.Racecar;
@@ -32,14 +34,17 @@ public class TimeCalculator {
         }
     }
 
-    public double calculate(MapTerrain terrain){
-        double time_ideal = (terrain.getLength() / terrain.getAverageSpeed(racecar, pilot))
+    public double calculate(RaceTrack map, MapTerrain terrain){
+        double l = terrain.getLength();
+        double av = terrain.getAverageSpeed(racecar, pilot, map.getWeather());
+        double q = getQualityCoef();
+        double time_ideal = (terrain.getLength() / terrain.getAverageSpeed(racecar, pilot, map.getWeather()))
                 * getQualityCoef();
         double time_withpilot = time_ideal //T_пилот
                 * PilotCoefMng.getBaseCoef(pilot)
                 * PilotCoefMng.getOffroadCoef(pilot, terrain.getSurface());
         //Т_финал
-        return time_withpilot * damageCoef() * RandomDoubleGenerator.generate(0.95,1.05);
+        return time_withpilot * damageCoef() * RandomGenerator.getDouble(0.95,1.05);
     }
 
     private double getAveragePartQuality(){

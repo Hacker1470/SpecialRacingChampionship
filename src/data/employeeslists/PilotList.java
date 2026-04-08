@@ -10,7 +10,6 @@ public class PilotList {
             5,
             0,
             0,
-            5,
             30,
             60,
             5
@@ -23,7 +22,6 @@ public class PilotList {
             100,
             10,
             50,
-            80,
             10,
             90,
             90

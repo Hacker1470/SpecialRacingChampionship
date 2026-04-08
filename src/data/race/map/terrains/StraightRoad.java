@@ -1,4 +1,4 @@
-package data.race.map;
+package data.race.map.terrains;
 
 import data.special.RacecarCoefMng;
 import data.crew.Pilot;
@@ -6,13 +6,12 @@ import data.race.map.enums.SurfaceType;
 import data.race.map.enums.TerrainType;
 import data.race.map.enums.WeatherType;
 import data.vehicle.Racecar;
-import ui.handling.ConsoleControl;
 
-public class StraightRoad extends MapTerrain{
+public class StraightRoad extends MapTerrain {
     private final int length;
 
-    public StraightRoad(int length, SurfaceType surface, WeatherType weather) {
-        super(TerrainType.STRAIGHT, surface, weather);
+    public StraightRoad(int length, SurfaceType surface) {
+        super(TerrainType.STRAIGHT, surface);
         this.length = length;
     }
 
@@ -26,7 +25,11 @@ public class StraightRoad extends MapTerrain{
      * @return
      */
     @Override
-    public double getAverageSpeed(Racecar racecar, Pilot pilot){
+    public double getAverageSpeed(Racecar racecar, Pilot pilot, WeatherType weather){
+        double mp = racecar.getMaxPotentialSpeed();
+        double tc = RacecarCoefMng.getTransmissionCoef(racecar);
+        double wc = weather.getCoefficient();
+        double sc = surface.getCoefficient();
         return racecar.getMaxPotentialSpeed() * RacecarCoefMng.getTransmissionCoef(racecar)
                 * weather.getCoefficient() * surface.getCoefficient();
     }
@@ -35,7 +38,6 @@ public class StraightRoad extends MapTerrain{
         StringBuilder sb = new StringBuilder();
         sb.append("Прямой участок ").append(length).append(" м\n");
         sb.append("\tПокрытие: ").append(surface.getName()).append("\n");
-        sb.append("\tПогода на участке: ").append(weather.getName());
         return sb.toString();
     }
 }

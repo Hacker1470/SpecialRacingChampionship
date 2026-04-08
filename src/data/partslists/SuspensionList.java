@@ -7,7 +7,7 @@ import java.util.List;
 public class SuspensionList {
     public static Suspension baseSpring = new Suspension(
             Long.MIN_VALUE,
-            "susp_1",
+            "susp_1_0",
             "Базовый набор подвески",
             0,
             25,
@@ -21,12 +21,12 @@ public class SuspensionList {
 
     public static Suspension niceSpring = new Suspension(
             Long.MIN_VALUE,
-            "susp_2",
+            "susp_2_0",
             "Продвинутый набор подвески",
             40,
             60,
             10,
-            150,
+            10,
             15,
             List.of("whel_2_0", "whel_3_0"),
             40,

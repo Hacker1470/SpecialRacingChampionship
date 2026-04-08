@@ -1,7 +1,9 @@
 package ui.championship;
 
-import data.catalogs.CatalogOfTracks;
+import data.catalogs.CatalogOfRaces;
 import data.crew.JobType;
+import data.special.RandomGenerator;
+import game.GameMode;
 import game.GameSession;
 import ui.base.MainTab;
 import ui.base.Tab;
@@ -24,8 +26,10 @@ public class ChampionshipTab extends Tab{
         ConsoleControl.printlnString(gm.getSponsor());
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString("====== ГОНОЧКИ ======");
-        ConsoleControl.printlnString("[1] Тренировочная гонка");
-        ConsoleControl.printlnString("[2] Случайная гонка");
+        ConsoleControl.printlnString("[1] Случайная гонка");
+        if(gm.getGameMode() != GameMode.CHUCK_NORRIS_ACTIVE){
+            ConsoleControl.printlnString("[2] Тренировочная гонка");
+        }
         ConsoleControl.printlnString("[0] Вернуться в главное меню");
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
@@ -48,9 +52,13 @@ public class ChampionshipTab extends Tab{
     }
 
     private Tab selectResponse(String req){
+        if(gm.getGameMode() == GameMode.CHUCK_NORRIS_ACTIVE && req.equals("2")){
+            return null;
+        }
         return switch (req) {
-            case "1" -> new RacePreviewTab(gm, CatalogOfTracks.allCatalog.getFirst());
-            case "2" -> new EmployeesByJobTab(gm, JobType.ENGINEER);
+            case "1" -> new RacePreviewTab(gm, CatalogOfRaces.allCatalog
+                    .get(RandomGenerator.getInteger(1,CatalogOfRaces.allCatalog.size() - 1)));
+            case "2" -> new RacePreviewTab(gm, CatalogOfRaces.allCatalog.getFirst());
             case "0" -> new MainTab((gm));
             default -> null;
         };

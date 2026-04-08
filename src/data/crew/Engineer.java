@@ -1,43 +1,44 @@
 package data.crew;
 
 public class Engineer extends Employee{
-    private Integer wawyHands;
+    private Integer wavyHands;
     private Integer screwing;
-    private Integer maintance;
 
-    public Engineer(long id, String article, String name, int fee, int experience, int reputationLevel, int wawyHands,
-                    int screwing, int maintance) {
-        super(id, JobType.ENGINEER, article, name, fee, experience, reputationLevel);
+    public Engineer(long id, String article, String name,
+                    int stockFee, int experience, int reputationLevel,
+                    int wavyHands, int screwing) {
+        this(id, article, name, "", stockFee, experience,
+                reputationLevel,  wavyHands,screwing);
+    }
 
-        this.wawyHands = wawyHands;
+    public Engineer(long id, String article, String name, String postfix,
+                    int stockFee, int experience, int reputationLevel,
+                    int wavyHands, int screwing) {
+        super(id, JobType.ENGINEER, article, name, postfix,
+                stockFee, experience, reputationLevel);
+
+        this.wavyHands = wavyHands;
         this.screwing = screwing;
-        this.maintance = maintance;
     }
 
     @Override
-    public String getStringOfCharacteristics() {
+    public String getBaseCharacteristics() {
         StringBuilder sb = new StringBuilder(1000);
 
         sb.append("Имя: ").append(getName()).append(" ").append(getPostfix()).append("\n");
         sb.append("Опыт работы: ").append(getExperience()).append("\n");
-        sb.append("Криворукость: ").append(wawyHands).append(" %").append("\n");
+        sb.append("Криворукость: ").append(wavyHands).append(" %").append("\n");
         sb.append("БОЛТология: ").append(screwing).append(" %").append("\n");
-        sb.append("Качество обслуживания: ").append(maintance).append(" %").append("\n");
-        sb.append("Мин ЗПшка: ").append(getStockFee()).append(" грошей").append("\n");
-        sb.append("\n");
-        sb.append("Стоимость найма: ").append(getHiringCost());
+        sb.append("Мин ЗПшка: ").append(getStockFee()).append(" грошей\n");
 
         return sb.toString();
     }
 
-    public int getWawyHands(){
-        return wawyHands;
+    public int getWavyHands(){
+        return wavyHands;
     }
     public int getScrewing(){
         return screwing;
-    }
-    public int getMaintance(){
-        return maintance;
     }
 
     @Override
@@ -46,21 +47,22 @@ public class Engineer extends Employee{
                 idNew,
                 getArticle(),
                 getName(),
+                getPostfix(),
                 getStockFee(),
                 getExperience(),
                 getReputationLevel(),
-                wawyHands,
-                screwing,
-                maintance
+                wavyHands,
+                screwing
         );
     }
 
     @Override
     public int getHiringCost() {
-        return getStockFee() * (1 + getExperience()/10 + wawyHands * screwing * maintance / 1000);
+        return (int)(getStockFee() * (1 + getExperience()/100d + wavyHands * screwing / 10000d));
     }
 
-    public int getAssembleFee() {
-        return getStockFee();
+    @Override
+    public int getSalary(int carsAssembled) {
+        return (int)(getStockFee() * carsAssembled * (1 + getExperience()/20d));
     }
 }

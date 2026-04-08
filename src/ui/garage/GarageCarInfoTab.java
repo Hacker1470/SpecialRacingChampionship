@@ -86,20 +86,20 @@ public class GarageCarInfoTab extends Tab {
     private void printCharacteristics(){
         ConsoleControl.printlnString("Болид: " + chosenCar.getName());
         ConsoleControl.printlnString(PartType.CHASSIS.getMarketInfoTitle());
-        ConsoleControl.printlnString(chosenCar.getChassis().getStringOfCharacteristics());
+        ConsoleControl.printlnString(chosenCar.getChassis().getGarageCharacteristics());
         ConsoleControl.printlnString(PartType.ENGINE.getMarketInfoTitle());
-        ConsoleControl.printlnString(chosenCar.getEngine().getStringOfCharacteristics());
+        ConsoleControl.printlnString(chosenCar.getEngine().getGarageCharacteristics());
         ConsoleControl.printlnString(PartType.TRANSMISSION.getMarketInfoTitle());
-        ConsoleControl.printlnString(chosenCar.getTransmission().getStringOfCharacteristics());
+        ConsoleControl.printlnString(chosenCar.getTransmission().getGarageCharacteristics());
         ConsoleControl.printlnString(PartType.WHEELS.getMarketInfoTitle());
-        ConsoleControl.printlnString(chosenCar.getWheels().getStringOfCharacteristics());
+        ConsoleControl.printlnString(chosenCar.getWheels().getGarageCharacteristics());
         if(chosenCar.getSuspension() != null){
             ConsoleControl.printlnString(PartType.SUSPENSION.getMarketInfoTitle());
-            ConsoleControl.printlnString(chosenCar.getSuspension().getStringOfCharacteristics());
+            ConsoleControl.printlnString(chosenCar.getSuspension().getGarageCharacteristics());
         }
         if(chosenCar.getSuspension() != null){
             ConsoleControl.printlnString(PartType.DOWNFORCE.getMarketInfoTitle());
-            ConsoleControl.printlnString(chosenCar.getDownforcePart().getStringOfCharacteristics());
+            ConsoleControl.printlnString(chosenCar.getDownforcePart().getGarageCharacteristics());
         }
     }
 }

@@ -26,7 +26,7 @@ public class WarehousePartInfoTab extends Tab {
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString(chosenPart.getType().getMarketInfoTitle());
 
-        ConsoleControl.printlnString(chosenPart.getStringOfCharacteristics());
+        ConsoleControl.printlnString(chosenPart.getWarehouseCharacteristics());
 
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("[0] Вернуться к списку");

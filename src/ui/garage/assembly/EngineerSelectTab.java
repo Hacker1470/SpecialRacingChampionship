@@ -2,6 +2,7 @@ package ui.garage.assembly;
 
 import data.crew.Engineer;
 import data.crew.JobType;
+import data.vehicle.RacecarSample;
 import game.GameSession;
 import ui.base.Tab;
 import ui.handling.ConsoleControl;

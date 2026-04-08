@@ -1,5 +1,6 @@
 package ui.employment;
 
+import game.GameMode;
 import game.GameSession;
 import ui.handling.ConsoleControl;
 import ui.base.Tab;
@@ -27,7 +28,7 @@ public class EmployeeInfoTab extends Tab {
         ConsoleControl.printlnString("");
         ConsoleControl.printlnString(chosenEmployee.getType().getEmployInfoTitle());
 
-        ConsoleControl.printlnString(chosenEmployee.getStringOfCharacteristics());
+        ConsoleControl.printlnString(chosenEmployee.getEmploymentCharacteristics());
 
         ConsoleControl.printlnString("=============================================");
         ConsoleControl.printlnString("[1] Купить (Баланс: " + gm.getMoney() + " грошей)");
@@ -49,7 +50,13 @@ public class EmployeeInfoTab extends Tab {
                     break;
                 case "1":
                     if(hireEmployee()){
-                        response = new EmployeeNamingTab(gm, gm.dorm().getEmployeeById(idCounter - 1));
+                        if(gm.getGameMode() == GameMode.CHUCK_NORRIS_APPEARANCE  && chosenEmployee.getId() == Long.MAX_VALUE){
+                            gm.setGameMode(GameMode.CHUCK_NORRIS_ACTIVE);
+                            response = new EmployeeNamingTab(gm, gm.dorm().getEmployeeById(Long.MAX_VALUE));
+                        }
+                        else{
+                            response = new EmployeeNamingTab(gm, gm.dorm().getEmployeeById(idCounter - 1));
+                        }
                     }
                     else {
                         outputWithWarn("Недостаточно средств");
@@ -65,7 +72,12 @@ public class EmployeeInfoTab extends Tab {
 
     private boolean hireEmployee(){
         if(gm.takeMoney(chosenEmployee.getHiringCost())) {
-            gm.dorm().put(chosenEmployee.getCopy(idCounter++));
+            if(gm.getGameMode() == GameMode.CHUCK_NORRIS_APPEARANCE && chosenEmployee.getId() == Long.MAX_VALUE){
+                gm.dorm().put(chosenEmployee.getCopy(Long.MAX_VALUE));
+            }
+            else {
+                gm.dorm().put(chosenEmployee.getCopy(idCounter++));
+            }
             return true;
         }
         else {

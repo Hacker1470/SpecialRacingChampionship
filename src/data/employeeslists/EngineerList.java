@@ -14,8 +14,7 @@ public class EngineerList {
         0,
         0,
         70,
-        40,
-        30
+        40
     );
 
     public static Engineer pazhiloypauk = new Engineer(
@@ -26,7 +25,6 @@ public class EngineerList {
         10,
         10,
         20,
-        80,
-        50
+        80
     );
 }

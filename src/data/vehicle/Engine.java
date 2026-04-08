@@ -2,7 +2,8 @@ package data.vehicle;
 
 import data.catalogs.CatalogOfParts;
 import data.crew.Pilot;
-import data.race.map.MapTerrain;
+import data.race.map.RaceTrack;
+import data.race.map.terrains.MapTerrain;
 import data.vehicle.enums.PartType;
 
 import java.util.List;
@@ -13,7 +14,13 @@ public class Engine extends Part implements IDamageble{
 
     public Engine(long id, String article, String name, int stockPrice, int quality, int mass, double damage,
                   int reputationLevel, List<String> connectivity, int power, int maxRpm){
-        super(id, PartType.ENGINE, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
+        this(id, article, name, "", stockPrice, quality, mass, damage,
+                reputationLevel, connectivity, power, maxRpm);
+    }
+
+    public Engine(long id, String article, String name, String postfix, int stockPrice, int quality, int mass, double damage,
+                  int reputationLevel, List<String> connectivity, int power, int maxRpm){
+        super(id, PartType.ENGINE, article, name, postfix, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
         this.power = power;
         this.maxRpm = maxRpm;
@@ -28,11 +35,11 @@ public class Engine extends Part implements IDamageble{
 
     @Override
     public int getRealPrice(){
-        return getStockPrice() * ((int)getDamage() + getQuality()) / 100;
+        return (int)(getStockPrice() * ((100 - getDamage()) + getQuality()) / 100d);
     }
 
     @Override
-    public String getStringOfCharacteristics(){
+    public String getBaseCharacteristics(){
         StringBuilder sb = new StringBuilder(2000);
 
         sb.append("Название: ").append(getName()).append(" ").append(getPostfix()).append("\n");
@@ -45,12 +52,8 @@ public class Engine extends Part implements IDamageble{
         sb.append("Совместимость:\n");
 
         for (Part i : CatalogOfParts.getAvailableByConnectivity(getConnectivity())){
-            sb.append("* ").append(i.getName()).append("\n");;
+            sb.append("* ").append(i.getName()).append("\n");
         }
-        sb.append("\n");
-
-        sb.append("Стоимость: ").append(getRealPrice());
-
         return sb.toString();
     }
 
@@ -60,6 +63,7 @@ public class Engine extends Part implements IDamageble{
                 idNew,
                 getArticle(),
                 getName(),
+                getPostfix(),
                 getStockPrice(),
                 getQuality(),
                 getMass(),
@@ -79,7 +83,7 @@ public class Engine extends Part implements IDamageble{
      * @return
      */
     @Override
-    public double getBaseDamage(double coefficient, MapTerrain terrain, Racecar racecar, Pilot pilot) {
+    public double getBaseDamage(double coefficient, RaceTrack rt, MapTerrain terrain, Racecar racecar, Pilot pilot) {
         return power * maxRpm * coefficient / 2500000;
     }
 }

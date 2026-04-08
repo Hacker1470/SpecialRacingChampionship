@@ -1,7 +1,8 @@
 package data.special;
 
 import data.crew.Pilot;
-import data.race.map.MapTerrain;
+import data.race.map.RaceTrack;
+import data.race.map.terrains.MapTerrain;
 import data.vehicle.Racecar;
 
 public class RacecarCoefMng {
@@ -66,7 +67,9 @@ public class RacecarCoefMng {
      * К_нагрузка
      * @return
      */
-    public static double getLoadCoef(Racecar racecar, Pilot pilot, MapTerrain terrain){
-        return 100 * terrain.getAverageSpeed(racecar, pilot) / racecar.getMaxPotentialSpeed();
+    public static double getLoadCoef(Racecar racecar, Pilot pilot, RaceTrack rt, MapTerrain terrain){
+        return Math.min(100 * terrain.getAverageSpeed(racecar, pilot, rt.getWeather())
+                / racecar.getMaxPotentialSpeed(),
+                terrain.getAverageSpeed(racecar, pilot, rt.getWeather())/200);
     }
 }

@@ -1,33 +1,28 @@
 package data.crew;
 
 public abstract class Employee {
-    private long id;
-    private JobType function;
-    private String article;
-    private String name;
+    private final long id;
+    private final JobType type;
+    private final String article;
+    private final String name;
     private String postfix;
-    private Integer stockFee;
+    private final Integer stockFee;
     private Integer experience;
-    private Integer reputationLevel;
+    private final Integer reputationLevel;
 
-    public Employee(long id, JobType type, String article, String name, int fee, int experience, int reputationLevel) {
-        this.id = id;
-        function = type;
-        this.article = article;
-        this.name = name;
-        postfix = "";
-        stockFee = fee;
-        this.experience = experience;
-        this.reputationLevel = reputationLevel;
+    public Employee(long id, JobType type, String article, String name, int stockFee,
+                    int experience, int reputationLevel) {
+        this(id, type, article, name, "", stockFee, experience, reputationLevel);
     }
 
-    public Employee(long id, JobType type, String article, String name, String postfix, int fee, int experience, int reputationLevel) {
+    public Employee(long id, JobType type, String article, String name, String postfix,
+                    int stockFee, int experience, int reputationLevel) {
         this.id = id;
-        function = type;
+        this.type = type;
         this.article = article;
         this.name = name;
         this.postfix = postfix;
-        stockFee = fee;
+        this.stockFee = stockFee;
         this.experience = experience;
         this.reputationLevel = reputationLevel;
     }
@@ -36,7 +31,7 @@ public abstract class Employee {
         return id;
     }
     public JobType getType() {
-        return function;
+        return type;
     }
     public String getArticle() {
         return article;
@@ -58,10 +53,29 @@ public abstract class Employee {
     }
 
     public void setPostfix(String newValue){
-        postfix = newValue;
+        if(newValue != null){
+            postfix = newValue;
+        }
+        else{
+            postfix = "";
+        }
+    }
+    public void setExperience(int newValue){
+        if(newValue < 0){
+            newValue = 0;
+        }
+        experience = newValue;
     }
 
-    public abstract String getStringOfCharacteristics();
+    protected abstract String getBaseCharacteristics();
+
+    public String getEmploymentCharacteristics(){
+        return getBaseCharacteristics() + "\nСтоимость найма: " + getHiringCost();
+    }
+    public String getDormCharacteristics(){
+        return getBaseCharacteristics();
+    }
     public abstract Employee getCopy(Long idNew);
     public abstract int getHiringCost();
+    public abstract int getSalary(int workAmount);
 }
