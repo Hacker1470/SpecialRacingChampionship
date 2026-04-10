@@ -117,7 +117,7 @@ public class BotGenerator {
                     currentSet = matrix.get(RandomGenerator.getInteger(0, matrix.size()) - 1);
                 }
                 catch (IndexOutOfBoundsException e){
-                    ConsoleControl.printString("");
+                    ConsoleControl.printlnString("");
                     currentSet = matrix.get(RandomGenerator.getInteger(0, matrix.size()) - 1);
                 }
                 rs.setChassis(chaList.get(currentSet.get(0)));

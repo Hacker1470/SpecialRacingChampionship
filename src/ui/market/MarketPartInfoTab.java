@@ -63,7 +63,7 @@ public class MarketPartInfoTab extends Tab {
         return response;
     }
 
-    private boolean buyPart(){
+    public boolean buyPart(){
         if(gm.takeMoney(chosenPart.getRealPrice())) {
             gm.warehouse().put(chosenPart.getCopy(idCounter++));
             return true;

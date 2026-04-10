@@ -5,6 +5,7 @@ import data.employeeslists.*;
 import data.partslists.*;
 import data.race.ArchiveRecord;
 import data.vehicle.*;
+import iosystem.IOControl;
 import ui.base.MainTab;
 import ui.handling.TabsHandler;
 
@@ -20,6 +21,12 @@ public class GameSession {
     private ArrayList<ArchiveRecord> archive;
     private GameMode gameMode;
     private Hospital hospital = null;
+
+    private IOControl io;
+
+    public IOControl io(){
+        return io;
+    }
 
     public GameMode getGameMode() {
         return gameMode;
@@ -86,7 +93,8 @@ public class GameSession {
         }
     }
 
-    public GameSession(){
+    public GameSession(IOControl io){
+        this.io = io;
         warehouse = new Warehouse();
         dorm = new Dorm();
         garage = new Garage();
@@ -94,8 +102,8 @@ public class GameSession {
         gameMode = GameMode.NORMAL;
     }
 
-    public GameSession(int money, int rep){
-        this();
+    public GameSession(IOControl io, int money, int rep){
+        this(io);
         this.money = money;
         this.rep = rep;
 

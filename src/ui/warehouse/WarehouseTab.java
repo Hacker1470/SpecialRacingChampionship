@@ -3,7 +3,7 @@ package ui.warehouse;
 import game.GameSession;
 import ui.base.MainTab;
 import ui.base.Tab;
-import ui.handling.ConsoleControl;
+import ui.handling.gm.io();
 import ui.market.MarketPartInfoTab;
 
 import java.util.ArrayList;
@@ -23,9 +23,9 @@ public class WarehouseTab extends Tab {
 
     @Override
     protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("========== СКЛАДБИЩЕ ========");
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString("========== СКЛАДБИЩЕ ========");
 
         if(gm.warehouse().getQuantityOfParts() > 0){
             printPartsCatalog();
@@ -34,25 +34,25 @@ public class WarehouseTab extends Tab {
             printEmptyWarehouse();
         }
 
-        ConsoleControl.printlnString("[0] Вернуться в меню");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("[0] Вернуться в меню");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
     private void printPartsCatalog(){
-        ConsoleControl.printlnString("На складе лежат следующие детали");
+        gm.io().printlnString("На складе лежат следующие детали");
 
-        ConsoleControl.printlnString(gm.warehouse().generateStringCatalog());
+        gm.io().printlnString(gm.warehouse().generateStringCatalog());
 
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[N] Подробнее о детали N");
+        gm.io().printlnString("");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("[N] Подробнее о детали N");
     }
 
     private void printEmptyWarehouse(){
-        ConsoleControl.printlnString("Склад пустует");
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("=============================================");
+        gm.io().printlnString("Склад пустует");
+        gm.io().printlnString("");
+        gm.io().printlnString("=============================================");
     }
 
     private Tab menuHandler(){
@@ -60,7 +60,7 @@ public class WarehouseTab extends Tab {
         Tab response = null;
 
         while (response == null){
-            request = ConsoleControl.getString();
+            request = gm.io().getString();
 
             response = selectResponse(request);
             if (response == null){
