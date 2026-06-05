@@ -1,19 +1,21 @@
-package data.vehicle;
+package data.parts;
 
 import data.catalogs.CatalogOfParts;
 import data.crew.Pilot;
 import data.race.map.RaceTrack;
 import data.race.map.terrains.MapTerrain;
-import data.vehicle.enums.PartType;
+import data.racecar.Racecar;
+import data.parts.enums.PartType;
 
 import java.util.List;
 
-public class Transmission extends Part{
+public class Transmission extends Part {
     private final Integer maxSpeed; //Максимальная скорость болида
     private final Integer gears; //Количество передач. Чем больше передач, тем быстрее разгон
-                            // и тем более опытный должен быть пилот
+
+    // и тем более опытный должен быть пилот
     public Transmission(long id, String article, String name, int stockPrice, int quality, int mass, double damage,
-                        int reputationLevel, List<String> connectivity, int maxSpeed, int gears){
+                        int reputationLevel, List<String> connectivity, int maxSpeed, int gears) {
         super(id, PartType.TRANSMISSION, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
         this.maxSpeed = maxSpeed;
@@ -21,12 +23,12 @@ public class Transmission extends Part{
     }
 
     @Override
-    public int getRealPrice(){
-        return (int)(getStockPrice() * ((100 - getDamage()) + getQuality()) / 100d);
+    public int getRealPrice() {
+        return (int) (getStockPrice() * ((100 - getDamage()) + getQuality()) / 100d);
     }
 
     @Override
-    public String getBaseCharacteristics(){
+    public String getBaseCharacteristics() {
         StringBuilder sb = new StringBuilder(2000);
 
         sb.append("Название: ").append(getName()).append(" ").append(getPostfix()).append("\n");
@@ -38,16 +40,18 @@ public class Transmission extends Part{
         sb.append("\n");
         sb.append("Совместимость:\n");
 
-        for (Part i : CatalogOfParts.getAvailableByConnectivity(getConnectivity())){
-            sb.append("* ").append(i.getName()).append("\n");;
+        for (Part i : CatalogOfParts.getAvailableByConnectivity(getConnectivity())) {
+            sb.append("* ").append(i.getName()).append("\n");
+            ;
         }
         return sb.toString();
     }
 
-    public int getGears(){
+    public int getGears() {
         return gears;
     }
-    public int getMaxSpeed(){
+
+    public int getMaxSpeed() {
         return maxSpeed;
     }
 
@@ -69,6 +73,7 @@ public class Transmission extends Part{
 
     /**
      * Δ_коробка_база = (Мощность × Обороты / 2500000) × K_участок_кпп
+     *
      * @param coefficient
      * @param terrain
      * @param racecar

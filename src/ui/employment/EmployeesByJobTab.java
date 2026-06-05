@@ -3,10 +3,8 @@ package ui.employment;
 import data.catalogs.CatalogOfEmployees;
 import data.crew.Pilot;
 import data.special.RandomGenerator;
-import game.GameMode;
+import game.GameModeNorris;
 import game.GameSession;
-import ui.employment.modes.AngryNorrisTab;
-import ui.handling.ConsoleControl;
 import ui.base.Tab;
 import data.crew.Employee;
 import data.crew.JobType;
@@ -22,10 +20,10 @@ public class EmployeesByJobTab extends Tab {
         super(gm);
         this.type = type;
 
-        if(gm.getGameMode() == GameMode.NORMAL
+        if (gm.getGameModeNorris() == GameModeNorris.NORMAL
                 && type == JobType.PILOT
-                && RandomGenerator.getInteger(1,100) > 30){
-            gm.setGameMode(GameMode.CHUCK_NORRIS_APPEARANCE);
+                && RandomGenerator.getInteger(1, 100) > 30) {
+            gm.setGameMode(GameModeNorris.CHUCK_NORRIS_APPEARANCE);
         }
     }
 
@@ -37,45 +35,42 @@ public class EmployeesByJobTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString(type.getEmployGroupTitle());
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString(type.getEmployGroupTitle());
 
-        if(type == JobType.PILOT && gm.getGameMode() == GameMode.CHUCK_NORRIS_APPEARANCE){
-            ConsoleControl.printlnString("[1] Chuck Norris");
-            for(int i = 2; i <= availableEmployeesByRep.size() + 1; i++){
-                ConsoleControl.printlnString("[" + i + "] " + availableEmployeesByRep.get(i - 2).getName());
+        if (type == JobType.PILOT && gm.getGameModeNorris() == GameModeNorris.CHUCK_NORRIS_APPEARANCE) {
+            gm.io().printlnString("[1] Chuck Norris");
+            for (int i = 2; i <= availableEmployeesByRep.size() + 1; i++) {
+                gm.io().printlnString("[" + i + "] " + availableEmployeesByRep.get(i - 2).getName());
+            }
+        } else {
+            for (int i = 1; i <= availableEmployeesByRep.size(); i++) {
+                gm.io().printlnString("[" + i + "] " + availableEmployeesByRep.get(i - 1).getName());
             }
         }
-        else{
-            for(int i = 1; i <= availableEmployeesByRep.size(); i++){
-                ConsoleControl.printlnString("[" + i + "] " + availableEmployeesByRep.get(i - 1).getName());
-            }
-        }
 
 
-
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("[0] Вернуться на биржу");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("");
+        gm.io().printlnString("[0] Вернуться на биржу");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
-            if(type == JobType.PILOT && gm.getGameMode() == GameMode.CHUCK_NORRIS_APPEARANCE){
+            if (type == JobType.PILOT && gm.getGameModeNorris() == GameModeNorris.CHUCK_NORRIS_APPEARANCE) {
                 response = norrisSelectResponse(request);
-            }
-            else{
+            } else {
                 response = selectResponse(request);
             }
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -83,11 +78,11 @@ public class EmployeesByJobTab extends Tab {
         return response;
     }
 
-    private Tab norrisSelectResponse(String req){
-        if(req.equals("0")){
+    private Tab norrisSelectResponse(String req) {
+        if (req.equals("0")) {
             return new EmployTab(gm);
         }
-        if(req.equals("1")){
+        if (req.equals("1")) {
             return new EmployeeInfoTab(gm, new Pilot(
                     Long.MAX_VALUE, "chuck_norris", "Chuck Norris", 1,
                     0, 0, 10, 90, 1)
@@ -97,36 +92,32 @@ public class EmployeesByJobTab extends Tab {
         int index;
         try {
             index = Integer.parseInt(req);
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return null;
         }
 
-        if(index <= availableEmployeesByRep.size() + 1 && index >= 2) {
+        if (index <= availableEmployeesByRep.size() + 1 && index >= 2) {
             return new EmployeeInfoTab(gm, availableEmployeesByRep.get(index - 2));
-        }
-        else {
+        } else {
             return null;
         }
     }
 
-    private Tab selectResponse(String req){
-        if(req.equals("0")){
+    private Tab selectResponse(String req) {
+        if (req.equals("0")) {
             return new EmployTab(gm);
         }
 
         int index;
         try {
             index = Integer.parseInt(req);
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return null;
         }
 
-        if(index <= availableEmployeesByRep.size() && index >= 1) {
+        if (index <= availableEmployeesByRep.size() && index >= 1) {
             return new EmployeeInfoTab(gm, availableEmployeesByRep.get(index - 1));
-        }
-        else {
+        } else {
             return null;
         }
     }

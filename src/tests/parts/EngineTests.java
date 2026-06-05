@@ -1,9 +1,9 @@
 package tests.parts;
 
 import data.catalogs.CatalogOfParts;
-import data.vehicle.Engine;
-import data.vehicle.PartBrokeException;
-import data.vehicle.enums.PartType;
+import data.parts.Engine;
+import data.parts.PartBrokeException;
+import data.parts.enums.PartType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ public class EngineTests {
     Engine engine;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         engine = new Engine(
                 42,
                 "article",
@@ -36,7 +36,7 @@ public class EngineTests {
 
     @DisplayName("Проверка геттеров родительских полей")
     @Test
-    public void basePropertiesTest(){
+    public void basePropertiesTest() {
         assertEquals(42, engine.getId());
         assertEquals(PartType.ENGINE, engine.getType());
         assertEquals("article", engine.getArticle());
@@ -53,7 +53,7 @@ public class EngineTests {
 
     @DisplayName("Проверка изменения родительского поля postfix")
     @Test
-    public void basePostfixTest(){
+    public void basePostfixTest() {
         engine.setPostfix("");
         assertEquals("", engine.getPostfix());
         engine.setPostfix("postfix");
@@ -65,11 +65,11 @@ public class EngineTests {
 
     @DisplayName("Проверка сеттера родительского поля damage")
     @Test
-    public void baseDamageTest(){
+    public void baseDamageTest() {
         engine.setDamage_75();
         assertEquals(75, engine.getDamage());
 
-        try{
+        try {
             engine.setDamage(-1);
             assertEquals(0, engine.getDamage());
             engine.setDamage(0);
@@ -78,25 +78,22 @@ public class EngineTests {
             assertEquals(50, engine.getDamage());
             engine.setDamage(99);
             assertEquals(99, engine.getDamage());
-        }
-        catch (PartBrokeException e){
+        } catch (PartBrokeException e) {
             fail("Ошибки быть не должно");
         }
 
-        try{
+        try {
             engine.setDamage(100);
             fail("Ошибка должна быть, но её не произошло");
-        }
-        catch (PartBrokeException e){
+        } catch (PartBrokeException e) {
             assertEquals("Сломалос name postfix\n\tdamage 99,00 -> 100,00", e.getMessage());
             assertEquals(100, engine.getDamage());
         }
 
-        try{
+        try {
             engine.setDamage(120);
             fail("Ошибка должна быть, но её не произошло");
-        }
-        catch (PartBrokeException e){
+        } catch (PartBrokeException e) {
             assertEquals("Сломалос name postfix\n\tdamage 100,00 -> 120,00", e.getMessage());
             assertEquals(100, engine.getDamage());
         }
@@ -104,7 +101,7 @@ public class EngineTests {
 
     @DisplayName("Проверка сеттера родительского поля connectionReliability")
     @Test
-    public void baseConnectionReliabilityTest(){
+    public void baseConnectionReliabilityTest() {
         engine.setConnectionReliability(-1);
         assertEquals(0, engine.getConnectionReliability());
         engine.setConnectionReliability(0);
@@ -119,33 +116,30 @@ public class EngineTests {
 
     @DisplayName("Проверка геттеров собственных полей")
     @Test
-    public void ownPropertiesTest(){
+    public void ownPropertiesTest() {
         assertEquals(9, engine.getPower());
         assertEquals(10, engine.getMaxRpm());
     }
 
     @DisplayName("Проверка подсчёта getRealPrice")
     @Test
-    public void realPriceCalculationTest(){
+    public void realPriceCalculationTest() {
         try {
             engine.setDamage(0);
-        }
-        catch (PartBrokeException e){
+        } catch (PartBrokeException e) {
             fail("Ошибки быть не должно");
         }
         assertEquals(360, engine.getRealPrice());
         try {
             engine.setDamage(50);
-        }
-        catch (PartBrokeException e){
+        } catch (PartBrokeException e) {
             fail("Ошибки быть не должно");
         }
         assertEquals(210, engine.getRealPrice());
         try {
             engine.setDamage(100);
             fail("Ошибка должна быть, но её не произошло");
-        }
-        catch (PartBrokeException e){
+        } catch (PartBrokeException e) {
             assertEquals(60, engine.getRealPrice());
         }
     }
@@ -153,14 +147,14 @@ public class EngineTests {
     @DisplayName("Проверка методов get[Market/Warehouse]Characteristics")
     @Test
     public void stringCharacteristicsCreationTest() {
-        CatalogOfParts.catalogInit();
+        CatalogOfParts.init();
 
         assertEquals("Название: name postfix\n" + "Качество: 20\n" +
                 "Масса: 5 кг\n" + "Износ: 6.0 %\n" +
                 "Мощность: 9 л/с\n" +
                 "Максимальные обороты: 10 об/мин\n\n" + "Совместимость:\n" +
-                "* " + CatalogOfParts.getPartWithArticle("chas_1_0").getName() + "\n" +
-                "* " + CatalogOfParts.getPartWithArticle("tran_2_0").getName() + "\n" +
+                "* " + CatalogOfParts.getByArticle("chas_1_0").getName() + "\n" +
+                "* " + CatalogOfParts.getByArticle("tran_2_0").getName() + "\n" +
                 "\nСтоимость: 342", engine.getMarketCharacteristics());
 
         engine.setConnectionReliability(30);
@@ -168,14 +162,14 @@ public class EngineTests {
                 "Масса: 5 кг\n" + "Износ: 6.0 %\n" +
                 "Мощность: 9 л/с\n" +
                 "Максимальные обороты: 10 об/мин\n\n" + "Совместимость:\n" +
-                "* " + CatalogOfParts.getPartWithArticle("chas_1_0").getName() + "\n" +
-                "* " + CatalogOfParts.getPartWithArticle("tran_2_0").getName() + "\n" +
+                "* " + CatalogOfParts.getByArticle("chas_1_0").getName() + "\n" +
+                "* " + CatalogOfParts.getByArticle("tran_2_0").getName() + "\n" +
                 "\nКачество соединения: 30", engine.getGarageCharacteristics());
     }
 
     @DisplayName("Проверка метода получения копии")
     @Test
-    public void getCopyMethodTest(){
+    public void getCopyMethodTest() {
         Engine eCopy = (Engine) engine.getCopy(200L);
         assertEquals(200L, eCopy.getId());
         assertEquals(PartType.ENGINE, eCopy.getType());

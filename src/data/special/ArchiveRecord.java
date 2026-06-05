@@ -1,6 +1,4 @@
-package data.race;
-
-import data.race.map.enums.WeatherType;
+package data.special;
 
 public class ArchiveRecord {
     private final String mapName;
@@ -10,7 +8,7 @@ public class ArchiveRecord {
     private final int profit;
 
     public ArchiveRecord(String mapName, String carName, String pilotName,
-                         String place, int profit){
+                         String place, int profit) {
         this.mapName = mapName;
         this.carName = carName;
         this.pilotName = pilotName;
@@ -21,10 +19,10 @@ public class ArchiveRecord {
     public String getMapName() {
         return mapName;
     }
-    public String getPlace(){
+    public String getPlace() {
         return place;
     }
-    public String getCarName(){
+    public String getCarName() {
         return carName;
     }
     public String getPilotName() {

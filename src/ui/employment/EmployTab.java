@@ -1,14 +1,11 @@
 package ui.employment;
 
-import game.GameMode;
+import game.GameModeNorris;
 import game.GameSession;
 import ui.base.MainTab;
 import ui.employment.modes.AngryNorrisTab;
-import ui.garage.GarageTab;
-import ui.handling.ConsoleControl;
 import ui.base.Tab;
 import data.crew.JobType;
-import ui.market.MarketTab;
 
 public class EmployTab extends Tab {
 
@@ -23,26 +20,26 @@ public class EmployTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("====== БИРЖА ТРУДА ======");
-        ConsoleControl.printlnString("[1] Пилоты");
-        ConsoleControl.printlnString("[2] Инженеры");
-        ConsoleControl.printlnString("[0] Вернуться в главное меню");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString("====== БИРЖА ТРУДА ======");
+        gm.io().printlnString("[1] Пилоты");
+        gm.io().printlnString("[2] Инженеры");
+        gm.io().printlnString("[0] Вернуться в главное меню");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
             response = selectResponse(request);
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -50,13 +47,12 @@ public class EmployTab extends Tab {
         return response;
     }
 
-    private Tab selectResponse(String req){
-        if(gm.getGameMode() == GameMode.CHUCK_NORRIS_APPEARANCE && req.equals("0")){
-            if(gm.dorm().getEmployeesByJob(JobType.PILOT).isEmpty()){
-                gm.setGameMode(GameMode.NORMAL);
+    private Tab selectResponse(String req) {
+        if (gm.getGameModeNorris() == GameModeNorris.CHUCK_NORRIS_APPEARANCE && req.equals("0")) {
+            if (gm.dorm().getEmployeesByJob(JobType.PILOT).isEmpty()) {
+                gm.setGameMode(GameModeNorris.NORMAL);
                 return new MainTab(gm);
-            }
-            else{
+            } else {
                 return new AngryNorrisTab(gm);
             }
         }

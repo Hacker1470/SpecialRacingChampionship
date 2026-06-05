@@ -1,7 +1,6 @@
 package ui.garage.assembly.assemblyexceptions;
 
-import data.vehicle.Chassis;
-import data.vehicle.Part;
+import data.parts.Chassis;
 
 public class OverweightAssemblyException extends RuntimeException {
     public OverweightAssemblyException(Chassis chassis, int mass) {

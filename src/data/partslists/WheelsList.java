@@ -1,6 +1,6 @@
 package data.partslists;
 
-import data.vehicle.Wheels;
+import data.parts.Wheels;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public class WheelsList {
             "whel_1_0",
             "Колёса от велосипеда",
             0,
-            50,
+            35,
             50,
             30,
             0,
@@ -22,22 +22,22 @@ public class WheelsList {
             "whel_2_0",
             "Колёса базовые КАМА",
             5,
-            50,
+            40,
             20,
-            35,
+            25,
             2,
             List.of(),
-            40);
+            50);
 
     public static Wheels niceWheels = new Wheels(
             Long.MIN_VALUE,
             "whel_3_0",
             "Цилиндрические колёса в каучуке",
             15,
-            70,
+            50,
             1,
-            20,
+            10,
             9,
             List.of(),
-            65);
+            85);
 }

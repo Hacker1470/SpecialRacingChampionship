@@ -1,13 +1,14 @@
-package data.vehicle;
+package data.parts;
 
 import data.crew.Pilot;
 import data.race.map.RaceTrack;
 import data.race.map.terrains.MapTerrain;
-import data.vehicle.enums.PartType;
+import data.racecar.Racecar;
+import data.parts.enums.PartType;
 
 import java.util.List;
 
-public class EmptyPart extends Part{
+public class EmptyPart extends Part {
     public EmptyPart() {
         super(Long.MIN_VALUE, PartType.UNDEF, "????", "???", 0, 0, 0, 0, 0, List.of(""));
     }

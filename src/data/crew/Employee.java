@@ -52,16 +52,16 @@ public abstract class Employee {
         return reputationLevel;
     }
 
-    public void setPostfix(String newValue){
-        if(newValue != null){
+    public void setPostfix(String newValue) {
+        if (newValue != null) {
             postfix = newValue;
-        }
-        else{
+        } else {
             postfix = "";
         }
     }
-    public void setExperience(int newValue){
-        if(newValue < 0){
+
+    public void setExperience(int newValue) {
+        if (newValue < 0) {
             newValue = 0;
         }
         experience = newValue;
@@ -69,13 +69,20 @@ public abstract class Employee {
 
     protected abstract String getBaseCharacteristics();
 
-    public String getEmploymentCharacteristics(){
+    public String getEmploymentCharacteristics() {
         return getBaseCharacteristics() + "\nСтоимость найма: " + getHiringCost();
     }
-    public String getDormCharacteristics(){
+
+    public String getDormCharacteristics() {
         return getBaseCharacteristics();
     }
+
     public abstract Employee getCopy(Long idNew);
+    public Employee getCopy(){
+        return getCopy(Long.MIN_VALUE);
+    }
+
     public abstract int getHiringCost();
+
     public abstract int getSalary(int workAmount);
 }

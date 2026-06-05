@@ -1,30 +1,30 @@
 package game;
 
-import data.vehicle.enums.PartType;
-import data.vehicle.Part;
+import data.parts.enums.PartType;
+import data.parts.Part;
 
 import java.util.*;
 
 public class Warehouse {
     private HashMap<Long, Part> sklad;
 
-    public Warehouse(){
+    public Warehouse() {
         sklad = new HashMap<>();
     }
 
-    public List<Long> getKeysAscending(){
+    public List<Long> getKeysAscending() {
         return sklad.keySet().stream()
                 .sorted(Comparator.naturalOrder())
                 .toList();
     }
 
-    public String generateStringCatalog(){
+    public String generateStringCatalog() {
         StringBuilder sb = new StringBuilder(sklad.size() * 40);
         int counter = 1;
-        for(Part part : sklad.entrySet().stream()
+        for (Part part : sklad.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .map(Map.Entry::getValue)
-                .toList()){
+                .toList()) {
             sb.append(counter).append(") ").append(part.getName()).append(" ").append(part.getPostfix()).append("\n");
             counter++;
         }
@@ -34,30 +34,33 @@ public class Warehouse {
         return sb.toString();
     }
 
-    public void put(Part newPart){
+    public void put(Part newPart) {
         sklad.put(newPart.getId(), newPart);
     }
 
-    public ArrayList<Part> getPartsByType(PartType type){
+    public ArrayList<Part> getPartsByType(PartType type) {
         return new ArrayList<>(sklad.values().stream()
                 .filter(part -> part.getType() == type)
                 .toList());
     }
-    public ArrayList<Part> getAllParts(){
+
+    public ArrayList<Part> getAllParts() {
         return new ArrayList<>(sklad.values());
     }
-    public Part getPartById(long id){
+
+    public Part getPartById(long id) {
         return sklad.get(id);
     }
 
-    public void remove(Part part){
+    public void remove(Part part) {
         remove(part.getId());
     }
-    public void remove(long id){
+
+    public void remove(long id) {
         sklad.remove(id);
     }
 
-    public long getQuantityOfParts(){
+    public long getQuantityOfParts() {
         return sklad.size();
     }
 }

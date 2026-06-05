@@ -1,12 +1,9 @@
 package ui.garage.assembly;
 
-import data.vehicle.Part;
-import data.vehicle.Racecar;
+import data.racecar.Racecar;
 import game.GameSession;
 import ui.base.Tab;
 import ui.garage.GarageTab;
-import ui.handling.ConsoleControl;
-import ui.market.MarketTab;
 
 public class CarNamingTab extends Tab {
 
@@ -24,27 +21,26 @@ public class CarNamingTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("Автомобиль собран и помещён в гараж.");
-        ConsoleControl.printlnString("Сейчас он имеет название \""
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString("Автомобиль собран и помещён в гараж.");
+        gm.io().printlnString("Сейчас он имеет название \""
                 + chosenCar.getName() + "\"");
-        ConsoleControl.printlnString("Вы можете изменить его название");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите название и нажмите Enter");
+        gm.io().printlnString("Вы можете изменить его название");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите название и нажмите Enter");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
-        while (true){
-            request = ConsoleControl.getString();
+        while (true) {
+            request = gm.io().getString();
 
-            if(!request.isEmpty() && !request.replace(" ", "").isEmpty()){
+            if (!request.isEmpty() && !request.replace(" ", "").isEmpty()) {
                 chosenCar.setName(request);
                 return new GarageTab(gm);
-            }
-            else {
+            } else {
                 outputWithWarn("Имя болида не может быть пустым");
             }
         }

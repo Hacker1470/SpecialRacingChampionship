@@ -2,10 +2,9 @@ package ui.market;
 
 import game.GameSession;
 import data.catalogs.CatalogOfParts;
-import data.vehicle.enums.PartType;
-import ui.handling.ConsoleControl;
+import data.parts.enums.PartType;
 import ui.base.Tab;
-import data.vehicle.Part;
+import data.parts.Part;
 
 import java.util.ArrayList;
 
@@ -27,30 +26,30 @@ public class MarketPartsByTypeTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString(type.getMarketGroupTitle());
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString(type.getMarketGroupTitle());
 
-        for(int i = 1; i <= availablePartsByRep.size(); i++){
-            ConsoleControl.printlnString("[" + i + "] " + availablePartsByRep.get(i - 1).getName());
+        for (int i = 1; i <= availablePartsByRep.size(); i++) {
+            gm.io().printlnString("[" + i + "] " + availablePartsByRep.get(i - 1).getName());
         }
 
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("[0] Вернуться на рынок");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("");
+        gm.io().printlnString("[0] Вернуться на рынок");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
             response = selectResponse(request);
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -58,23 +57,21 @@ public class MarketPartsByTypeTab extends Tab {
         return response;
     }
 
-    private Tab selectResponse(String req){
-        if(req.equals("0")){
+    private Tab selectResponse(String req) {
+        if (req.equals("0")) {
             return new MarketTab(gm);
         }
 
         int index;
         try {
             index = Integer.parseInt(req);
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return null;
         }
 
-        if(index <= availablePartsByRep.size() && index >= 1) {
+        if (index <= availablePartsByRep.size() && index >= 1) {
             return new MarketPartInfoTab(gm, availablePartsByRep.get(index - 1));
-        }
-        else {
+        } else {
             return null;
         }
     }

@@ -1,6 +1,6 @@
 package ui.garage.assembly.assemblyexceptions;
 
-import data.vehicle.enums.PartType;
+import data.parts.enums.PartType;
 
 public class NoPartAssemblyException extends Exception {
     public NoPartAssemblyException(PartType pt) {

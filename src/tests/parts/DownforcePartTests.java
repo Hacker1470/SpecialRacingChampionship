@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class DownforcePartTests {
     @DisplayName("Добавить тест аналогично Chassis")
     @Test
-    public void NoTest(){
+    public void NoTest() {
 
     }
 }

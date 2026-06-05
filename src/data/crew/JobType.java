@@ -14,7 +14,7 @@ public enum JobType {
             "====== ИНФОРМАЦИЯ О ПИЛОТЕ ======"
     );
 
-    JobType(String employGroupTitle, String employInfoTitle){
+    JobType(String employGroupTitle, String employInfoTitle) {
         this.employGroupTitle = employGroupTitle;
         this.employInfoTitle = employInfoTitle;
     }
@@ -28,10 +28,11 @@ public enum JobType {
      */
     private final String employInfoTitle;
 
-    public String getEmployGroupTitle(){
+    public String getEmployGroupTitle() {
         return employGroupTitle;
     }
-    public String getEmployInfoTitle(){
+
+    public String getEmployInfoTitle() {
         return employInfoTitle;
     }
 }

@@ -1,24 +1,22 @@
 package game;
 
-import data.crew.Employee;
-import data.vehicle.Part;
-import data.vehicle.Racecar;
+import data.racecar.Racecar;
 
 import java.util.*;
 
 public class Garage {
     HashMap<Long, Racecar> cars;
 
-    public Garage(){
+    public Garage() {
         cars = new HashMap<>();
     }
 
-    public String generateStringCatalog(){
+    public String generateStringCatalog() {
         StringBuilder sb = new StringBuilder(cars.size() * 40);
 
         ArrayList<Long> keys = getKeys();
 
-        for (int i = 1; i <= cars.size(); i++){
+        for (int i = 1; i <= cars.size(); i++) {
             sb.append(i).append(") ").append(cars.get(keys.get(i - 1)).getName()).append("\n");
         }
 
@@ -27,22 +25,23 @@ public class Garage {
         return sb.toString();
     }
 
-    public ArrayList<Long> getKeys(){
+    public ArrayList<Long> getKeys() {
         return new ArrayList<>(cars.keySet());
     }
 
-    public void put(Racecar newRacecar){
+    public void put(Racecar newRacecar) {
         cars.put(newRacecar.getId(), newRacecar);
     }
 
-    public Racecar getCarById(long id){
+    public Racecar getCarById(long id) {
         return cars.get(id);
     }
 
-    public int getCarsNumber(){
+    public int getCarsNumber() {
         return cars.size();
     }
-    public void deleteCar(long carId){
+
+    public void deleteCar(long carId) {
         cars.remove(carId);
     }
 }

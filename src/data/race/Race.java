@@ -1,6 +1,7 @@
 package data.race;
 
 import data.race.map.RaceTrack;
+import data.race.teams.Team;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ public class Race {
     private int prize;
     private final int teamsNumber;
 
-    public Race(RaceTrack map, int deposit, int prize, int teamsNumber){
+    public Race(RaceTrack map, int deposit, int prize, int teamsNumber) {
         this.teams = new ArrayList<>();
         this.map = map;
         this.deposit = deposit;
@@ -19,42 +20,43 @@ public class Race {
         this.teamsNumber = teamsNumber;
     }
 
-    public ArrayList<Team> getCopyOfTeams(){
+    public ArrayList<Team> getCopyOfTeams() {
         return new ArrayList<>(teams);
     }
 
-    public ArrayList<String> getTeamsNames(){
+    public ArrayList<String> getTeamsNames() {
         return new ArrayList<>(teams.stream().map(Team::getName).toList());
     }
 
-    public int getDeposit(){
+    public int getDeposit() {
         return deposit;
     }
 
-    public void disqualifyTeam(Team badTeam){
+    public void disqualifyTeam(Team badTeam) {
         teams.remove(badTeam);
     }
 
-    public int getPrize(){
-        return (int)Math.round(deposit * teamsNumber * 0.9d + prize);
+    public int getPrize() {
+        return (int) Math.round(deposit * teamsNumber * 0.9d + prize);
     }
 
-    public RaceTrack getMap(){
+    public RaceTrack getMap() {
         return map;
     }
 
-    public int getTeamsNumber(){
+    public int getRequiredTeamsNumber() {
         return teamsNumber;
     }
 
     /**
      * Лучше сделать реализацию через экзепшены.
      * Сделал костыль чисто чтобы оно работало
+     *
      * @param newTeam
      * @return
      */
-    public boolean putTeam(Team newTeam){
-        if(teams.contains(newTeam) || teams.size() > teamsNumber || newTeam == null){
+    public boolean putTeam(Team newTeam) {
+        if (teams.contains(newTeam) || teams.size() > teamsNumber || newTeam == null) {
             return false;
         }
         teams.add(newTeam);

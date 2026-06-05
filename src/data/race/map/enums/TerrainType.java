@@ -19,7 +19,7 @@ public enum TerrainType {
     );
 
     TerrainType(double chassisCoef, double engineCoef, double transmissionCoef,
-                double wheelsCoef, double suspensionCoef, double downforceCoef){
+                double wheelsCoef, double suspensionCoef, double downforceCoef) {
         this.chassisCoef = chassisCoef;
         this.engineCoef = engineCoef;
         this.transmissionCoef = transmissionCoef;
@@ -27,6 +27,7 @@ public enum TerrainType {
         this.suspensionCoef = suspensionCoef;
         this.downforceCoef = downforceCoef;
     }
+
     private final double chassisCoef;
     private final double engineCoef;
     private final double transmissionCoef;
@@ -37,18 +38,23 @@ public enum TerrainType {
     public double getChassisCoef() {
         return chassisCoef;
     }
+
     public double getEngineCoef() {
         return engineCoef;
     }
+
     public double getTransmissionCoef() {
         return transmissionCoef;
     }
+
     public double getWheelsCoef() {
         return wheelsCoef;
     }
+
     public double getSuspensionCoef() {
         return suspensionCoef;
     }
+
     public double getDownforceCoef() {
         return downforceCoef;
     }

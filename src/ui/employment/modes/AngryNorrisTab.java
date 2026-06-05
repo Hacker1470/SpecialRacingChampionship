@@ -2,33 +2,27 @@ package ui.employment.modes;
 
 import data.crew.JobType;
 import data.crew.Pilot;
-import data.race.Race;
-import data.race.Team;
-import data.race.TeamSample;
-import game.GameMode;
+import game.GameModeNorris;
 import game.GameSession;
 import game.Hospital;
 import ui.base.MainTab;
 import ui.base.Tab;
-import ui.championship.RaceProcessTab;
-import ui.championship.initializing.UserTeamCreationTab;
-import ui.handling.ConsoleControl;
 
 import java.util.ArrayList;
 
 public class AngryNorrisTab extends Tab {
     public AngryNorrisTab(GameSession gm) {
         super(gm);
-        gm.setGameMode(GameMode.NORMAL);
+        gm.setGameMode(GameModeNorris.NORMAL);
 
-        if(gm.getHospital() == null){
+        if (gm.hospital() == null) {
             gm.setHospital(new Hospital(gm));
         }
 
         ArrayList<Pilot> people = new ArrayList<>(gm.dorm().getEmployeesByJob(JobType.PILOT)
-                .stream().map(p -> (Pilot)p).toList());
-        gm.getHospital().addNewIllPeople(people);
-        for(Pilot p : people){
+                .stream().map(p -> (Pilot) p).toList());
+        gm.hospital().addNewIllPeople(people);
+        for (Pilot p : people) {
             gm.dorm().remove(p);
         }
     }
@@ -40,43 +34,43 @@ public class AngryNorrisTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("Вы прошли мимо легендарного Чака Норриса, даже");
-        ConsoleControl.printlnString("с ним не поздоровавшись. Заподозрив что-то неладное,");
-        ConsoleControl.printlnString("Чак Норрис вышел с биржи труда. Пройдя какое-то");
-        ConsoleControl.printlnString("время за вами, он остановился возле окна общаги.");
-        ConsoleControl.printlnString("Кучка людей увлечённо смотрела фильм с видеокассеты.");
-        ConsoleControl.printlnString("Присмотревшись, у Чака от волнения зашевелился 132-ой волос");
-        ConsoleControl.printlnString("левой ноги - это ведь момент его драки с Брюсом Ли.");
-        ConsoleControl.printlnString("И что самое возмутительное, зрители были явно");
-        ConsoleControl.printlnString("не на стороне нашего героя.");
-        ConsoleControl.printlnString("***");
-        ConsoleControl.printlnString("Что было потом - никому не известно, однако той кучкой");
-        ConsoleControl.printlnString("людей оказались ваши пилоты, и сейчас они не в самом");
-        ConsoleControl.printlnString("лучшем физическом и душевном состоянии. Всё, что смогли");
-        ConsoleControl.printlnString("сказать очевидцы - Чак Норрис, распахнув дверь и выпустив");
-        ConsoleControl.printlnString("тем самым столб пыли, ушёл в розовеющий закат.");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Все ваши нанятые пилоты перемещены в госпиталь.");
-        ConsoleControl.printlnString("В течение нескольких гонок их нельзя будет взять в команду");
-        ConsoleControl.printlnString("Подробнее: Главное меню -> Госпиталь");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[0] Продолжить");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString("Вы прошли мимо легендарного Чака Норриса, даже");
+        gm.io().printlnString("с ним не поздоровавшись. Заподозрив что-то неладное,");
+        gm.io().printlnString("Чак Норрис вышел с биржи труда. Пройдя какое-то");
+        gm.io().printlnString("время за вами, он остановился возле окна общаги.");
+        gm.io().printlnString("Кучка людей увлечённо смотрела фильм с видеокассеты.");
+        gm.io().printlnString("Присмотревшись, у Чака от волнения зашевелился 132-ой волос");
+        gm.io().printlnString("левой ноги - это ведь момент его драки с Брюсом Ли.");
+        gm.io().printlnString("И что самое возмутительное, зрители были явно");
+        gm.io().printlnString("не на стороне нашего героя.");
+        gm.io().printlnString("***");
+        gm.io().printlnString("Что было потом - никому не известно, однако той кучкой");
+        gm.io().printlnString("людей оказались ваши пилоты, и сейчас они не в самом");
+        gm.io().printlnString("лучшем физическом и душевном состоянии. Всё, что смогли");
+        gm.io().printlnString("сказать очевидцы - Чак Норрис, распахнув дверь и выпустив");
+        gm.io().printlnString("тем самым столб пыли, ушёл в розовеющий закат.");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Все ваши нанятые пилоты перемещены в госпиталь.");
+        gm.io().printlnString("В течение нескольких гонок их нельзя будет взять в команду");
+        gm.io().printlnString("Подробнее: Главное меню -> Госпиталь");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("[0] Продолжить");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
             response = selectResponse(request);
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -84,9 +78,9 @@ public class AngryNorrisTab extends Tab {
         return response;
     }
 
-    private Tab selectResponse(String req){
+    private Tab selectResponse(String req) {
         switch (req) {
-            case "0":{
+            case "0": {
                 return new MainTab(gm);
             }
             default:

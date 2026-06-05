@@ -1,6 +1,6 @@
 package data.crew;
 
-public class Engineer extends Employee{
+public class Engineer extends Employee {
     private Integer wavyHands;
     private Integer screwing;
 
@@ -8,7 +8,7 @@ public class Engineer extends Employee{
                     int stockFee, int experience, int reputationLevel,
                     int wavyHands, int screwing) {
         this(id, article, name, "", stockFee, experience,
-                reputationLevel,  wavyHands,screwing);
+                reputationLevel, wavyHands, screwing);
     }
 
     public Engineer(long id, String article, String name, String postfix,
@@ -34,10 +34,11 @@ public class Engineer extends Employee{
         return sb.toString();
     }
 
-    public int getWavyHands(){
+    public int getWavyHands() {
         return wavyHands;
     }
-    public int getScrewing(){
+
+    public int getScrewing() {
         return screwing;
     }
 
@@ -58,11 +59,11 @@ public class Engineer extends Employee{
 
     @Override
     public int getHiringCost() {
-        return (int)(getStockFee() * (1 + getExperience()/100d + wavyHands * screwing / 10000d));
+        return (int) (getStockFee() * (1 + getExperience() / 100d + wavyHands * screwing / 10000d));
     }
 
     @Override
     public int getSalary(int carsAssembled) {
-        return (int)(getStockFee() * carsAssembled * (1 + getExperience()/20d));
+        return (int) (getStockFee() * carsAssembled * (1 + getExperience() / 20d));
     }
 }

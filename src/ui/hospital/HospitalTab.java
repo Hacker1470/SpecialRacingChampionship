@@ -3,12 +3,8 @@ package ui.hospital;
 import game.GameSession;
 import ui.base.MainTab;
 import ui.base.Tab;
-import ui.dorm.DormEmployeeInfoTab;
-import ui.handling.ConsoleControl;
 
-import java.util.List;
-
-public class HospitalTab extends Tab{
+public class HospitalTab extends Tab {
     public HospitalTab(GameSession gm) {
         super(gm);
     }
@@ -20,28 +16,28 @@ public class HospitalTab extends Tab{
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("========== БОЛЬНИЧКА ========");
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString("========== БОЛЬНИЧКА ========");
 
-        ConsoleControl.printlnString(gm.getHospital().generateString());
+        gm.io().printlnString(gm.hospital().generateString());
 
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[0] Вернуться в меню");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("[0] Вернуться в меню");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
             response = selectResponse(request);
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -49,11 +45,10 @@ public class HospitalTab extends Tab{
         return response;
     }
 
-    private Tab selectResponse(String req){
-        if(req.equals("0")){
+    private Tab selectResponse(String req) {
+        if (req.equals("0")) {
             return new MainTab(gm);
-        }
-        else {
+        } else {
             return null;
         }
     }

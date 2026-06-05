@@ -6,23 +6,25 @@ import data.special.RandomGenerator;
 import game.GameSession;
 import ui.base.Tab;
 import ui.championship.initializing.UserTeamCreationTab;
-import ui.handling.ConsoleControl;
 
-public class RacePreviewTab extends Tab{
+public class RacePreviewTab extends Tab {
 
     private Race race;
+
     public RacePreviewTab(GameSession gm, Race race) {
         super(gm);
         this.race = race;
 
-        int weather = RandomGenerator.getInteger(1,100);
-        if(weather < 50){
+        setRacemapWeather();
+    }
+
+    private void setRacemapWeather(){
+        int weatherCode = RandomGenerator.getInteger(1, 100);
+        if (weatherCode < 40) {
             race.getMap().setWeather(WeatherType.SUNNY);
-        }
-        else if (weather < 85){
+        } else if (weatherCode < 85) {
             race.getMap().setWeather(WeatherType.CLOUDY);
-        }
-        else {
+        } else {
             race.getMap().setWeather(WeatherType.RAINING);
         }
     }
@@ -34,35 +36,35 @@ public class RacePreviewTab extends Tab{
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("====== ПОДГОТОВКА К ГОНКЕ ======");
-        ConsoleControl.printlnString("Выбранная карта: " + race.getMap().getName());
-        ConsoleControl.printlnString("Погода: " + race.getMap().getWeather().getName());
-        ConsoleControl.printlnString("Карта трассы:");
-        for (int i = 0; i < race.getMap().getNumberOfTerrains(); i++){
-            ConsoleControl.printlnString(race.getMap().getTerrainByNumber(i).getCharacteristics());
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString("====== ПОДГОТОВКА К ГОНКЕ ======");
+        gm.io().printlnString("Выбранная карта: " + race.getMap().getName());
+        gm.io().printlnString("Погода: " + race.getMap().getWeather().getName());
+        gm.io().printlnString("Карта трассы:");
+        for (int i = 0; i < race.getMap().getNumberOfTerrains(); i++) {
+            gm.io().printlnString(race.getMap().getTerrainByNumber(i).getCharacteristics());
         }
-        ConsoleControl.printlnString("Число команд: " + race.getTeamsNumber());
-        ConsoleControl.printlnString("Сумма для участия: " + race.getDeposit());
-        ConsoleControl.printlnString("Награда за первое место: " + race.getPrize() * 0.6);
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[1] Продолжить");
-        ConsoleControl.printlnString("[0] Назад");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("Число команд: " + race.getRequiredTeamsNumber());
+        gm.io().printlnString("Сумма для участия: " + race.getDeposit());
+        gm.io().printlnString("Награда за первое место: " + (int)(race.getPrize() * 0.55));
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("[1] Продолжить");
+        gm.io().printlnString("[0] Назад");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
             response = selectResponse(request);
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -70,7 +72,7 @@ public class RacePreviewTab extends Tab{
         return response;
     }
 
-    private Tab selectResponse(String req){
+    private Tab selectResponse(String req) {
         return switch (req) {
             case "1" -> new UserTeamCreationTab(gm, race);
             case "0" -> new ChampionshipTab((gm));

@@ -1,13 +1,10 @@
 package ui.employment;
 
 import data.crew.Employee;
-import data.vehicle.Part;
 import game.GameSession;
 import ui.base.Tab;
-import ui.handling.ConsoleControl;
-import ui.market.MarketTab;
 
-public class EmployeeNamingTab extends Tab{
+public class EmployeeNamingTab extends Tab {
 
     private final Employee chosenEmp;
 
@@ -23,23 +20,23 @@ public class EmployeeNamingTab extends Tab{
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("Работник нанят и перемещён в общежитие.");
-        ConsoleControl.printlnString("Сейчас он имеет название \""
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString("Работник нанят и перемещён в общежитие.");
+        gm.io().printlnString("Сейчас он имеет название \""
                 + chosenEmp.getName() + chosenEmp.getPostfix() + "\"");
-        ConsoleControl.printlnString("Вы можете добавить приписку справа");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Нажмите Enter, чтобы пропустить этот пункт");
-        ConsoleControl.printlnString("или введите строку, для добавления приписки");
+        gm.io().printlnString("Вы можете добавить приписку справа");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Нажмите Enter, чтобы пропустить этот пункт");
+        gm.io().printlnString("или введите строку, для добавления приписки");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
-        request = ConsoleControl.getString();
+        request = gm.io().getString();
 
-        if(!request.isEmpty()){
+        if (!request.isEmpty()) {
             chosenEmp.setPostfix(request);
         }
         return new EmployTab(gm);

@@ -5,8 +5,8 @@ import data.race.map.terrains.MapTerrain;
 import data.special.PilotCoefMng;
 import data.special.RandomGenerator;
 import data.crew.Pilot;
-import data.vehicle.Part;
-import data.vehicle.Racecar;
+import data.parts.Part;
+import data.racecar.Racecar;
 
 import java.util.ArrayList;
 
@@ -16,25 +16,13 @@ public class TimeCalculator {
     Racecar racecar;
     Pilot pilot;
 
-    public TimeCalculator(Racecar racecar, Pilot pilot){
+    public TimeCalculator(Racecar racecar, Pilot pilot) {
         this.racecar = racecar;
         this.pilot = pilot;
-        parts = new ArrayList<>(6);
-        parts.add(racecar.getChassis());
-        parts.add(racecar.getEngine());
-        parts.add(racecar.getTransmission());
-        parts.add(racecar.getWheels());
-
-        if(racecar.getSuspension() != null){
-            parts.add(racecar.getSuspension());
-        }
-
-        if(racecar.getDownforcePart() != null){
-            parts.add(racecar.getDownforcePart());
-        }
+        parts = racecar.getNotNullParts();
     }
 
-    public double calculate(RaceTrack map, MapTerrain terrain){
+    public double calculate(RaceTrack map, MapTerrain terrain) {
         double l = terrain.getLength();
         double av = terrain.getAverageSpeed(racecar, pilot, map.getWeather());
         double q = getQualityCoef();
@@ -44,42 +32,44 @@ public class TimeCalculator {
                 * PilotCoefMng.getBaseCoef(pilot)
                 * PilotCoefMng.getOffroadCoef(pilot, terrain.getSurface());
         //Т_финал
-        return time_withpilot * damageCoef() * RandomGenerator.getDouble(0.95,1.05);
+        return time_withpilot * damageCoef() * RandomGenerator.getDouble(0.95, 1.05);
     }
 
-    private double getAveragePartQuality(){
+    private double getAveragePartQuality() {
         double sum = 0;
-        for(Part part : parts){
+        for (Part part : parts) {
             sum += part.getQuality();
         }
-        return sum/parts.size();
+        return sum / parts.size();
     }
 
-    private double getAveragePartConnectionReliability(){
+    private double getAveragePartConnectionReliability() {
         double sum = 0;
-        for(Part part : parts){
+        for (Part part : parts) {
             sum += part.getConnectionReliability();
         }
-        return sum/parts.size();
+        return sum / parts.size();
     }
 
     /**
      * К_качество
+     *
      * @return
      */
-    private double getQualityCoef(){
+    private double getQualityCoef() {
         return 2 - ((getAveragePartQuality() + getAveragePartConnectionReliability()) / 200d);
     }
 
     /**
      * K_повреждение
+     *
      * @return
      */
-    private double damageCoef(){
+    private double damageCoef() {
         double totalDamage = racecar.getChassis().getDamage()
                 + racecar.getEngine().getDamage()
                 + racecar.getTransmission().getDamage()
                 + racecar.getWheels().getDamage();
-        return 1 + totalDamage/800;
+        return 1 + totalDamage / 800;
     }
 }

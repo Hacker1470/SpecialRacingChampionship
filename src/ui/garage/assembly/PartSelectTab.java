@@ -1,10 +1,10 @@
 package ui.garage.assembly;
 
-import data.vehicle.*;
-import data.vehicle.enums.PartType;
+import data.parts.*;
+import data.racecar.*;
+import data.parts.enums.PartType;
 import game.GameSession;
 import ui.base.Tab;
-import ui.handling.ConsoleControl;
 
 import java.util.List;
 
@@ -27,49 +27,48 @@ public class PartSelectTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString(type.getMarketGroupTitle());
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString(type.getMarketGroupTitle());
 
-        if(availableParts.isEmpty()){
+        if (availableParts.isEmpty()) {
             printListOfMenusNoParts();
-        }
-        else{
+        } else {
             printListOfMenusMain();
         }
 
-        ConsoleControl.printlnString("[0] Вернуться к сборке");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("[0] Вернуться к сборке");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private void printListOfMenusNoParts(){
-        ConsoleControl.printlnString("На складе нет деталей такого типа");
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("=============================================");
+    private void printListOfMenusNoParts() {
+        gm.io().printlnString("На складе нет деталей такого типа");
+        gm.io().printlnString("");
+        gm.io().printlnString("=============================================");
     }
 
-    private void printListOfMenusMain(){
+    private void printListOfMenusMain() {
         int counter = 1;
-        for(Part part : availableParts){
-            ConsoleControl.printlnString("[" + counter++ + "] " + part.getName() + " " + part.getPostfix());
+        for (Part part : availableParts) {
+            gm.io().printlnString("[" + counter++ + "] " + part.getName() + " " + part.getPostfix());
         }
 
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[N] Выбрать деталь под номером N");
+        gm.io().printlnString("");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("[N] Выбрать деталь под номером N");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
             response = selectResponse(request);
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -77,30 +76,28 @@ public class PartSelectTab extends Tab {
         return response;
     }
 
-    private Tab selectResponse(String req){
-        if(req.equals("0")){
+    private Tab selectResponse(String req) {
+        if (req.equals("0")) {
             return new CarAssemblyTab(gm, sample);
         }
 
         int index;
         try {
             index = Integer.parseInt(req);
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return null;
         }
 
-        if(index >= 1 && index <= availableParts.size()){
+        if (index >= 1 && index <= availableParts.size()) {
             setPartToSample(index - 1);
             return new CarAssemblyTab(gm, sample);
-        }
-        else {
+        } else {
             return null;
         }
     }
 
-    private void setPartToSample(int index){
-        switch (type){
+    private void setPartToSample(int index) {
+        switch (type) {
             case PartType.CHASSIS:
                 sample.setChassis((Chassis) availableParts.get(index));
                 break;

@@ -3,10 +3,6 @@ package ui.warehouse;
 import game.GameSession;
 import ui.base.MainTab;
 import ui.base.Tab;
-import ui.handling.gm.io();
-import ui.market.MarketPartInfoTab;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class WarehouseTab extends Tab {
@@ -22,15 +18,14 @@ public class WarehouseTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
+    protected void printListOfMenus() {
         gm.io().printlnString(gm.getSponsor());
         gm.io().printlnString("");
         gm.io().printlnString("========== СКЛАДБИЩЕ ========");
 
-        if(gm.warehouse().getQuantityOfParts() > 0){
+        if (gm.warehouse().getQuantityOfParts() > 0) {
             printPartsCatalog();
-        }
-        else{
+        } else {
             printEmptyWarehouse();
         }
 
@@ -39,7 +34,7 @@ public class WarehouseTab extends Tab {
         gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private void printPartsCatalog(){
+    private void printPartsCatalog() {
         gm.io().printlnString("На складе лежат следующие детали");
 
         gm.io().printlnString(gm.warehouse().generateStringCatalog());
@@ -49,21 +44,21 @@ public class WarehouseTab extends Tab {
         gm.io().printlnString("[N] Подробнее о детали N");
     }
 
-    private void printEmptyWarehouse(){
+    private void printEmptyWarehouse() {
         gm.io().printlnString("Склад пустует");
         gm.io().printlnString("");
         gm.io().printlnString("=============================================");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
+        while (response == null) {
             request = gm.io().getString();
 
             response = selectResponse(request);
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -71,25 +66,23 @@ public class WarehouseTab extends Tab {
         return response;
     }
 
-    private Tab selectResponse(String req){
-        if(req.equals("0")){
+    private Tab selectResponse(String req) {
+        if (req.equals("0")) {
             return new MainTab(gm);
         }
 
         int index;
         try {
             index = Integer.parseInt(req);
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return null;
         }
 
         List<Long> keys = gm.warehouse().getKeysAscending();
 
-        if(index <= keys.size() && index >= 1) {
+        if (index <= keys.size() && index >= 1) {
             return new WarehousePartInfoTab(gm, gm.warehouse().getPartById(keys.get(index - 1)));
-        }
-        else {
+        } else {
             return null;
         }
     }

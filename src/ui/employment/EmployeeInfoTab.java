@@ -1,8 +1,7 @@
 package ui.employment;
 
-import game.GameMode;
+import game.GameModeNorris;
 import game.GameSession;
-import ui.handling.ConsoleControl;
 import ui.base.Tab;
 import data.crew.Employee;
 
@@ -23,42 +22,40 @@ public class EmployeeInfoTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString(chosenEmployee.getType().getEmployInfoTitle());
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString(chosenEmployee.getType().getEmployInfoTitle());
 
-        ConsoleControl.printlnString(chosenEmployee.getEmploymentCharacteristics());
+        gm.io().printlnString(chosenEmployee.getEmploymentCharacteristics());
 
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[1] Купить (Баланс: " + gm.getMoney() + " грошей)");
-        ConsoleControl.printlnString("[0] Вернуться к списку");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("[1] Купить (Баланс: " + gm.getMoney() + " грошей)");
+        gm.io().printlnString("[0] Вернуться к списку");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
-            switch (request){
+            switch (request) {
                 case "0":
                     response = new EmployeesByJobTab(gm, chosenEmployee.getType());
                     break;
                 case "1":
-                    if(hireEmployee()){
-                        if(gm.getGameMode() == GameMode.CHUCK_NORRIS_APPEARANCE  && chosenEmployee.getId() == Long.MAX_VALUE){
-                            gm.setGameMode(GameMode.CHUCK_NORRIS_ACTIVE);
+                    if (hireEmployee()) {
+                        if (gm.getGameModeNorris() == GameModeNorris.CHUCK_NORRIS_APPEARANCE && chosenEmployee.getId() == Long.MAX_VALUE) {
+                            gm.setGameMode(GameModeNorris.CHUCK_NORRIS_ACTIVE);
                             response = new EmployeeNamingTab(gm, gm.dorm().getEmployeeById(Long.MAX_VALUE));
-                        }
-                        else{
+                        } else {
                             response = new EmployeeNamingTab(gm, gm.dorm().getEmployeeById(idCounter - 1));
                         }
-                    }
-                    else {
+                    } else {
                         outputWithWarn("Недостаточно средств");
                     }
                     break;
@@ -70,17 +67,15 @@ public class EmployeeInfoTab extends Tab {
         return response;
     }
 
-    private boolean hireEmployee(){
-        if(gm.takeMoney(chosenEmployee.getHiringCost())) {
-            if(gm.getGameMode() == GameMode.CHUCK_NORRIS_APPEARANCE && chosenEmployee.getId() == Long.MAX_VALUE){
+    private boolean hireEmployee() {
+        if (gm.takeMoney(chosenEmployee.getHiringCost())) {
+            if (gm.getGameModeNorris() == GameModeNorris.CHUCK_NORRIS_APPEARANCE && chosenEmployee.getId() == Long.MAX_VALUE) {
                 gm.dorm().put(chosenEmployee.getCopy(Long.MAX_VALUE));
-            }
-            else {
+            } else {
                 gm.dorm().put(chosenEmployee.getCopy(idCounter++));
             }
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

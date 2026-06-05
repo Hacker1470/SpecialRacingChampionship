@@ -1,9 +1,8 @@
 package ui.market;
 
 import game.GameSession;
-import ui.handling.ConsoleControl;
 import ui.base.Tab;
-import data.vehicle.Part;
+import data.parts.Part;
 
 public class MarketPartInfoTab extends Tab {
 
@@ -22,36 +21,35 @@ public class MarketPartInfoTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString(chosenPart.getType().getMarketInfoTitle());
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString(chosenPart.getType().getMarketInfoTitle());
 
-        ConsoleControl.printlnString(chosenPart.getMarketCharacteristics());
+        gm.io().printlnString(chosenPart.getMarketCharacteristics());
 
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[1] Купить (Баланс: " + gm.getMoney() + " грошей)");
-        ConsoleControl.printlnString("[0] Вернуться к списку");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("[1] Купить (Баланс: " + gm.getMoney() + " грошей)");
+        gm.io().printlnString("[0] Вернуться к списку");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
-            switch (request){
+            switch (request) {
                 case "0":
                     response = new MarketPartsByTypeTab(gm, chosenPart.getType());
                     break;
                 case "1":
-                    if(buyPart()){
+                    if (buyPart()) {
                         response = new MarketPartNamingTab(gm, gm.warehouse().getPartById(idCounter - 1));
-                    }
-                    else {
+                    } else {
                         outputWithWarn("Недостаточно средств");
                     }
                     break;
@@ -63,12 +61,11 @@ public class MarketPartInfoTab extends Tab {
         return response;
     }
 
-    public boolean buyPart(){
-        if(gm.takeMoney(chosenPart.getRealPrice())) {
+    public boolean buyPart() {
+        if (gm.takeMoney(chosenPart.getRealPrice())) {
             gm.warehouse().put(chosenPart.getCopy(idCounter++));
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

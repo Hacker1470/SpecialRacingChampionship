@@ -1,42 +1,44 @@
-package data.vehicle;
+package data.parts;
 
 import data.race.map.RaceTrack;
 import data.special.PilotCoefMng;
 import data.catalogs.CatalogOfParts;
 import data.crew.Pilot;
 import data.race.map.terrains.MapTerrain;
-import data.vehicle.enums.PartType;
+import data.racecar.Racecar;
+import data.parts.enums.PartType;
 
 import java.util.List;
 
-public class Chassis extends Part{
+public class Chassis extends Part {
     private final int aerodynamics;
     private final int maxWeight;
 
     public Chassis(long id, String article, String name, int stockPrice, int quality, int mass, double damage,
-                   int reputationLevel, List<String> connectivity, int aerodynamics, int maxWeight){
+                   int reputationLevel, List<String> connectivity, int aerodynamics, int maxWeight) {
         this(id, article, name, "", stockPrice, quality, mass, damage, reputationLevel, connectivity,
                 aerodynamics, maxWeight);
     }
 
     public Chassis(long id, String article, String name, String postfix, int stockPrice, int quality, int mass, double damage,
-                   int reputationLevel, List<String> connectivity, int aerodynamics, int maxWeight){
+                   int reputationLevel, List<String> connectivity, int aerodynamics, int maxWeight) {
         super(id, PartType.CHASSIS, article, name, postfix, stockPrice, quality, mass, damage, reputationLevel, connectivity);
 
         this.aerodynamics = aerodynamics;
         this.maxWeight = maxWeight;
     }
 
-    public int getAerodynamics(){
+    public int getAerodynamics() {
         return aerodynamics;
     }
-    public int getMaxWeight(){
+
+    public int getMaxWeight() {
         return maxWeight;
     }
 
     @Override
-    public int getRealPrice(){
-        return (int)(getStockPrice() * ((100 - getDamage()) + getQuality()) / 100d);
+    public int getRealPrice() {
+        return (int) (getStockPrice() * ((100 - getDamage()) + getQuality()) / 100d);
     }
 
     @Override
@@ -59,7 +61,7 @@ public class Chassis extends Part{
     }
 
     @Override
-    public Part getCopy(Long idNew){
+    public Part getCopy(Long idNew) {
         return new Chassis(
                 idNew,
                 getArticle(),
@@ -77,6 +79,7 @@ public class Chassis extends Part{
 
     /**
      * Δ_шасси_база = (K_нагрузка × K_агрессия × K_участок_шасси) / 100
+     *
      * @param terrain
      * @param racecar
      * @param pilot

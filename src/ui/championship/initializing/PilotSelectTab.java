@@ -1,21 +1,19 @@
 package ui.championship.initializing;
 
-import data.crew.Employee;
 import data.crew.JobType;
 import data.crew.Pilot;
 import data.race.Race;
-import data.race.TeamSample;
+import data.race.teams.TeamSample;
 import game.GameSession;
 import ui.base.Tab;
-import ui.handling.ConsoleControl;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PilotSelectTab extends Tab{
+public class PilotSelectTab extends Tab {
     private List<Pilot> availablePilots;
     private TeamSample team;
     private Race race;
+
     public PilotSelectTab(GameSession gm, TeamSample team, Race race) {
         super(gm);
         this.team = team;
@@ -25,55 +23,54 @@ public class PilotSelectTab extends Tab{
     @Override
     public Tab show() {
         availablePilots = gm.dorm().getEmployeesByJob(JobType.PILOT)
-                .stream().map(x -> (Pilot)x).toList();
+                .stream().map(x -> (Pilot) x).toList();
         outputMain();
         return menuHandler();
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString(JobType.PILOT.getEmployGroupTitle());
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString(JobType.PILOT.getEmployGroupTitle());
 
-        if(availablePilots.isEmpty()){
+        if (availablePilots.isEmpty()) {
             printListOfMenusNoPilots();
-        }
-        else{
+        } else {
             printListOfMenusMain();
         }
 
-        ConsoleControl.printlnString("[0] Вернуться");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("[0] Вернуться");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private void printListOfMenusNoPilots(){
-        ConsoleControl.printlnString("В общежитии нет пилотов");
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("=============================================");
+    private void printListOfMenusNoPilots() {
+        gm.io().printlnString("В общежитии нет пилотов");
+        gm.io().printlnString("");
+        gm.io().printlnString("=============================================");
     }
 
-    private void printListOfMenusMain(){
+    private void printListOfMenusMain() {
         int counter = 1;
-        for(Pilot pilot : availablePilots){
-            ConsoleControl.printlnString("[" + counter++ + "] " + pilot.getName() + " " + pilot.getPostfix());
+        for (Pilot pilot : availablePilots) {
+            gm.io().printlnString("[" + counter++ + "] " + pilot.getName() + " " + pilot.getPostfix());
         }
 
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[N] Выбрать пилота под номером N");
+        gm.io().printlnString("");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("[N] Выбрать пилота под номером N");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
             response = selectResponse(request);
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -81,24 +78,22 @@ public class PilotSelectTab extends Tab{
         return response;
     }
 
-    private Tab selectResponse(String req){
-        if(req.equals("0")){
+    private Tab selectResponse(String req) {
+        if (req.equals("0")) {
             return new UserTeamCreationTab(gm, team, race);
         }
 
         int index;
         try {
             index = Integer.parseInt(req);
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return null;
         }
 
-        if(index >= 1 && index <= availablePilots.size()){
+        if (index >= 1 && index <= availablePilots.size()) {
             team.setPilot(availablePilots.get(index - 1));
             return new UserTeamCreationTab(gm, team, race);
-        }
-        else {
+        } else {
             return null;
         }
     }

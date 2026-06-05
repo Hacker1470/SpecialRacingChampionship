@@ -1,9 +1,8 @@
 package ui.market;
 
-import data.vehicle.Part;
+import data.parts.Part;
 import game.GameSession;
 import ui.base.Tab;
-import ui.handling.ConsoleControl;
 
 public class MarketPartNamingTab extends Tab {
 
@@ -21,23 +20,23 @@ public class MarketPartNamingTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("Деталь приобретена и помещена на склад.");
-        ConsoleControl.printlnString("Сейчас она имеет название \""
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString("Деталь приобретена и помещена на склад.");
+        gm.io().printlnString("Сейчас она имеет название \""
                 + chosenPart.getName() + chosenPart.getPostfix() + "\"");
-        ConsoleControl.printlnString("Вы можете добавить приписку справа");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Нажмите Enter, чтобы пропустить этот пункт");
-        ConsoleControl.printlnString("или введите строку, для добавления приписки");
+        gm.io().printlnString("Вы можете добавить приписку справа");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Нажмите Enter, чтобы пропустить этот пункт");
+        gm.io().printlnString("или введите строку, для добавления приписки");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
-        request = ConsoleControl.getString();
+        request = gm.io().getString();
 
-        if(!request.isEmpty()){
+        if (!request.isEmpty()) {
             chosenPart.setPostfix(request);
         }
         return new MarketTab(gm);

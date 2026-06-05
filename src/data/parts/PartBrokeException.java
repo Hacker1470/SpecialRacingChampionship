@@ -1,4 +1,4 @@
-package data.vehicle;
+package data.parts;
 
 public class PartBrokeException extends Exception {
     public PartBrokeException(Part part, double oldVal, double newVal) {

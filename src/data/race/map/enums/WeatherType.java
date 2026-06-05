@@ -14,21 +14,24 @@ public enum WeatherType {
             "Дождь"
     );
 
-    WeatherType(int koef, String name){
+    WeatherType(int koef, String name) {
         this.koef = koef;
         this.name = name;
     }
+
     private final int koef;
     private final String name;
 
     /**
      * K_погода
+     *
      * @return
      */
-    public double getCoefficient(){
+    public double getCoefficient() {
         return 0.5 + (koef / 200d);
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
 }

@@ -1,14 +1,14 @@
 package ui.garage.assembly;
 
 import data.crew.Engineer;
+import data.parts.Part;
 import data.special.AssemblingHelpers;
-import data.vehicle.*;
-import data.vehicle.enums.PartType;
+import data.racecar.*;
+import data.parts.enums.PartType;
 import game.GameSession;
 import ui.base.Tab;
 import ui.garage.GarageTab;
 import ui.garage.assembly.assemblyexceptions.*;
-import ui.handling.ConsoleControl;
 
 public class CarAssemblyTab extends Tab {
     private RacecarSample sample;
@@ -18,10 +18,12 @@ public class CarAssemblyTab extends Tab {
         super(gm);
         sample = new RacecarSample();
     }
+
     public CarAssemblyTab(GameSession gm, RacecarSample sample) {
         this(gm);
         this.sample = sample;
     }
+
     public CarAssemblyTab(GameSession gm, RacecarSample sample, String warn) {
         this(gm);
         this.sample = sample;
@@ -30,64 +32,62 @@ public class CarAssemblyTab extends Tab {
 
     @Override
     public Tab show() {
-        if(warn == null){
+        if (warn == null) {
             outputMain();
-        }
-        else {
+        } else {
             outputWithWarn(warn);
         }
         return menuHandler();
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("Выберите детали для сборки авто");
-        ConsoleControl.printlnString("[1] Шасси\t\t\t\t" + getLinePart(sample.getChassis()));
-        ConsoleControl.printlnString("[2] Двигатель\t\t\t" + getLinePart(sample.getEngine()));
-        ConsoleControl.printlnString("[3] Трансмиссия\t\t\t" + getLinePart(sample.getTransmission()));
-        ConsoleControl.printlnString("[4] Прижимная деталь\t" + getLinePart(sample.getDownforcePart()));
-        ConsoleControl.printlnString("[5] Подвеска\t\t\t" + getLinePart(sample.getSuspension()));
-        ConsoleControl.printlnString("[6] Колёса\t\t\t\t" + getLinePart(sample.getWheels()));
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Назначьте инженера, который будет собирать болид");
-        ConsoleControl.printlnString("[*] Инженер\t\t\t\t" + getLineEngineer(sample.getEngineer()));
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[N] Выбрать деталь N со склада");
-        ConsoleControl.printlnString("[*] Выбрать инженера из общаги");
-        ConsoleControl.printlnString("[+] Собрать болид");
-        ConsoleControl.printlnString("[0] Вернуться к списку авто");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString("Выберите детали для сборки авто");
+        gm.io().printlnString("[1] Шасси\t\t\t\t" + getLinePart(sample.getChassis()));
+        gm.io().printlnString("[2] Двигатель\t\t\t" + getLinePart(sample.getEngine()));
+        gm.io().printlnString("[3] Трансмиссия\t\t\t" + getLinePart(sample.getTransmission()));
+        gm.io().printlnString("[4] Прижимная деталь\t" + getLinePart(sample.getDownforcePart()));
+        gm.io().printlnString("[5] Подвеска\t\t\t" + getLinePart(sample.getSuspension()));
+        gm.io().printlnString("[6] Колёса\t\t\t\t" + getLinePart(sample.getWheels()));
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Назначьте инженера, который будет собирать болид");
+        gm.io().printlnString("[*] Инженер\t\t\t\t" + getLineEngineer(sample.getEngineer()));
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("[N] Выбрать деталь N со склада");
+        gm.io().printlnString("[*] Выбрать инженера из общаги");
+        gm.io().printlnString("[+] Собрать болид");
+        gm.io().printlnString("[0] Вернуться к списку авто");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
     private String getLinePart(Part part) {
-        if(part != null) {
+        if (part != null) {
             return "(выбрано: " + part.getName() + " " + part.getPostfix() + ")";
-        }
-        else {
+        } else {
             return "(не выбрано)";
         }
     }
+
     private String getLineEngineer(Engineer engineer) {
-        if(engineer != null) {
+        if (engineer != null) {
             return "(выбран: " + engineer.getName() + " " + engineer.getPostfix() + ")";
-        }
-        else {
+        } else {
             return "(не выбран)";
         }
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
             response = selectResponse(request);
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -95,7 +95,7 @@ public class CarAssemblyTab extends Tab {
         return response;
     }
 
-    private Tab selectResponse(String req){
+    private Tab selectResponse(String req) {
         return switch (req) {
             case "1" -> new PartSelectTab(gm, sample, PartType.CHASSIS);
             case "2" -> new PartSelectTab(gm, sample, PartType.ENGINE);
@@ -110,16 +110,15 @@ public class CarAssemblyTab extends Tab {
         };
     }
 
-    private Tab assembleRacecar(){
-        try{
+    private Tab assembleRacecar() {
+        try {
             Racecar newCar = assemble();
             gm.garage().put(newCar);
             return new CarNamingTab(gm, newCar);
-        }
-        catch (NoEngineerAssemblyException |
-                EngineerWantsMoneyException |
-                NoPartAssemblyException |
-                UnmatchingPartsAssemblyException e){
+        } catch (NoEngineerAssemblyException |
+                 EngineerWantsMoneyException |
+                 NoPartAssemblyException |
+                 UnmatchingPartsAssemblyException e) {
             return new CarAssemblyTab(gm, sample,
                     "Авто не может быть собрано.\n" + e.getMessage());
         }
@@ -131,11 +130,11 @@ public class CarAssemblyTab extends Tab {
             NoPartAssemblyException,
             UnmatchingPartsAssemblyException,
             EngineerWantsMoneyException {
-        if(sample.getEngineer() == null){
+        if (sample.getEngineer() == null) {
             throw new NoEngineerAssemblyException();
         }
 
-        if(gm.getMoney() - sample.getEngineer().getSalary(1) < 0){
+        if (gm.getMoney() - sample.getEngineer().getSalary(1) < 0) {
             throw new EngineerWantsMoneyException(sample.getEngineer().getSalary(1));
         }
 
@@ -149,42 +148,40 @@ public class CarAssemblyTab extends Tab {
 
         deletePartsFromWarehouse();
 
-        return new Racecar(idCounter++, "Болид", sample.getChassis(), sample.getEngine(),
-                sample.getTransmission(), sample.getDownforcePart(),
-                sample.getSuspension(), sample.getWheels());
+        return new Racecar(idCounter++, "Болид", sample);
     }
 
-    private void checkNecessaryParts() throws NoPartAssemblyException{
-        if(sample.getChassis() == null){
+    private void checkNecessaryParts() throws NoPartAssemblyException {
+        if (sample.getChassis() == null) {
             throw new NoPartAssemblyException(PartType.CHASSIS);
         }
-        if(sample.getEngine() == null){
+        if (sample.getEngine() == null) {
             throw new NoPartAssemblyException(PartType.ENGINE);
         }
-        if(sample.getTransmission() == null){
+        if (sample.getTransmission() == null) {
             throw new NoPartAssemblyException(PartType.TRANSMISSION);
         }
-        if(sample.getWheels() == null){
+        if (sample.getWheels() == null) {
             throw new NoPartAssemblyException(PartType.WHEELS);
         }
     }
 
     private void checkWeight() throws OverweightAssemblyException {
-        if(sample.getWeight() > sample.getChassis().getMaxWeight()){
+        if (sample.getWeight() > sample.getChassis().getMaxWeight()) {
             throw new OverweightAssemblyException(sample.getChassis(),
                     sample.getChassis().getMaxWeight());
         }
     }
 
-    private void deletePartsFromWarehouse(){
+    private void deletePartsFromWarehouse() {
         gm.warehouse().remove(sample.getChassis());
         gm.warehouse().remove(sample.getEngine());
         gm.warehouse().remove(sample.getTransmission());
         gm.warehouse().remove(sample.getWheels());
-        if(sample.getSuspension() != null){
+        if (sample.getSuspension() != null) {
             gm.warehouse().remove(sample.getSuspension());
         }
-        if(sample.getDownforcePart() != null){
+        if (sample.getDownforcePart() != null) {
             gm.warehouse().remove(sample.getDownforcePart());
         }
     }

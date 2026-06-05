@@ -1,9 +1,8 @@
 package ui.warehouse;
 
-import data.vehicle.Part;
+import data.parts.Part;
 import game.GameSession;
 import ui.base.Tab;
-import ui.handling.ConsoleControl;
 
 public class WarehousePartInfoTab extends Tab {
 
@@ -21,30 +20,29 @@ public class WarehousePartInfoTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString(chosenPart.getType().getMarketInfoTitle());
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString(chosenPart.getType().getMarketInfoTitle());
 
-        ConsoleControl.printlnString(chosenPart.getWarehouseCharacteristics());
+        gm.io().printlnString(chosenPart.getWarehouseCharacteristics());
 
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[0] Вернуться к списку");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("[0] Вернуться к списку");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
             if (request.equals("0")) {
                 response = new WarehouseTab(gm);
-            }
-            else {
+            } else {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }

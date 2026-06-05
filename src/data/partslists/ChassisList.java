@@ -1,6 +1,6 @@
 package data.partslists;
 
-import data.vehicle.Chassis;
+import data.parts.Chassis;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class ChassisList {
             "chas_2_0",
             "База ZovAuto",
             15,
-            40,
+            35,
             300,
             30,
             7,
@@ -37,7 +37,7 @@ public class ChassisList {
             "chas_3_0",
             "Базис Straus",
             50,
-            60,
+            40,
             250,
             2,
             50,

@@ -1,0 +1,120 @@
+package data.racecar;
+
+import data.parts.*;
+import data.special.RacecarCoefMng;
+
+public class Racecar extends AbstractRacecar{
+    protected long id;
+    protected String name;
+
+    public Racecar(long id, String name, Chassis chassis, Engine engine, Transmission transmission,
+                   Wheels wheels, Suspension suspension, DownforcePart downforcePart) {
+        super(chassis, engine, transmission, wheels, suspension, downforcePart);
+
+        this.id = id;
+        this.name = name;
+    }
+
+    public Racecar(long id, String name, RacecarSample rs){
+        this(id, name,
+                rs.getChassis(), rs.getEngine(), rs.getTransmission(),
+                rs.getWheels(), rs.getSuspension(), rs.getDownforcePart());
+    }
+
+
+
+    // Геттеры ==========================
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    //+++++++++++++++++++++++++++++++++
+
+
+
+    // Сеттеры =============================
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    //++++++++++++++++++++++++++++++++++++++
+
+
+
+
+    // Получение состояния деталей в целом =======================
+
+    /**
+     * Одна из деталей имеет высокий урон
+     *
+     * @return
+     */
+    public boolean hasLotOfDamage() {
+        boolean ans = (engine.getDamage() > 50)
+                || (transmission.getDamage() > 50)
+                || (chassis.getDamage() > 50)
+                || (wheels.getDamage() > 50);
+        if (suspension != null) {
+            ans = ans || (suspension.getDamage() > 50);
+        }
+        if (downforcePart != null) {
+            ans = ans || (downforcePart.getDamage() > 50);
+        }
+        return ans;
+    }
+
+    public boolean hasCriticalDamage() {
+        boolean ans = (engine.getDamage() == 100)
+                || (transmission.getDamage() == 100)
+                || (chassis.getDamage() == 100)
+                || (wheels.getDamage() == 100);
+        if (suspension != null) {
+            ans = ans || (suspension.getDamage() == 100);
+        }
+        if (downforcePart != null) {
+            ans = ans || (downforcePart.getDamage() == 100);
+        }
+        return ans;
+    }
+
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+    // Получение скорости для расчётов гонки ======================
+
+    /**
+     * V_база = min(Коробка.макс_скорость, (Двигатель.мощность × Двигатель.обороты) / (масса × 100))
+     */
+    public double getBaseSpeed() {
+        double speed = Math.min(transmission.getMaxSpeed(),
+                (engine.getPower() * engine.getMaxRpm()) / (getWeight() * 100d));
+        if (speed < 8) {
+            return 8;
+        } else {
+            return speed;
+        }
+    }
+
+    /**
+     * V_max_потенциал = V_база × K_аэро × K_прижим
+     *
+     * @return
+     */
+    public double getMaxPotentialSpeed() {
+        double bs = getBaseSpeed();
+        double ac = RacecarCoefMng.getAeroCoef(this);
+        double dc = RacecarCoefMng.getDownforceCoef(this);
+        return getBaseSpeed()
+                * RacecarCoefMng.getAeroCoef(this)
+                * RacecarCoefMng.getDownforceCoef(this);
+    }
+
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+}

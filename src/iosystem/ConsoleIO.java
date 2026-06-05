@@ -1,7 +1,12 @@
 package iosystem;
 
-public class ConsoleIO implements IPrints, IReads{
-    public ConsoleIO(){};
+/*
+* Тупой класс, что реализует IPrints и IReads. Всё что выводится - идёт в консоль.
+* Всё что читается - берётся с консоли.
+* */
+public class ConsoleIO implements IPrints, IReads {
+    public ConsoleIO() {
+    }
 
     @Override
     public void println(String message) {

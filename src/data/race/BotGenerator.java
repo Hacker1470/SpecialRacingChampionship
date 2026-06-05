@@ -6,23 +6,24 @@ import data.crew.Employee;
 import data.crew.Engineer;
 import data.crew.JobType;
 import data.crew.Pilot;
+import data.parts.*;
+import data.race.teams.Team;
 import data.special.AssemblingHelpers;
 import data.special.RandomGenerator;
-import data.vehicle.*;
-import data.vehicle.enums.PartType;
+import data.racecar.*;
+import data.parts.enums.PartType;
 import game.GameSession;
-import data.vehicle.RacecarSample;
+import data.racecar.RacecarSample;
 import ui.garage.assembly.assemblyexceptions.UnmatchingPartsAssemblyException;
-import ui.handling.ConsoleControl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BotGenerator {
-    public static void activate(GameSession gm, Race race){
+    public static void activate(GameSession gm, Race race) {
         int targetRep;
 
-        Racecar racecar = null;
+        Racecar racecar;
 
         Pilot pilot;
         ArrayList<Employee> emps;
@@ -40,33 +41,33 @@ public class BotGenerator {
         ArrayList<Integer> currentSet;
         RacecarSample rs;
 
-        for(int i = 0; i < race.getTeamsNumber() - 1; i++){
-            targetRep = (int)Math.round(gm.getRep() * RandomGenerator.getDouble(0.8d, 1.2d));
+        for (int i = 0; i < race.getRequiredTeamsNumber() - 1; i++) {
+            targetRep = (int) Math.round(gm.getRep() * RandomGenerator.getDouble(0.8d, 1.2d));
 
             parts = CatalogOfParts.getAvailableByReputation(targetRep);
             chaList = new ArrayList<>(parts.stream()
                     .filter(part -> part.getType() == PartType.CHASSIS)
-                    .map(part -> (Chassis)part)
+                    .map(part -> (Chassis) part)
                     .toList());
             engList = new ArrayList<>(parts.stream()
                     .filter(part -> part.getType() == PartType.ENGINE)
-                    .map(part -> (Engine)part)
+                    .map(part -> (Engine) part)
                     .toList());
             traList = new ArrayList<>(parts.stream()
                     .filter(part -> part.getType() == PartType.TRANSMISSION)
-                    .map(part -> (Transmission)part)
+                    .map(part -> (Transmission) part)
                     .toList());
             wheList = new ArrayList<>(parts.stream()
                     .filter(part -> part.getType() == PartType.WHEELS)
-                    .map(part -> (Wheels)part)
+                    .map(part -> (Wheels) part)
                     .toList());
             susList = new ArrayList<>(parts.stream()
                     .filter(part -> part.getType() == PartType.SUSPENSION)
-                    .map(part -> (Suspension)part)
+                    .map(part -> (Suspension) part)
                     .toList());
             dowList = new ArrayList<>(parts.stream()
                     .filter(part -> part.getType() == PartType.DOWNFORCE)
-                    .map(part -> (DownforcePart)part)
+                    .map(part -> (DownforcePart) part)
                     .toList());
 
             matrix = getMatrix(
@@ -81,70 +82,62 @@ public class BotGenerator {
             rs = new RacecarSample();
 
             emps = CatalogOfEmployees.getAvailableByReputation(JobType.PILOT, targetRep);
-            pilot = (Pilot)emps.get(RandomGenerator.getInteger(0, emps.size() - 1)).getCopy(Long.MIN_VALUE);
+            pilot = (Pilot) emps.get(RandomGenerator.getInteger(0, emps.size() - 1)).getCopy();
 
             emps = CatalogOfEmployees.getAvailableByReputation(JobType.ENGINEER, targetRep);
-            rs.setEngineer((Engineer) emps.get(RandomGenerator.getInteger(0, emps.size() - 1)).getCopy(Long.MIN_VALUE));
+            rs.setEngineer((Engineer) emps.get(RandomGenerator.getInteger(0, emps.size() - 1)).getCopy());
 
             racecar = null;
-            while (racecar == null){
+            while (racecar == null) {
                 /*
-                * 0 Генерация списка шасси.
-                * 1 Если список не пуст, то тогда взять случайное,
-                *       иначе ошибка.
-                * 2 Генерация списка двигателей
-                * 3 Проверка, есть ли совместимые с шасси двигатели.
-                *       Если список двигателей пуст, то тогда удаляем шасси из каталога шасси
-                *           и начинаем заново с точки 1.
-                *       Если есть, то тогда ищем их в каталоге.
-                *           Если в каталоге нет, то тогда удаляем шасси из каталога шасси
-                *               и начинаем заново с точки 1.
-                *       Если нет, то берём случайный.
-                * 4 Проверка коллизий: если двигатель с чем-то совместим,
-                *       а шасси - нет, то удаляем двигатель из списка двигателей
-                *       и начинаем заново с точки 2.
-                * 3 Проверка, есть ли совместимая с шасси трансмиссия
-                *       Если список трансмиссий пуст, то тогда удаляем шасси из каталога шасси
-                *           и начинаем заново с точки 1.
-                *       Если есть, то тогда ищем их в каталоге.
-                *           Если в каталоге нет, то тогда удаляем шасси из каталога шасси
-                *               и начинаем заново с точки 1.
-                *       Если нет, то берём случайный.
-                * 3 Если для какого-то из типов не пусто, то подбираются совместимые, иначе любое
-                */
+                 * 0 Генерация списка шасси.
+                 * 1 Если список не пуст, то тогда взять случайное,
+                 *       иначе ошибка.
+                 * 2 Генерация списка двигателей
+                 * 3 Проверка, есть ли совместимые с шасси двигатели.
+                 *       Если список двигателей пуст, то тогда удаляем шасси из каталога шасси
+                 *           и начинаем заново с точки 1.
+                 *       Если есть, то тогда ищем их в каталоге.
+                 *           Если в каталоге нет, то тогда удаляем шасси из каталога шасси
+                 *               и начинаем заново с точки 1.
+                 *       Если нет, то берём случайный.
+                 * 4 Проверка коллизий: если двигатель с чем-то совместим,
+                 *       а шасси - нет, то удаляем двигатель из списка двигателей
+                 *       и начинаем заново с точки 2.
+                 * 3 Проверка, есть ли совместимая с шасси трансмиссия
+                 *       Если список трансмиссий пуст, то тогда удаляем шасси из каталога шасси
+                 *           и начинаем заново с точки 1.
+                 *       Если есть, то тогда ищем их в каталоге.
+                 *           Если в каталоге нет, то тогда удаляем шасси из каталога шасси
+                 *               и начинаем заново с точки 1.
+                 *       Если нет, то берём случайный.
+                 * 3 Если для какого-то из типов не пусто, то подбираются совместимые, иначе любое
+                 */
 
-                try{
-                    currentSet = matrix.get(RandomGenerator.getInteger(0, matrix.size()) - 1);
-                }
-                catch (IndexOutOfBoundsException e){
-                    ConsoleControl.printlnString("");
-                    currentSet = matrix.get(RandomGenerator.getInteger(0, matrix.size()) - 1);
-                }
+                currentSet = matrix.get(RandomGenerator.getInteger(0, matrix.size() - 1));
+
                 rs.setChassis(chaList.get(currentSet.get(0)));
                 rs.setEngine(engList.get(currentSet.get(1)));
                 rs.setTransmission(traList.get(currentSet.get(2)));
                 rs.setWheels(wheList.get(currentSet.get(3)));
-                if(currentSet.get(4) >= 0){
+                if (currentSet.get(4) >= 0) {
                     rs.setSuspension(susList.get(currentSet.get(4)));
                 }
-                if(currentSet.get(5) >= 0){
+                if (currentSet.get(5) >= 0) {
                     rs.setDownforcePart(dowList.get(currentSet.get(5)));
                 }
 
-                try{
+                try {
                     AssemblingHelpers.checkPartsMatching(rs);
                     AssemblingHelpers.addEngineerPerks(rs);
 
-                    racecar = new Racecar(Long.MIN_VALUE, "Болид",
-                            rs.getChassis(), rs.getEngine(), rs.getTransmission(),
-                            rs.getDownforcePart(), rs.getSuspension(), rs.getWheels());
+                    racecar = new Racecar(Long.MIN_VALUE, "Болид", rs);
                     makeDamage(racecar);
-                }
-                catch (UnmatchingPartsAssemblyException e){
+                } catch (UnmatchingPartsAssemblyException e) {
                     matrix.remove(currentSet);
                 }
 
-                if(matrix.isEmpty()){
+                if (matrix.isEmpty()) {
                     throw new RuntimeException("Сломалос");
                 }
             }
@@ -154,15 +147,15 @@ public class BotGenerator {
     }
 
     private static ArrayList<ArrayList<Integer>> getMatrix(
-            int chaMax, int engMax, int traMax, int wheMax, int susMax, int dowMax){
+            int chaMax, int engMax, int traMax, int wheMax, int susMax, int dowMax) {
         ArrayList<ArrayList<Integer>> answer = new ArrayList<>();
-        for(int c = 0; c < chaMax; c++){
-            for(int e = 0; e < engMax; e++){
-                for(int t = 0; t < traMax; t++){
-                    for (int w = 0; w < wheMax; w++){
-                        for(int s = -1; s < susMax; s++){
-                            for(int d = -1; d < dowMax; d++){
-                                answer.add(new ArrayList<>(List.of(c,e,t,w,s,d)));
+        for (int c = 0; c < chaMax; c++) {
+            for (int e = 0; e < engMax; e++) {
+                for (int t = 0; t < traMax; t++) {
+                    for (int w = 0; w < wheMax; w++) {
+                        for (int s = -1; s < susMax; s++) {
+                            for (int d = -1; d < dowMax; d++) {
+                                answer.add(new ArrayList<>(List.of(c, e, t, w, s, d)));
                             }
                         }
                     }
@@ -172,20 +165,14 @@ public class BotGenerator {
         return answer;
     }
 
-    private static void makeDamage(Racecar racecar){
+    private static void makeDamage(Racecar racecar) {
         double damage;
-        for(Part p : racecar.getPartsList()){
-            damage = p.getDamage() * RandomGenerator.getDouble(0.75d, 1.25d);
-            if(damage < 10){
-                damage = 10;
-            }
-            if(damage > 65){
-                damage = 65;
-            }
-            try{
+        for (Part p : racecar.getNotNullParts()) {
+            damage = Math.max(p.getDamage(), RandomGenerator.getDouble(30d, 70d));
+
+            try {
                 p.setDamage(damage);
-            }
-            catch (PartBrokeException e){
+            } catch (PartBrokeException e) {
                 p.setDamage_75();
             }
         }

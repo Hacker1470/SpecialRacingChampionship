@@ -1,13 +1,10 @@
 package ui.base;
 
-import game.GameMode;
 import game.GameSession;
-import game.Hospital;
 import ui.championship.ChampionshipTab;
 import ui.dorm.DormTab;
 import ui.employment.EmployTab;
 import ui.garage.GarageTab;
-import ui.handling.ConsoleControl;
 import ui.hospital.HospitalTab;
 import ui.market.MarketTab;
 import ui.stats.StatisticsTab;
@@ -15,10 +12,10 @@ import ui.warehouse.WarehouseTab;
 
 public class MainTab extends Tab {
 
-    public MainTab(GameSession gm){
+    public MainTab(GameSession gm) {
         super(gm);
-        if(gm.getHospital() != null){
-            gm.getHospital().update();
+        if (gm.hospital() != null) {
+            gm.hospital().update();
         }
     }
 
@@ -29,38 +26,38 @@ public class MainTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("Реп: " + gm.getRep());
-        ConsoleControl.printlnString("Баланс: " + gm.getMoney() + " грошей");
-        ConsoleControl.printlnString("[1] Чемпионаты");
-        ConsoleControl.printlnString("[2] Статистика");
-        ConsoleControl.printlnString("[3] Гараж");
-        ConsoleControl.printlnString("[4] Склад");
-        ConsoleControl.printlnString("[5] Мир запчастей");
-        ConsoleControl.printlnString("[6] Общежитие");
-        ConsoleControl.printlnString("[7] Биржа труда");
-        if(gm.getHospital() != null){
-            ConsoleControl.printlnString("[8] Госпиталь");
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString("Реп: " + gm.getRep());
+        gm.io().printlnString("Баланс: " + gm.getMoney() + " грошей");
+        gm.io().printlnString("[1] Чемпионаты");
+        gm.io().printlnString("[2] Статистика");
+        gm.io().printlnString("[3] Гараж");
+        gm.io().printlnString("[4] Склад");
+        gm.io().printlnString("[5] Мир запчастей");
+        gm.io().printlnString("[6] Общежитие");
+        gm.io().printlnString("[7] Биржа труда");
+        if (gm.hospital() != null) {
+            gm.io().printlnString("[8] Госпиталь");
         }
-        ConsoleControl.printlnString("[0] Выход из игры");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("[0] Выход из игры");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
-            if(request.equals("0")){
+        while (response == null) {
+            request = gm.io().getString();
+            if (request.equals("0")) {
                 gm.exit();
             }
 
             response = selectResponse(request);
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -68,8 +65,8 @@ public class MainTab extends Tab {
         return response;
     }
 
-    private Tab selectResponse(String req){
-        if(gm.getHospital() != null && req.equals("8")){
+    private Tab selectResponse(String req) {
+        if (gm.hospital() != null && req.equals("8")) {
             return new HospitalTab(gm);
         }
         return switch (req) {

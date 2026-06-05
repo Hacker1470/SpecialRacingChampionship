@@ -1,6 +1,6 @@
 package data.partslists;
 
-import data.vehicle.Transmission;
+import data.parts.Transmission;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class TransmissionList {
             List.of("engi_1_0"),
             30,
             1
-            );
+    );
 
     public static Transmission ladabox = new Transmission(
             Long.MIN_VALUE,

@@ -1,14 +1,9 @@
 package ui.stats;
 
-import data.race.ArchiveRecord;
+import data.special.ArchiveRecord;
 import game.GameSession;
 import ui.base.MainTab;
 import ui.base.Tab;
-import ui.dorm.DormEmployeeInfoTab;
-import ui.handling.ConsoleControl;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class StatisticsTab extends Tab {
     public StatisticsTab(GameSession gm) {
@@ -22,37 +17,37 @@ public class StatisticsTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("========== Статистика ========");
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString("========== Статистика ========");
 
         int i = 1;
-        for(ArchiveRecord ar : gm.getArchive()){
-            ConsoleControl.printlnString("/\\/\\/\\ ГОНКА " + i++);
-            ConsoleControl.printlnString("Карта:\t\t\t" + ar.getMapName());
-            ConsoleControl.printlnString("Авто:\t\t\t" + ar.getCarName());
-            ConsoleControl.printlnString("Пилот:\t\t\t" + ar.getPilotName());
-            ConsoleControl.printlnString("Занятое место:\t"
+        for (ArchiveRecord ar : gm.archive()) {
+            gm.io().printlnString("/\\/\\/\\ ГОНКА " + i++);
+            gm.io().printlnString("Карта:\t\t\t" + ar.getMapName());
+            gm.io().printlnString("Авто:\t\t\t" + ar.getCarName());
+            gm.io().printlnString("Пилот:\t\t\t" + ar.getPilotName());
+            gm.io().printlnString("Занятое место:\t"
                     + ((ar.getPlace().startsWith("0/")) ? "Сход с дистанции" : ar.getPlace()));
-            ConsoleControl.printlnString("Прибыль:\t\t" + ar.getProfit());
-            ConsoleControl.printlnString("=============================================");
+            gm.io().printlnString("Прибыль:\t\t" + ar.getProfit());
+            gm.io().printlnString("=============================================");
         }
 
-        ConsoleControl.printlnString("[0] Вернуться в меню");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("[0] Вернуться в меню");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
             response = selectResponse(request);
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -60,8 +55,8 @@ public class StatisticsTab extends Tab {
         return response;
     }
 
-    private Tab selectResponse(String req){
-        if(req.equals("0")){
+    private Tab selectResponse(String req) {
+        if (req.equals("0")) {
             return new MainTab(gm);
         }
         return null;

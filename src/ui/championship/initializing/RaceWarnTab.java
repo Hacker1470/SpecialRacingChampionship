@@ -1,13 +1,12 @@
 package ui.championship.initializing;
 
 import data.race.Race;
-import data.race.Team;
-import data.race.TeamSample;
+import data.race.teams.Team;
+import data.race.teams.TeamSample;
 import game.GameSession;
 import ui.base.MainTab;
 import ui.base.Tab;
 import ui.championship.RaceProcessTab;
-import ui.handling.ConsoleControl;
 
 public class RaceWarnTab extends Tab {
     private Race race;
@@ -28,27 +27,27 @@ public class RaceWarnTab extends Tab {
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString("Внимание");
-        ConsoleControl.printlnString(warn);
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[1] Продолжить");
-        ConsoleControl.printlnString("[0] Собрать другую команду");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString("Внимание");
+        gm.io().printlnString(warn);
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("[1] Продолжить");
+        gm.io().printlnString("[0] Собрать другую команду");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
             response = selectResponse(request);
-            if (response == null){
+            if (response == null) {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }
@@ -56,13 +55,13 @@ public class RaceWarnTab extends Tab {
         return response;
     }
 
-    private Tab selectResponse(String req){
+    private Tab selectResponse(String req) {
         switch (req) {
-            case "1":{
+            case "1": {
                 race.putTeam(new Team("Игрок", team.getCar(), team.getPilot()));
                 return new RaceProcessTab(gm, race);
             }
-            case "0":{
+            case "0": {
                 return new UserTeamCreationTab(gm, team, race);
             }
             default:

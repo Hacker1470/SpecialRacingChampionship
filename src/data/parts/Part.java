@@ -1,11 +1,15 @@
-package data.vehicle;
+package data.parts;
 
-import data.vehicle.enums.PartType;
+import data.crew.Pilot;
+import data.parts.enums.PartType;
+import data.race.map.RaceTrack;
+import data.race.map.terrains.MapTerrain;
+import data.racecar.Racecar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Part implements IDamageble{
+public abstract class Part {
     /*
     Я бы заменил damage, connectionReliability и quality на тип byte, а mass на тип short
     */
@@ -62,7 +66,7 @@ public abstract class Part implements IDamageble{
 
     public Part(Long id, PartType type, String article, String name, int stockPrice,
                 int quality, int mass, double damage,
-                int reputationLevel, List<String> connectivity){
+                int reputationLevel, List<String> connectivity) {
         this.id = id;
         this.type = type;
         this.article = article;
@@ -80,64 +84,76 @@ public abstract class Part implements IDamageble{
 
     public Part(Long id, PartType type, String article, String name, String postfix, int stockPrice,
                 int quality, int mass, double damage,
-                int reputationLevel, List<String> connectivity){
-        this(id, type, article, name, stockPrice, quality, mass, damage, reputationLevel,connectivity);
+                int reputationLevel, List<String> connectivity) {
+        this(id, type, article, name, stockPrice, quality, mass, damage, reputationLevel, connectivity);
         this.postfix = postfix;
     }
 
     public Long getId() {
         return id;
     }
-    public PartType getType(){
+
+    public PartType getType() {
         return type;
     }
-    public String getArticle(){
+
+    public String getArticle() {
         return article;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
-    public String getPostfix(){
+
+    public String getPostfix() {
         return postfix;
     }
-    public int getStockPrice(){
+
+    public int getStockPrice() {
         return stockPrice;
     }
-    public int getQuality(){
+
+    public int getQuality() {
         return quality;
     }
-    public int getMass(){
+
+    public int getMass() {
         return mass;
     }
-    public double getDamage(){
+
+    public double getDamage() {
         return damage;
     }
-    public int getConnectionReliability(){
+
+    public int getConnectionReliability() {
         return connectionReliability;
     }
-    public int getReputationLevel(){
+
+    public int getReputationLevel() {
         return reputationLevel;
     }
-    public List<String> getConnectivity(){
+
+    public List<String> getConnectivity() {
         return connectivity;
     }
 
-    public void setPostfix(String newValue){
-        if(newValue != null){
+    public void setPostfix(String newValue) {
+        if (newValue != null) {
             postfix = newValue;
-        }
-        else{
+        } else {
             postfix = "";
         }
     }
-    public void setDamage_75(){
+
+    public void setDamage_75() {
         damage = 75;
     }
+
     public void setDamage(double newValue) throws PartBrokeException {
-        if(newValue < 0){
+        if (newValue < 0) {
             newValue = 0;
         }
-        if(newValue >= 100){
+        if (newValue >= 100) {
             PartBrokeException e = new PartBrokeException(this, damage, newValue);
             damage = 100;
             throw e;
@@ -149,36 +165,51 @@ public abstract class Part implements IDamageble{
     /**
      * Если подаётся отр число, то присваивает 0.
      * Если подаётся число больше 100, то присваивает 100
+     *
      * @param newValue
      */
-    public void setConnectionReliability(int newValue){
-        if(newValue < 0){
+    public void setConnectionReliability(int newValue) {
+        if (newValue < 0) {
             connectionReliability = 0;
-        }
-        else if (newValue <= 100){
+        } else if (newValue <= 100) {
             connectionReliability = newValue;
-        }
-        else {
+        } else {
             connectionReliability = 100;
         }
     }
 
     protected abstract String getBaseCharacteristics();
 
-    public String getMarketCharacteristics(){
+    public String getMarketCharacteristics() {
         return getBaseCharacteristics() + "\nСтоимость: " + getRealPrice();
     }
-    public String getGarageCharacteristics(){
+
+    public String getGarageCharacteristics() {
         return getBaseCharacteristics() + "\nКачество соединения: " + getConnectionReliability();
     }
-    public String getWarehouseCharacteristics(){
+
+    public String getWarehouseCharacteristics() {
         return getBaseCharacteristics();
     }
+
     /**
      * Применяется для копирования детали из каталога на склад игрока
+     *
      * @param idNew
      * @return Копия детали с новым id = idNew
      */
     public abstract Part getCopy(Long idNew);
+    public Part getCopy(){
+        return getCopy(Long.MIN_VALUE);
+    }
+
     public abstract int getRealPrice();
+
+    /**
+     * Используется в калькуляторе дамага для вычисления базового числа дамага,
+     * от которого будет вычисляться итоговый дамаг. Зачем я раньше
+     * пропихнул его в интерфейс - вопрос
+     */
+    public abstract double getBaseDamage(double coefficient, RaceTrack rt,
+                                         MapTerrain terrain, Racecar racecar, Pilot pilot);
 }

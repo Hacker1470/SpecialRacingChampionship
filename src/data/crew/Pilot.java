@@ -1,32 +1,32 @@
 package data.crew;
 
-public class Pilot extends Employee{
+public class Pilot extends Employee {
     private final Integer offroadDriving;
     private final Integer pedaling;
     private final Integer steering;
 
-    public int getPedaling(){
+    public int getPedaling() {
         return pedaling;
     }
 
-    public int getSteering(){
+    public int getSteering() {
         return steering;
     }
 
-    public int getOffroadDriving(){
+    public int getOffroadDriving() {
         return offroadDriving;
     }
 
     public Pilot(long id, String article, String name,
-                    int stockFee, int experience, int reputationLevel,
-                    int offroadDriving, int pedaling, int steering) {
+                 int stockFee, int experience, int reputationLevel,
+                 int offroadDriving, int pedaling, int steering) {
         this(id, article, name, "", stockFee, experience,
                 reputationLevel, offroadDriving, pedaling, steering);
     }
 
     public Pilot(long id, String article, String name, String postfix,
-                    int stockFee, int experience, int reputationLevel,
-                    int offroadDriving, int pedaling, int steering) {
+                 int stockFee, int experience, int reputationLevel,
+                 int offroadDriving, int pedaling, int steering) {
         super(id, JobType.PILOT, article, name, postfix,
                 stockFee, experience, reputationLevel);
 
@@ -65,11 +65,11 @@ public class Pilot extends Employee{
 
     @Override
     public int getHiringCost() {
-        return (int)(getStockFee() * (1 + getExperience()/10d + offroadDriving * pedaling * steering / 1000000d));
+        return (int) (getStockFee() * (1 + getExperience() / 10d + offroadDriving * pedaling * steering / 1000000d));
     }
 
     @Override
-    public int getSalary(int awardTotal){
-        return (int)(awardTotal * 0.25d);
+    public int getSalary(int awardTotal) {
+        return (int) (awardTotal * 0.25d);
     }
 }

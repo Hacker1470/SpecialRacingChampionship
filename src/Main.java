@@ -2,12 +2,15 @@ import data.catalogs.CatalogOfEmployees;
 import data.catalogs.CatalogOfRaces;
 import game.GameSession;
 import data.catalogs.CatalogOfParts;
+import iosystem.ConsoleIO;
+import iosystem.IOControl;
 
 void main() {
-    GameSession gm = new GameSession(10000000, 1000);
-    CatalogOfParts.catalogInit();
-    CatalogOfEmployees.catalogInit();
-    CatalogOfRaces.catalogInit();
+    ConsoleIO cio = new ConsoleIO();
+    GameSession gm = new GameSession(new IOControl(cio, cio),10000000, 1000);
+    CatalogOfParts.init();
+    CatalogOfEmployees.init();
+    CatalogOfRaces.init();
 
     gm.launch();
     //Заметки на будущее

@@ -1,14 +1,15 @@
 package data.partslists;
 
-import data.vehicle.Engine;
+import data.parts.Engine;
+
 import java.util.List;
 
 /*
-* Список движков
-* 1 - педальный. Уровень репутации 0. Потребление топлива - 0. Мощность - 0
-* 2 - жигулёвский
-* 3 - ламбарджамбер
-* */
+ * Список движков
+ * 1 - педальный. Уровень репутации 0. Потребление топлива - 0. Мощность - 0
+ * 2 - жигулёвский
+ * 3 - ламбарджамбер
+ * */
 
 public class EnginesList {
 
@@ -25,7 +26,7 @@ public class EnginesList {
             5,
             500);
 
-    public static Engine lada = new Engine(
+    public static  Engine lada = new Engine(
             Long.MIN_VALUE,
             "engi_2_0",
             "Двигатель ZovAuto",
@@ -43,7 +44,7 @@ public class EnginesList {
             "engi_3_0",
             "Двигатель Sigma",
             50,
-            80,
+            40,
             80,
             10,
             28,

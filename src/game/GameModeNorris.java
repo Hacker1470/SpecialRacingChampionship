@@ -1,6 +1,6 @@
 package game;
 
-public enum GameMode {
+public enum GameModeNorris {
     NORMAL(),
     CHUCK_NORRIS_APPEARANCE(),
     CHUCK_NORRIS_ACTIVE()

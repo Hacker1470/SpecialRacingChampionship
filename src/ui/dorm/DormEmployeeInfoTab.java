@@ -1,13 +1,10 @@
 package ui.dorm;
 
 import data.crew.Employee;
-import data.vehicle.Part;
 import game.GameSession;
 import ui.base.Tab;
-import ui.handling.ConsoleControl;
-import ui.warehouse.WarehouseTab;
 
-public class DormEmployeeInfoTab extends Tab{
+public class DormEmployeeInfoTab extends Tab {
 
     private final Employee chosenEmp;
 
@@ -23,30 +20,29 @@ public class DormEmployeeInfoTab extends Tab{
     }
 
     @Override
-    protected void printListOfMenus(){
-        ConsoleControl.printlnString(gm.getSponsor());
-        ConsoleControl.printlnString("");
-        ConsoleControl.printlnString(chosenEmp.getType().getEmployInfoTitle());
+    protected void printListOfMenus() {
+        gm.io().printlnString(gm.getSponsor());
+        gm.io().printlnString("");
+        gm.io().printlnString(chosenEmp.getType().getEmployInfoTitle());
 
-        ConsoleControl.printlnString(chosenEmp.getDormCharacteristics());
+        gm.io().printlnString(chosenEmp.getDormCharacteristics());
 
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("[0] Вернуться к списку");
-        ConsoleControl.printlnString("=============================================");
-        ConsoleControl.printlnString("Введите число, чтобы открыть пункт меню");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("[0] Вернуться к списку");
+        gm.io().printlnString("=============================================");
+        gm.io().printlnString("Введите число, чтобы открыть пункт меню");
     }
 
-    private Tab menuHandler(){
+    private Tab menuHandler() {
         String request;
         Tab response = null;
 
-        while (response == null){
-            request = ConsoleControl.getString();
+        while (response == null) {
+            request = gm.io().getString();
 
             if (request.equals("0")) {
                 response = new DormTab(gm);
-            }
-            else {
+            } else {
                 outputWithWarn("Меню не имеет пункта: " + request);
             }
         }

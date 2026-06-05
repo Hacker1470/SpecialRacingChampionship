@@ -11,29 +11,28 @@ public class CatalogOfEmployees {
 
     public static HashMap<String, Employee> allCatalog = new HashMap<>();
 
-    public static void catalogInit(){
+    public static void init() {
         initialize();
     }
 
-    private static void initialize(){
+    private static void initialize() {
 
-        allCatalog.put(EngineerList.maslyonok.getArticle(), EngineerList.maslyonok);
-        allCatalog.put(EngineerList.pazhiloypauk.getArticle(), EngineerList.pazhiloypauk);
+        allCatalog.put(EngineerList.maslyonok.getArticle(), EngineerList.maslyonok.getCopy());
+        allCatalog.put(EngineerList.pazhiloypauk.getArticle(), EngineerList.pazhiloypauk.getCopy());
 
-        allCatalog.put(PilotList.cheboks.getArticle(), PilotList.cheboks);
-        allCatalog.put(PilotList.schumacher.getArticle(), PilotList.schumacher);
+        allCatalog.put(PilotList.cheboks.getArticle(), PilotList.cheboks.getCopy());
+        allCatalog.put(PilotList.schumacher.getArticle(), PilotList.schumacher.getCopy());
     }
 
-    public static ArrayList<Employee> getAvailableByReputation(JobType type, int rep){
+    public static ArrayList<Employee> getAvailableByReputation(JobType type, int rep) {
         ArrayList<Employee> availableEmployees = new ArrayList<>();
 
         for (Employee i : allCatalog.values().stream()
                 .filter(entry -> entry.getType() == type)
                 .sorted(Comparator.comparingInt(Employee::getReputationLevel))
-                .toList())
-        {
-            if(i.getReputationLevel() <= rep){
-                availableEmployees.add(i);
+                .toList()) {
+            if (i.getReputationLevel() <= rep) {
+                availableEmployees.add(i.getCopy());
             }
         }
 

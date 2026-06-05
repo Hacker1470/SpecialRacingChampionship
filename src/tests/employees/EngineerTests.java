@@ -1,17 +1,11 @@
 package tests.employees;
 
-import data.catalogs.CatalogOfParts;
 import data.crew.Engineer;
 import data.crew.JobType;
-import data.vehicle.Chassis;
-import data.vehicle.enums.PartType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EngineerTests {
@@ -89,7 +83,7 @@ public class EngineerTests {
     public void salaryCalculationTest() {
         assertEquals(375, engi.getSalary(1));
         engi.setExperience(0);
-        assertEquals(300,engi.getSalary(1));
+        assertEquals(300, engi.getSalary(1));
         engi.setExperience(30);
         assertEquals(750, engi.getSalary(1));
     }
@@ -110,7 +104,7 @@ public class EngineerTests {
 
     @DisplayName("Проверка метода получения копии")
     @Test
-    public void getCopyMethodTest(){
+    public void getCopyMethodTest() {
         Engineer eCopy = (Engineer) engi.getCopy(200L);
         assertEquals(200L, eCopy.getId());
         assertEquals(JobType.ENGINEER, eCopy.getType());

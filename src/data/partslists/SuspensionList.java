@@ -1,6 +1,6 @@
 package data.partslists;
 
-import data.vehicle.Suspension;
+import data.parts.Suspension;
 
 import java.util.List;
 
